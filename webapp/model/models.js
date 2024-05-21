@@ -24,8 +24,8 @@ sap.ui.define(
           myPYPList: [
             {
               id: 1,
-              dummyData1: "Ataşehir Ofis",
-              dummyData2: "Ataşehir Lokasyonunda Yardımcı Uzman",
+              dummyData1: "Merkez Ofis",
+              dummyData2: "Merkez Ofis Lokasyonunda Yardımcı Uzman",
               dummyData3: "0-3 Yıl",
               dummyData4: "Ortaokul",
               dummyData5: "40-45",

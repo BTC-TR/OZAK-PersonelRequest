@@ -48,7 +48,7 @@
                 updateFinished=".onUpdateFinished"
                 selectionChange=".onSelectionChange"
             >
-                <noData>
+                <!-- <noData>
                     <IllustratedMessage
                         id="im"
                         title="{i18n>listListNoDataTitle}"
@@ -57,7 +57,7 @@
                         illustrationType="sapIllus-Tent"
                         enableVerticalResponsiveness="false"
                     />
-                </noData>
+                </noData> -->
                 <headerToolbar>
                     <OverflowToolbar>
                         <Title text="Talep Listem" />
