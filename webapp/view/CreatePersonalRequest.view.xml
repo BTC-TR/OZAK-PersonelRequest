@@ -1,0 +1,342 @@
+<mvc:View
+	xmlns:uxap="sap.uxap"
+	controllerName="ozak.com.zhrpersonalrequestform.controller.CreatePersonalRequest"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	displayBlock="true"
+	height="100%"
+	busyIndicatorDelay="0"
+>
+	<Page showHeader="false">
+		<Toolbar>
+			<Button
+				type="Transparent"
+				icon="sap-icon://nav-back"
+				press="navigateToInitialScreen"
+			/>
+			<Button
+				type="Transparent"
+				icon="sap-icon://home"
+			/>
+			<Image
+				src="../assets/images/ozak_h1.png"
+				width="150px"
+			/>
+			<ToolbarSpacer />
+			<Button
+				type="Critical"
+				icon="sap-icon://person-placeholder"
+			/>
+		</Toolbar>
+		<uxap:ObjectPageLayout
+			id="CreatePersonalRequest"
+			showFooter="true"
+		>
+			<uxap:headerTitle>
+				<uxap:ObjectPageHeader
+					objectTitle="Personel Talep Formu"
+					objectSubtitle="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!"
+				/>
+				<uxap:ObjectPageDynamicHeaderTitle>
+					<uxap:heading>
+						<FlexBox
+							wrap="Wrap"
+							fitContainer="true"
+							justifyContent="SpaceBetween"
+						>
+							<VBox class="sapUiLargeMarginEnd sapUiSmallMarginTopBottom">
+								<HBox>
+									<Title
+										text="Personel Talep Formu"
+										level="H1"
+									/>
+								</HBox>
+								<HBox>
+									<Text text="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!" />
+								</HBox>
+							</VBox>
+							<VBox />
+						</FlexBox>
+					</uxap:heading>
+					<uxap:actions>
+						<ObjectNumber
+							number="Talep Tarihi:"
+							unit="{
+								path: 'jsonModel>/today',
+								type: 'sap.ui.model.type.DateTime',
+								formatOptions: {
+									pattern: 'dd/MM/yyyy'
+								}
+							}"
+						/>
+					</uxap:actions>
+				</uxap:ObjectPageDynamicHeaderTitle>
+			</uxap:headerTitle>
+			<uxap:sections>
+				<uxap:ObjectPageSection
+					showTitle="false"
+					titleUppercase="false"
+				>
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection titleUppercase="false">
+							<uxap:blocks>
+								<f:Form
+									id="FormToolbar"
+									editable="true"
+									ariaLabelledBy="Title1"
+								>
+									<f:layout>
+										<f:ResponsiveGridLayout
+											labelSpanXL="3"
+											labelSpanL="4"
+											labelSpanM="4"
+											labelSpanS="12"
+											adjustLabelSpan="false"
+											emptySpanXL="4"
+											emptySpanL="3"
+											emptySpanM="0"
+											emptySpanS="0"
+											columnsXL="1"
+											columnsL="1"
+											columnsM="1"
+											singleContainerFullSize="false"
+										/>
+									</f:layout>
+									<f:formContainers>
+										<f:FormContainer ariaLabelledBy="Title2">
+											<f:toolbar>
+												<Toolbar>
+													<Title
+														id="Title2"
+														text="Talep İçeriği"
+													/>
+													<ToolbarSpacer />
+													<!-- <Button icon="sap-icon://settings" /> -->
+												</Toolbar>
+											</f:toolbar>
+											<f:formElements>
+												<!-- <f:FormElement label="Müşterisi sistemde daha önceden mevcut mu?">
+												<f:fields>
+													<RadioButtonGroup
+														id="rbg3"
+														columns="5"
+														select=".onCustomerRadioButtonsChange"
+													>
+														<RadioButton text="Evet" />
+														<RadioButton
+															text="Hayır"
+															selected="true"
+														/>
+													</RadioButtonGroup>
+												</f:fields>
+											</f:FormElement> -->
+												<f:FormElement
+													visible="{= !${jsonModel>/customerFormVisibility} }"
+													label="Talep Yapılan Şirket"
+												>
+													<f:fields>
+														<ComboBox
+															showSecondaryValues="true"
+															filterSecondaryValues="true"
+															change="onSHelpCustomersSetComboBoxChange"
+															items="{
+																path: '',
+																sorter: {
+																	path: 'Kunnr'
+																}
+															}"
+														>
+															<c:ListItem
+																key="{Kunnr}"
+																text="{Mcod1}"
+																additionalText="{Pstlz}"
+															/>
+														</ComboBox>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement
+													visible="{= !${jsonModel>/customerFormVisibility} }"
+													label="Talep Yapılan Departman"
+												>
+													<f:fields>
+														<ComboBox
+															showSecondaryValues="true"
+															filterSecondaryValues="true"
+															change="onSHelpCustomersSetComboBoxChange"
+															items="{
+																path: '',
+																sorter: {
+																	path: 'Kunnr'
+																}
+															}"
+														>
+															<c:ListItem
+																key="{Kunnr}"
+																text="{Mcod1}"
+																additionalText="{Pstlz}"
+															/>
+														</ComboBox>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement
+													visible="{= !${jsonModel>/customerFormVisibility} }"
+													label="Talep Yapılan Pozisyon"
+												>
+													<f:fields>
+														<ComboBox
+															showSecondaryValues="true"
+															filterSecondaryValues="true"
+															change="onSHelpCustomersSetComboBoxChange"
+															items="{
+																path: '',
+																sorter: {
+																	path: 'Kunnr'
+																}
+															}"
+														>
+															<c:ListItem
+																key="{Kunnr}"
+																text="{Mcod1}"
+																additionalText="{Pstlz}"
+															/>
+														</ComboBox>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement
+													visible="{= !${jsonModel>/customerFormVisibility} }"
+													label="Talep Edilen Çalışan Sayısı"
+												>
+													<f:fields>
+														<ComboBox
+															showSecondaryValues="true"
+															filterSecondaryValues="true"
+															change="onSHelpCustomersSetComboBoxChange"
+															items="{
+																path: '',
+																sorter: {
+																	path: 'Kunnr'
+																}
+															}"
+														>
+															<c:ListItem
+																key="{Kunnr}"
+																text="{Mcod1}"
+																additionalText="{Pstlz}"
+															/>
+														</ComboBox>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement
+													visible="{= !${jsonModel>/customerFormVisibility} }"
+													label="Çalışacağı Lokasyon"
+												>
+													<f:fields>
+														<ComboBox
+															showSecondaryValues="true"
+															filterSecondaryValues="true"
+															change="onSHelpCustomersSetComboBoxChange"
+															items="{
+																path: '',
+																sorter: {
+																	path: 'Kunnr'
+																}
+															}"
+														>
+															<c:ListItem
+																key="{Kunnr}"
+																text="{Mcod1}"
+																additionalText="{Pstlz}"
+															/>
+														</ComboBox>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="İş Tanımı">
+													<f:fields>
+														<TextArea />
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+										<f:FormContainer ariaLabelledBy="Title3">
+											<f:toolbar>
+												<Toolbar>
+													<Title
+														id="Title3"
+														text="Personelde Aranan Özellikler"
+													/>
+													<ToolbarSpacer />
+													<!-- <Button icon="sap-icon://settings" /> -->
+												</Toolbar>
+											</f:toolbar>
+											<f:formElements>
+												<f:FormElement label="Tecrübe">
+													<f:fields>
+														<RadioButtonGroup
+															columns="3"
+															selectedIndex="-1"
+														>
+															<RadioButton text="0-1 Yıl" />
+															<RadioButton text="1-3 Yıl" />
+															<RadioButton text="3 Yıl ve üzeri" />
+														</RadioButtonGroup>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Eğitim Düzeyi">
+													<f:fields>
+														<RadioButtonGroup
+															columns="5"
+															selectedIndex="-1"
+														>
+															<RadioButton text="İlkokul" />
+															<RadioButton text="Ortaokul" />
+															<RadioButton text="Düz Lise" />
+															<RadioButton text="Meslek Lisesi" />
+															<RadioButton text="Üniversite" />
+														</RadioButtonGroup>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Yaşı">
+													<f:fields>
+														<RadioButtonGroup
+															columns="5"
+															selectedIndex="-1"
+														>
+															<RadioButton text="18-25" />
+															<RadioButton text="25-30" />
+															<RadioButton text="30-40" />
+															<RadioButton text="40-45" />
+															<RadioButton text="45 yaş ve üzeri" />
+														</RadioButtonGroup>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Personelde Aranan Diğer Nitelikler">
+													<f:fields>
+														<TextArea />
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+									</f:formContainers>
+								</f:Form>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+			</uxap:sections>
+		</uxap:ObjectPageLayout>
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer />
+				<Button
+					type="Accept"
+					icon="sap-icon://save"
+					text="Kaydet"
+					press="navigateToInitialScreen"
+				/>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

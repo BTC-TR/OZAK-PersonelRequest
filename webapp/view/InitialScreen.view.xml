@@ -1,0 +1,179 @@
+<mvc:View
+    xmlns:f="sap.f"
+    xmlns:rowmodes="sap.ui.table.rowmodes"
+    xmlns:table="sap.ui.table"
+    xmlns:uxap="sap.uxap"
+    controllerName="ozak.com.zhrpersonalrequestform.controller.InitialScreen"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
+>
+    <Page showHeader="false">
+        <Toolbar>
+            <Button
+                type="Transparent"
+                icon="sap-icon://nav-back"
+                press="navigateToCreatePersonalRequest"
+            />
+            <Button
+                type="Transparent"
+                icon="sap-icon://home"
+            />
+            <Image
+                src="../assets/images/ozak_h1.png"
+                width="150px"
+            />
+            <ToolbarSpacer />
+            <Button
+                type="Critical"
+                icon="sap-icon://person-placeholder"
+            />
+        </Toolbar>
+        <Panel class="sapUiSmallMarginTop">
+            <List
+                id="list"
+                width="auto"
+                items="{
+                    path: 'jsonModel>/myPYPList'
+                }"
+                class="sapFDynamicPageAlignContent"
+                busyIndicatorDelay="{listView>/delay}"
+                mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
+                growing="true"
+                growingScrollToLoad="true"
+                growingThreshold="2"
+                updateFinished=".onUpdateFinished"
+                selectionChange=".onSelectionChange"
+            >
+                <noData>
+                    <IllustratedMessage
+                        id="im"
+                        title="{i18n>listListNoDataTitle}"
+                        description="{i18n>listListNoDataDescription}"
+                        illustrationSize="Auto"
+                        illustrationType="sapIllus-Tent"
+                        enableVerticalResponsiveness="false"
+                    />
+                </noData>
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Talep Listem" />
+                        <ToolbarSpacer />
+                        <SearchField
+                            id="searchField"
+                            showRefreshButton="false"
+                            enableSuggestions="true"
+                            tooltip="{i18n>listSearchTooltip}"
+                            suggest="onSuggest"
+                            suggestionItems="{
+                                path: 'jsonModel>/myPYPList'
+                            }"
+                            search=".onSearch"
+                            width="auto"
+                        >
+                            <SuggestionItem
+                                key="{jsonModel>id}"
+                                text="{jsonModel>PYPInfo/PYPName}"
+                                description="{jsonModel>dummyData1}"
+                            />
+                        </SearchField>
+                        <Button
+                            id="sortButton"
+                            press=".onOpenViewSettings"
+                            icon="sap-icon://sort"
+                            type="Transparent"
+                        />
+                        <Button
+                            text="{i18n>PersonalCreation}"
+                            press="navigateToCreatePersonalRequest"
+                            type="Emphasized"
+                            icon="sap-icon://create-form"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <ObjectListItem
+                        type="Inactive"
+                        press=".onSelectionChange"
+                        title="{jsonModel>PYPInfo/PYPName}"
+                    >
+                        <firstStatus>
+                            <ObjectStatus
+                                text="{jsonModel>statusInfo/statusText}"
+                                state="{jsonModel>statusInfo/statusType}"
+                                icon="{jsonModel>statusInfo/statusIcon}"
+                            />
+                        </firstStatus>
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Talep Edilen Pozisyon"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>PYPInfo/PYPDescription}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Talep Edilen Çalışan Sayısı"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>ProjectInfo/projectOfficerInfo/userFullName}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Çalışacağı Lokasyon"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>dummyData1}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="İş Tanımı"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>dummyData2}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Tecrübe"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>dummyData3}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Eğitim Düzeyi"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>dummyData4}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Yaşı"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>dummyData5}"
+                        />
+                        <ObjectAttribute
+                            class="fontWeight600"
+                            title="Aranan diğer nitelikler"
+                        />
+                        <ObjectAttribute
+                            class="boldTextColor1"
+                            text="{jsonModel>dummyData6}"
+                        />
+                    </ObjectListItem>
+                </items>
+            </List>
+        </Panel>
+    </Page>
+</mvc:View>
