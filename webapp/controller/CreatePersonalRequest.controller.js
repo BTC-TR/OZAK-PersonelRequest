@@ -44,7 +44,22 @@ sap.ui.define(
           });
           this._resetAllFormInputsValueState();
         },
-
+        _positionValueHelp: function () {
+          if (!this.oMPDialog) {
+            this.oMPDialog = this.loadFragment({
+              name: "ozak.com.zhrpersonalrequestform.fragment.vHelpPosition",
+            });
+          }
+          this.oMPDialog.then(
+            function (oDialog) {
+              this.oDialog = oDialog;
+              this.oDialog.open();
+            }.bind(this)
+          );
+        },
+        _closeDialog: function () {
+          this.oDialog.close();
+        },
         _resetAllFormInputsValueState: function () {
           let oView = this.getView();
           oView.byId("formInputValues1").setValueState("None");

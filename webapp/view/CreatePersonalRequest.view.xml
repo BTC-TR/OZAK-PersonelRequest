@@ -185,6 +185,7 @@
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://company-view"
 															showValueHelp="true"
+															valueHelpRequest="_positionValueHelp"
 														/>
 													</f:fields>
 												</f:FormElement>

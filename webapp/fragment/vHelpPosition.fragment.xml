@@ -1,0 +1,29 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog title="Pozisyon Seçimi">
+        <subHeader>
+            <OverflowToolbar>
+                <SearchField
+                    liveChange=""
+                    width="100%"
+                />
+            </OverflowToolbar>
+        </subHeader>
+        <content>
+            <Tree items="{jsonModel>/sHelpPositionTreeData}">
+                <StandardTreeItem
+                    icon=""
+                    title="{jsonModel>text}"
+                />
+            </Tree>
+        </content>
+        <buttons>
+            <Button
+                text="{i18n>cancel}"
+                press="_closeDialog"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>
