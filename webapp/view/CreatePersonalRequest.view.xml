@@ -181,6 +181,13 @@
 													<f:fields>
 														<Input
 															id="formInputValues3"
+															value="{
+																path: 'jsonModel>/formInputValues/requestedPosition',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
 															showSuggestion="true"
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://company-view"
@@ -229,7 +236,13 @@
 																	path: 'Btext'
 																}
 															}"
-															value="{jsonModel>/formInputValues/jobLocation}"
+															value="{
+																path: 'jsonModel>/formInputValues/jobLocation',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
 														>
 															<c:ListItem
 																key="{Btrt}"

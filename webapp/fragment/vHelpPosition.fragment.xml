@@ -2,7 +2,7 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
 >
-    <Dialog title="Pozisyon Seçimi">
+    <Dialog title="Pozisyon Seçimi" type="Standard">
         <subHeader>
             <OverflowToolbar>
                 <SearchField
@@ -12,9 +12,9 @@
             </OverflowToolbar>
         </subHeader>
         <content>
-            <Tree items="{jsonModel>/sHelpPositionTreeData}">
+            <Tree id="idSHelpPositionTreeDataTree" selectionChange="onSHelpPositionTreeDataTreeSelectionChange" items="{jsonModel>/sHelpPositionTreeData}" mode="SingleSelectMaster">
                 <StandardTreeItem
-                    icon=""
+                    icon="{jsonModel>ref}"
                     title="{jsonModel>text}"
                 />
             </Tree>

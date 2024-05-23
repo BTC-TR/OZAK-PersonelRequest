@@ -15,7 +15,7 @@ sap.ui.define(
         onInit: function () {
           var oRouter = this.getRouter();
           oRouter
-            .getRoute("initialScreen")
+            .getRoute("createPersonalRequest")
             .attachMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: function (oEvent) {
@@ -39,9 +39,43 @@ sap.ui.define(
             },
             success: (oData, oResponse) => {
               console.log(oData);
-              debugger;
+              this._createTreeDataForOrgTree(oData);
             },
           });
+        },
+        _createTreeDataForOrgTree: function (oData) {
+          let jsonModel = this.getView().getModel("jsonModel"),
+            result = oData.results[0],
+            treeData = [];
+          result.OrgTreeHeaderToOrgItem.results.forEach((item, index) => {
+            treeData.push({
+              text: item.OrgehT,
+              key: item.Orgeh,
+              ref: "sap-icon://overview-chart",
+              nodes: [],
+            });
+          });
+          result.OrgTreeHeaderToPositionItem.results.forEach(
+            (item, positionIndex) => {
+              let orgIndex = Number(item.IPernr);
+              treeData[orgIndex - 1].nodes.push({
+                text: item.PlansT,
+                key: item.Plans,
+                ref: "sap-icon://family-care",
+                nodes: [],
+              });
+            }
+          );
+          result.OrgTreeHeaderToPersonItem.results.forEach((item, index) => {
+            let positionIndex = Number(item.IPernr);
+            treeData[0].nodes[positionIndex - 1].nodes.push({
+              text: item.Ename,
+              key: item.Pernr,
+              ref: "sap-icon://employee",
+              nodes: [],
+            });
+          });
+          jsonModel.setProperty("/sHelpPositionTreeData", treeData);
         },
         _onSaveForm: function () {
           this._checkIfFormInputsValidated();
@@ -83,6 +117,10 @@ sap.ui.define(
             function (oDialog) {
               this.oDialog = oDialog;
               this.oDialog.open();
+              this.getView()
+                .byId("idSHelpPositionTreeDataTree")
+                .expandToLevel(3);
+              this.oDialog;
             }.bind(this)
           );
         },
@@ -224,6 +262,31 @@ sap.ui.define(
               that._showMessageBox("Kayıt Başarılı", "S", true, 0);
             },
           });
+        },
+        onSHelpPositionTreeDataTreeSelectionChange: function (oEvent) {
+          let jsonModel = this.getView().getModel("jsonModel"),
+            oTitle = oEvent.getSource().getSelectedItem().getProperty("title"),
+            oIcon = oEvent.getSource().getSelectedItem().getProperty("icon");
+          if (oIcon === "sap-icon://employee") {
+            jsonModel.setProperty("/formInputValues/requestedPosition", oTitle);
+            let {found, ancestors} = this.findNodeAndAncestors(jsonModel.getProperty("/sHelpPositionTreeData"), oTitle)
+            jsonModel.setProperty("/formInputValues/requestedDepartment", ancestors[0].text)
+            this._closeDialog();
+          }
+        },
+        findNodeAndAncestors: function (nodes, searchText, ancestors = []) {
+          for (const node of nodes) {
+            if (node.text === searchText) {
+                return { found: node, ancestors };
+            }
+            if (node.nodes) {
+                const result = this.findNodeAndAncestors(node.nodes, searchText, [...ancestors, node]);
+                if (result.found) {
+                    return result;
+                }
+            }
+        }
+        return { found: null, ancestors: [] };
         },
         onSHelpCustomersSetComboBoxChange: function (oEvent) {
           const oSource = oEvent.getSource(),

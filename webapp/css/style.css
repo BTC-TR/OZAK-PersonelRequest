@@ -4,6 +4,9 @@ div[role="toolbar"] {
 .sapFDynamicPageTitleMainActionsHasContent {
     margin-top: 1rem !important;
 }
+.sapMDialogTitle {
+    background-color: white !important;
+}
 .sapUiSizeCompact .sapMCb {
     line-height: 1rem !important;
 }
@@ -13,31 +16,4 @@ div[role="toolbar"] {
 .sapMObjLStatusDiv {
     position: absolute !important;
     top: calc(50% - 9px);
-}
-.boldTextColor1 span{
-    color: rgb(63, 63, 255) !important;
-    font-weight: 800 !important;
-}
-.boldTextColor2 span{
-    color: var(--sapContent_Illustrative_Color3) !important;
-    font-weight: 800 !important;
-}
-.boldTextColor3 span{
-    color: var(--sapContent_Illustrative_Color5) !important;
-    font-weight: 800 !important;
-}
-.boldTextColor4 span{
-    color: var(--sapContent_Illustrative_Color9) !important;
-    font-weight: 800 !important;
-}
-.boldTextColor5 span{
-    color: var(--sapContent_Illustrative_Color11) !important;
-    font-weight: 800 !important;
-}
-.boldTextColor6 span{
-    color: var(--sapContent_Illustrative_Color17) !important;
-    font-weight: 800 !important;
-}
-.fontWeight600 {
-    font-weight: 600 !important;
 }
