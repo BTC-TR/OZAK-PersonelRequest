@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Popover placement="Bottom" showHeader="false">
+		<List>
+			<headerToolbar>
+				<Toolbar>
+					<ToolbarSpacer/>
+					<Title text="{userModel>/Ename}"/>
+					<ToolbarSpacer/>
+				</Toolbar>
+			</headerToolbar>
+			<items>
+				<StandardListItem title="Oturumu Kapat" type="Active" icon="sap-icon://log" press="onPressSignOut"/>
+			</items>
+		</List>
+	</Popover>
+	<!--<ActionSheet placement="Bottom">
+		<Button text="Oturumu Kapat" icon="sap-icon://log" press="onPressSignOut"/>
+	</ActionSheet>-->
+</core:FragmentDefinition>

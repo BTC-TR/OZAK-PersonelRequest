@@ -59,6 +59,103 @@ sap.ui.define(
           let router = this.getRouter();
           router.navTo("initialScreen");
         },
+        onPressHome: function () {
+          window.open(
+            "/sap/bc/ui5_ui5/sap/zhr_login/index.html#/home",
+            "_self"
+          );
+        },
+        onPressUser: function (oEvent) {
+          if (!this._oUserMenu) {
+            this._oUserMenu = sap.ui.xmlfragment(
+              "ozak.com.zhrpersonalrequestform.fragment.UserMenu",
+              this
+            );
+            this.getView().addDependent(this._oUserMenu);
+            this._oUserMenu.openBy(oEvent.getSource());
+          } else {
+            if (this._oUserMenu.isOpen()) {
+              this._oUserMenu.close();
+            } else {
+              this._oUserMenu.openBy(oEvent.getSource());
+            }
+          }
+        },
+        onPressSignOut: function () {
+          this.getView()
+            .getModel("loginModel")
+            .callFunction("/DeleteSession", {
+              method: "POST",
+              urlParameters: {
+                LoginId: localStorage.getItem("Guid"),
+              },
+              success: function (oData) {
+                if (oData.Type === "E") {
+                  MessageBox.error(oData.Message);
+                } else {
+                  window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
+                  localStorage.removeItem("Guid");
+                }
+              },
+              error: function (oResponse) {
+                console.log(oResponse);
+              },
+            });
+        },
+        _onlyNumberInput: function (oEvent) {
+          var _oInput = oEvent.getSource();
+          var val = _oInput.getValue();
+          val = val.replace(/[^\d]/g, "");
+          _oInput.setValue(val);
+        },
+        _validateInput: function (oInput) {
+          var sValueState = "None";
+          var bValidationError = false;
+          var oBinding = oInput.getBinding("value");
+          var selectedKey = false;
+          if (oBinding === undefined)
+            oBinding = oInput.getBinding("selectedKey");
+
+          try {
+            try {
+              selectedKey = oInput.getForceSelection() ? false : true;
+            } catch (error) {
+              selectedKey = false;
+            }
+            if (selectedKey) {
+              oBinding.getType().validateValue(oInput.getSelectedKey());
+            } else {
+              oBinding.getType().validateValue(oInput.getValue());
+            }
+          } catch (oException) {
+            // console.log(oException)
+            // oInput.setValueStateText(oException.message)
+            sValueState = "Error";
+            bValidationError = true;
+          }
+
+          oInput.setValueState(sValueState);
+
+          return bValidationError;
+        },
+        _showMessageBox: function (message, messageType, ifSShow, ifTrueDelay=0) {
+          if (!ifSShow )
+              return
+          let that = this;
+          if (messageType === "S") {
+              if (ifTrueDelay > 0) {
+                  MessageToast.show(message, {duration: ifTrueDelay});
+              }
+              
+          } else {
+              if (ifTrueDelay > 0) {
+                  MessageToast.show(message, {duration: ifTrueDelay});
+                  return
+              }
+              MessageBox.error(message);
+          }
+    
+  },
       }
     );
   }

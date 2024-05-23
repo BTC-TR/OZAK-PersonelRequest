@@ -5,8 +5,16 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/Sorter",
     "sap/ui/model/FilterOperator",
+    "sap/ui/core/Fragment",
   ],
-  function (BaseController, formatter, Filter, Sorter, FilterOperator) {
+  function (
+    BaseController,
+    formatter,
+    Filter,
+    Sorter,
+    FilterOperator,
+    Fragment
+  ) {
     "use strict";
 
     return BaseController.extend(
@@ -19,7 +27,9 @@ sap.ui.define(
             .getRoute("initialScreen")
             .attachMatched(this._onRouteMatched, this);
           var oList = this.byId("list");
+          var oTable = this.byId("idMyPYPListTable");
           this._oList = oList;
+          this._oTable = oTable;
           this._oListFilterState = {
             aFilter: [],
             aSearch: [],
@@ -97,6 +107,75 @@ sap.ui.define(
               "/noDataText",
               this.getResourceBundle().getText("listListNoDataText")
             );
+          }
+        },
+        onOpenViewSettings: function (oEvent) {
+          var sDialogTab = "filter";
+          if (oEvent.getSource() instanceof sap.m.Button) {
+            var sButtonId = oEvent.getSource().getId();
+            if (sButtonId.match("sort")) {
+              sDialogTab = "sort";
+            } else if (sButtonId.match("group")) {
+              sDialogTab = "group";
+            }
+          }
+          // load asynchronous XML fragment
+          if (!this.byId("viewSettingsDialog")) {
+            Fragment.load({
+              id: this.getView().getId(),
+              name: "ozak.com.zhrpersonalrequestform.fragment.ViewSettingsDialog",
+              controller: this,
+            }).then(
+              function (oDialog) {
+                // connect dialog to the root view of this component (models, lifecycle)
+                this.getView().addDependent(oDialog);
+                oDialog.addStyleClass(
+                  this.getOwnerComponent().getContentDensityClass()
+                );
+                oDialog.open(sDialogTab);
+              }.bind(this)
+            );
+          } else {
+            this.byId("viewSettingsDialog").open(sDialogTab);
+          }
+        },
+        onConfirmViewSettingsDialog: function (oEvent) {
+          this._applySortGroup(oEvent);
+        },
+        _applySortGroup: function (oEvent) {
+          var mParams = oEvent.getParameters(),
+            sPath,
+            bDescending,
+            aSorters = [];
+
+          sPath = mParams.sortItem.getKey();
+          bDescending = mParams.sortDescending;
+          aSorters.push(new Sorter(sPath, bDescending));
+          this._oTable.getBinding("items").sort(aSorters);
+        },
+        _onSearchcIdMyPYPListTable: function (oEvent) {
+          let table = this.getView().byId("idMyPYPListTable"),
+            oBinding = table.getBinding("items"),
+            oFilter = [],
+            inputValue = oEvent.getSource().getValue();
+          if (inputValue !== "") {
+            oFilter = new Filter(
+              [
+                new Filter(
+                  "PYPInfo/PYPName",
+                  FilterOperator.Contains,
+                  inputValue
+                ),
+                // new Filter("Maktx", FilterOperator.Contains, inputValue),
+                // new Filter("Charg", FilterOperator.Contains, inputValue),
+                // new Filter("Lgort", FilterOperator.Contains, inputValue),
+                // new Filter("Labst", FilterOperator.Contains, inputValue)
+              ],
+              false
+            );
+            oBinding.filter([oFilter]);
+          } else {
+            oBinding.filter([oFilter]);
           }
         },
       }

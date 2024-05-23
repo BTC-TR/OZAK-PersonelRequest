@@ -1,6 +1,12 @@
 div[role="toolbar"] {
     height: fit-content !important;
 }
+.sapFDynamicPageTitleMainActionsHasContent {
+    margin-top: 1rem !important;
+}
+.sapUiSizeCompact .sapMCb {
+    line-height: 1rem !important;
+}
 .sapMLIBContent {
     position: relative !important;
 }

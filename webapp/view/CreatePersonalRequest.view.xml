@@ -1,4 +1,5 @@
 <mvc:View
+	xmlns:upload="sap.m.upload"
 	xmlns:uxap="sap.uxap"
 	controllerName="ozak.com.zhrpersonalrequestform.controller.CreatePersonalRequest"
 	xmlns:mvc="sap.ui.core.mvc"
@@ -10,27 +11,31 @@
 	height="100%"
 	busyIndicatorDelay="0"
 >
-	<Page showHeader="false">
-		<Toolbar>
-			<Button
-				type="Transparent"
-				icon="sap-icon://nav-back"
-				press="navigateToInitialScreen"
-			/>
-			<Button
-				type="Transparent"
-				icon="sap-icon://home"
-			/>
-			<Image
-				src="../assets/images/ozak_h1.png"
-				width="150px"
-			/>
-			<ToolbarSpacer />
-			<Button
-				type="Critical"
-				icon="sap-icon://person-placeholder"
-			/>
-		</Toolbar>
+	<Page>
+		<customHeader>
+			<Toolbar>
+				<Button
+					type="Transparent"
+					icon="sap-icon://nav-back"
+					press="navigateToInitialScreen"
+				/>
+				<Button
+					type="Transparent"
+					icon="sap-icon://home"
+					press="onPressHome"
+				/>
+				<Image
+					src="assets/images/ozak_h1.png"
+					width="150px"
+				/>
+				<ToolbarSpacer />
+				<Button
+					type="Critical"
+					icon="sap-icon://person-placeholder"
+					press="onPressUser"
+				/>
+			</Toolbar>
+		</customHeader>
 		<uxap:ObjectPageLayout
 			id="CreatePersonalRequest"
 			showFooter="true"
@@ -141,6 +146,7 @@
 														<ComboBox
 															showSecondaryValues="true"
 															filterSecondaryValues="true"
+															editable="false"
 															change="onSHelpCustomersSetComboBoxChange"
 															items="{
 																path: '',
@@ -166,6 +172,7 @@
 															showSecondaryValues="true"
 															filterSecondaryValues="true"
 															change="onSHelpCustomersSetComboBoxChange"
+															editable="false"
 															items="{
 																path: '',
 																sorter: {
@@ -190,6 +197,7 @@
 															showSecondaryValues="true"
 															filterSecondaryValues="true"
 															change="onSHelpCustomersSetComboBoxChange"
+															editable="false"
 															items="{
 																path: '',
 																sorter: {
@@ -210,23 +218,7 @@
 													label="Talep Edilen Çalışan Sayısı"
 												>
 													<f:fields>
-														<ComboBox
-															showSecondaryValues="true"
-															filterSecondaryValues="true"
-															change="onSHelpCustomersSetComboBoxChange"
-															items="{
-																path: '',
-																sorter: {
-																	path: 'Kunnr'
-																}
-															}"
-														>
-															<c:ListItem
-																key="{Kunnr}"
-																text="{Mcod1}"
-																additionalText="{Pstlz}"
-															/>
-														</ComboBox>
+														<Input type="Number" />
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
@@ -235,27 +227,47 @@
 												>
 													<f:fields>
 														<ComboBox
+															id="idSHelpLocationsSetComboBox"
 															showSecondaryValues="true"
 															filterSecondaryValues="true"
 															change="onSHelpCustomersSetComboBoxChange"
 															items="{
-																path: '',
+																path: '/SHelp_LocationsSet',
+																filters : [
+																{
+																	path: 'IPernr',
+																	operator: 'EQ',
+																	value1: '00001114'
+																}
+																],
 																sorter: {
-																	path: 'Kunnr'
+																	path: 'Btext'
 																}
 															}"
 														>
 															<c:ListItem
-																key="{Kunnr}"
-																text="{Mcod1}"
-																additionalText="{Pstlz}"
+																key="{Btrt}"
+																text="{Btext}"
+																additionalText="{Werks}"
 															/>
 														</ComboBox>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="İş Tanımı">
 													<f:fields>
-														<TextArea />
+														<TextArea value="{jsonModel>/formInputValues/jobDefinition}" />
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="İş Tanımı Eki">
+													<f:fields>
+														<upload:UploadSet
+															id="attachmentUpload"
+															items="{jsonModel>/formInputValues/jobDefinitionAttachment/items}"
+														>
+															<upload:items>
+																<upload:UploadSetItem />
+															</upload:items>
+														</upload:UploadSet>
 													</f:fields>
 												</f:FormElement>
 											</f:formElements>
@@ -274,19 +286,39 @@
 											<f:formElements>
 												<f:FormElement label="Tecrübe">
 													<f:fields>
-														<RadioButtonGroup
+														<!-- <RadioButtonGroup
 															columns="3"
 															selectedIndex="-1"
 														>
 															<RadioButton text="0-1 Yıl" />
 															<RadioButton text="1-3 Yıl" />
 															<RadioButton text="3 Yıl ve üzeri" />
-														</RadioButtonGroup>
+														</RadioButtonGroup> -->
+														<HBox>
+															<CheckBox
+																text="0-1 Yıl"
+																width="70px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
+															/>
+															<CheckBox
+																text="1-3 Yıl"
+																width="70px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
+															/>
+															<CheckBox
+																text="3 Yıl ve üzeri"
+																width="100px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
+															/>
+														</HBox>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="Eğitim Düzeyi">
 													<f:fields>
-														<RadioButtonGroup
+														<!-- <RadioButtonGroup
 															columns="5"
 															selectedIndex="-1"
 														>
@@ -295,21 +327,85 @@
 															<RadioButton text="Düz Lise" />
 															<RadioButton text="Meslek Lisesi" />
 															<RadioButton text="Üniversite" />
-														</RadioButtonGroup>
+														</RadioButtonGroup> -->
+														<HBox wrap="Wrap">
+															<CheckBox
+																text="İlkokul"
+																width="70px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
+															/>
+															<CheckBox
+																text="Ortaokul"
+																width="70px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
+															/>
+															<CheckBox
+																text="Düz Lise"
+																width="75px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
+															/>
+															<CheckBox
+																text="Meslek Lisesi"
+																width="100px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
+															/>
+															<CheckBox
+																text="Üniversite"
+																width="100px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
+															/>
+														</HBox>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="Yaşı">
 													<f:fields>
-														<RadioButtonGroup
+														<!-- <RadioButtonGroup
 															columns="5"
 															selectedIndex="-1"
 														>
-															<RadioButton text="18-25" />
-															<RadioButton text="25-30" />
-															<RadioButton text="30-40" />
-															<RadioButton text="40-45" />
+															<RadioButton text="18-25 yaş" />
+															<RadioButton text="25-30 yaş" />
+															<RadioButton text="30-40 yaş" />
+															<RadioButton text="40-45 yaş" />
 															<RadioButton text="45 yaş ve üzeri" />
-														</RadioButtonGroup>
+														</RadioButtonGroup> -->
+														<HBox wrap="Wrap">
+															<CheckBox
+																text="18-25"
+																width="70px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/0}"
+															/>
+															<CheckBox
+																text="25-30"
+																width="70px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/1}"
+															/>
+															<CheckBox
+																text="30-40"
+																width="75px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/2}"
+															/>
+															<CheckBox
+																text="40-45"
+																width="100px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/3}"
+															/>
+															<CheckBox
+																text="45 yaş ve üzeri"
+																width="100px"
+																wrapping="true"
+																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/4}"
+															/>
+														</HBox>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="Personelde Aranan Diğer Nitelikler">
@@ -329,12 +425,18 @@
 		</uxap:ObjectPageLayout>
 		<footer>
 			<OverflowToolbar>
+				<Button
+					type="Reject"
+					icon="sap-icon://eraser"
+					text="Alanları Temizle"
+					press=""
+				/>
 				<ToolbarSpacer />
 				<Button
 					type="Accept"
 					icon="sap-icon://save"
 					text="Kaydet"
-					press="navigateToInitialScreen"
+					press="_onSaveForm"
 				/>
 			</OverflowToolbar>
 		</footer>
