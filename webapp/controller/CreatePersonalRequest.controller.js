@@ -1,6 +1,11 @@
 sap.ui.define(
-  ["./BaseController", "../model/formatter", "../model/models"],
-  function (BaseController, formatter, models) {
+  [
+    "./BaseController",
+    "../model/formatter",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+  ],
+  function (BaseController, formatter, Filter, FilterOperator) {
     "use strict";
 
     return BaseController.extend(
@@ -13,7 +18,31 @@ sap.ui.define(
             .getRoute("initialScreen")
             .attachMatched(this._onRouteMatched, this);
         },
-        _onRouteMatched: function (oEvent) {},
+        _onRouteMatched: function (oEvent) {
+          this._clearFormInputs();
+          this._fetchSHelpPositionTreeData();
+        },
+        _fetchSHelpPositionTreeData: function () {
+          let oModel = this.getView().getModel(),
+            jsonModel = this.getModel("jsonModel"),
+            sPath = "/SHelp_OrgTreeHeaderSet",
+            that = this;
+          let oFilter = new Filter(
+            [new Filter("IPernr", FilterOperator.EQ, "00001114")],
+            false
+          );
+          oModel.read(sPath, {
+            filters: [oFilter],
+            urlParameters: {
+              $expand:
+                "OrgTreeHeaderToOrgItem,OrgTreeHeaderToPersonItem,OrgTreeHeaderToPositionItem",
+            },
+            success: (oData, oResponse) => {
+              console.log(oData);
+              debugger;
+            },
+          });
+        },
         _onSaveForm: function () {
           this._checkIfFormInputsValidated();
           this._checkIfFormCheckBoxesValidated();
