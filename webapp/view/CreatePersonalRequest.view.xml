@@ -213,7 +213,7 @@
 												>
 													<f:fields>
 														<ComboBox
-															id="idSHelpLocationsSetComboBox"
+															id="formInputValues5"
 															showSecondaryValues="true"
 															filterSecondaryValues="true"
 															change="onSHelpCustomersSetComboBoxChange"
@@ -228,6 +228,7 @@
 																	path: 'Btext'
 																}
 															}"
+															value="{jsonModel>/formInputValues/jobLocation}"
 														>
 															<c:ListItem
 																key="{Btrt}"
@@ -239,7 +240,16 @@
 												</f:FormElement>
 												<f:FormElement label="İş Tanımı">
 													<f:fields>
-														<TextArea value="{jsonModel>/formInputValues/jobDefinition}" />
+														<TextArea
+															id="formInputValues6"
+															value="{
+																path: 'jsonModel>/formInputValues/jobDefinition',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
+														/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="İş Tanımı Eki">
@@ -280,18 +290,24 @@
 														</RadioButtonGroup> -->
 														<HBox>
 															<CheckBox
+																id="experienceCheckBox1"
+																select="_resetExperienceCheckBoxesValueStates"
 																text="0-1 Yıl"
 																width="70px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
 															/>
 															<CheckBox
+																id="experienceCheckBox2"
+																select="_resetExperienceCheckBoxesValueStates"
 																text="1-3 Yıl"
 																width="70px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
 															/>
 															<CheckBox
+																id="experienceCheckBox3"
+																select="_resetExperienceCheckBoxesValueStates"
 																text="3 Yıl ve üzeri"
 																width="100px"
 																wrapping="true"
@@ -314,30 +330,40 @@
 														</RadioButtonGroup> -->
 														<HBox wrap="Wrap">
 															<CheckBox
+																id="educationCheckBox1"
+																select="_resetEducationCheckBoxesValueStates"
 																text="İlkokul"
 																width="70px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
 															/>
 															<CheckBox
+																id="educationCheckBox2"
+																select="_resetEducationCheckBoxesValueStates"
 																text="Ortaokul"
 																width="70px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
 															/>
 															<CheckBox
+																id="educationCheckBox3"
+																select="_resetEducationCheckBoxesValueStates"
 																text="Düz Lise"
 																width="75px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
 															/>
 															<CheckBox
+																id="educationCheckBox4"
+																select="_resetEducationCheckBoxesValueStates"
 																text="Meslek Lisesi"
 																width="100px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
 															/>
 															<CheckBox
+																id="educationCheckBox5"
+																select="_resetEducationCheckBoxesValueStates"
 																text="Üniversite"
 																width="100px"
 																wrapping="true"
@@ -360,30 +386,40 @@
 														</RadioButtonGroup> -->
 														<HBox wrap="Wrap">
 															<CheckBox
+																id="ageCheckBox1"
+																select="_resetAgeCheckBoxesValueStates"
 																text="18-25"
 																width="70px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/0}"
 															/>
 															<CheckBox
+																id="ageCheckBox2"
+																select="_resetAgeCheckBoxesValueStates"
 																text="25-30"
 																width="70px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/1}"
 															/>
 															<CheckBox
+																id="ageCheckBox3"
+																select="_resetAgeCheckBoxesValueStates"
 																text="30-40"
 																width="75px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/2}"
 															/>
 															<CheckBox
+																id="ageCheckBox4"
+																select="_resetAgeCheckBoxesValueStates"
 																text="40-45"
 																width="100px"
 																wrapping="true"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/3}"
 															/>
 															<CheckBox
+																id="ageCheckBox5"
+																select="_resetAgeCheckBoxesValueStates"
 																text="45 yaş ve üzeri"
 																width="100px"
 																wrapping="true"
@@ -394,7 +430,16 @@
 												</f:FormElement>
 												<f:FormElement label="Personelde Aranan Diğer Nitelikler">
 													<f:fields>
-														<TextArea />
+														<TextArea
+															id="formInputValues7"
+															value="{
+																path: 'jsonModel>/formInputValues/otherCandidateFeatures',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
+														/>
 													</f:fields>
 												</f:FormElement>
 											</f:formElements>
@@ -413,7 +458,7 @@
 					type="Reject"
 					icon="sap-icon://eraser"
 					text="Alanları Temizle"
-					press=""
+					press="_clearFormInputs"
 				/>
 				<ToolbarSpacer />
 				<Button

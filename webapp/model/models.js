@@ -36,7 +36,7 @@ sap.ui.define(
             jobLocation: "",
             jobDefinition: "",
             jobDefinitionAttachment: {
-              items: []
+              items: [],
             },
             candidateExperienceLevel: {
               checkboxValues: [false, false, false],
@@ -47,6 +47,7 @@ sap.ui.define(
             candidateAge: {
               checkboxValues: [false, false, false, false, false],
             },
+            otherCandidateFeatures: "",
           },
         });
         return oModel;
