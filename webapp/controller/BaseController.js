@@ -109,53 +109,38 @@ sap.ui.define(
           _oInput.setValue(val);
         },
         _validateInput: function (oInput) {
-          var sValueState = "None";
-          var bValidationError = false;
-          var oBinding = oInput.getBinding("value");
-          var selectedKey = false;
-          if (oBinding === undefined)
-            oBinding = oInput.getBinding("selectedKey");
-
-          try {
-            try {
-              selectedKey = oInput.getForceSelection() ? false : true;
-            } catch (error) {
-              selectedKey = false;
-            }
-            if (selectedKey) {
-              oBinding.getType().validateValue(oInput.getSelectedKey());
-            } else {
-              oBinding.getType().validateValue(oInput.getValue());
-            }
-          } catch (oException) {
-            // console.log(oException)
-            // oInput.setValueStateText(oException.message)
-            sValueState = "Error";
-            bValidationError = true;
-          }
-
-          oInput.setValueState(sValueState);
+          let oView = this.getView();
+          let aInputs = [
+              oView.byId("formInputValues1"),
+              oView.byId("formInputValues2"),
+            ],
+            bValidationError = false;
+          aInputs.forEach(function (oInput) {
+            bValidationError = this._validateInput(oInput) || bValidationError;
+          }, this);
 
           return bValidationError;
         },
-        _showMessageBox: function (message, messageType, ifSShow, ifTrueDelay=0) {
-          if (!ifSShow )
-              return
+        _showMessageBox: function (
+          message,
+          messageType,
+          ifSShow,
+          ifTrueDelay = 0
+        ) {
+          if (!ifSShow) return;
           let that = this;
           if (messageType === "S") {
-              if (ifTrueDelay > 0) {
-                  MessageToast.show(message, {duration: ifTrueDelay});
-              }
-              
+            if (ifTrueDelay > 0) {
+              MessageToast.show(message, { duration: ifTrueDelay });
+            }
           } else {
-              if (ifTrueDelay > 0) {
-                  MessageToast.show(message, {duration: ifTrueDelay});
-                  return
-              }
-              MessageBox.error(message);
+            if (ifTrueDelay > 0) {
+              MessageToast.show(message, { duration: ifTrueDelay });
+              return;
+            }
+            MessageBox.error(message);
           }
-    
-  },
+        },
       }
     );
   }

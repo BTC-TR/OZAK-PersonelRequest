@@ -30,7 +30,7 @@ sap.ui.define(
           today: new Date(),
           formInputValues: {
             requestedCompany: "",
-            requestedDepartmen: "",
+            requestedDepartment: "",
             requestedPosition: "",
             requestedCandidateQuantity: Number,
             jobLocation: "",

@@ -143,24 +143,17 @@
 													label="Talep Yapılan Şirket"
 												>
 													<f:fields>
-														<ComboBox
-															showSecondaryValues="true"
-															filterSecondaryValues="true"
-															editable="false"
-															change="onSHelpCustomersSetComboBoxChange"
-															items="{
-																path: '',
-																sorter: {
-																	path: 'Kunnr'
+														<Input
+															id="formInputValues1"
+															enabled="false"
+															value="{
+																path: 'jsonModel>/formInputValues/requestedCompany',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
 																}
 															}"
-														>
-															<c:ListItem
-																key="{Kunnr}"
-																text="{Mcod1}"
-																additionalText="{Pstlz}"
-															/>
-														</ComboBox>
+														/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
@@ -168,24 +161,17 @@
 													label="Talep Yapılan Departman"
 												>
 													<f:fields>
-														<ComboBox
-															showSecondaryValues="true"
-															filterSecondaryValues="true"
-															change="onSHelpCustomersSetComboBoxChange"
-															editable="false"
-															items="{
-																path: '',
-																sorter: {
-																	path: 'Kunnr'
+														<Input
+															id="formInputValues2"
+															enabled="false"
+															value="{
+																path: 'jsonModel>/formInputValues/requestedDepartment',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
 																}
 															}"
-														>
-															<c:ListItem
-																key="{Kunnr}"
-																text="{Mcod1}"
-																additionalText="{Pstlz}"
-															/>
-														</ComboBox>
+														/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
@@ -193,24 +179,13 @@
 													label="Talep Yapılan Pozisyon"
 												>
 													<f:fields>
-														<ComboBox
-															showSecondaryValues="true"
-															filterSecondaryValues="true"
-															change="onSHelpCustomersSetComboBoxChange"
-															editable="false"
-															items="{
-																path: '',
-																sorter: {
-																	path: 'Kunnr'
-																}
-															}"
-														>
-															<c:ListItem
-																key="{Kunnr}"
-																text="{Mcod1}"
-																additionalText="{Pstlz}"
-															/>
-														</ComboBox>
+														<Input
+															id="formInputValues3"
+															showSuggestion="true"
+															valueHelpOnly="true"
+															valueHelpIconSrc="sap-icon://company-view"
+															showValueHelp="true"
+														/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
@@ -218,7 +193,18 @@
 													label="Talep Edilen Çalışan Sayısı"
 												>
 													<f:fields>
-														<Input type="Number" />
+														<Input
+															id="formInputValues4"
+															type="Number"
+															liveChange="_onlyNumberInput"
+															value="{
+																path: 'jsonModel>/formInputValues/requestedCandidateQuantity',
+																type: 'sap.ui.model.type.Integer',
+																constraints: {
+																	minimum: 1
+																}
+															}"
+														/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
@@ -233,13 +219,11 @@
 															change="onSHelpCustomersSetComboBoxChange"
 															items="{
 																path: '/SHelp_LocationsSet',
-																filters : [
-																{
+																filters: [{
 																	path: 'IPernr',
 																	operator: 'EQ',
 																	value1: '00001114'
-																}
-																],
+																}],
 																sorter: {
 																	path: 'Btext'
 																}

@@ -14,7 +14,13 @@ sap.ui.define(
             .attachMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: function (oEvent) {},
-        _onSaveForm: function () {
+        _onSaveForm: function() {
+          this._checkIfFormInputsValidated();
+        },
+        _checkIfFormInputsValidated: function() {
+
+        },
+        _saveForm: function () {
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             that = this;
