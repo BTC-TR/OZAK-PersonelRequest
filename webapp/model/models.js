@@ -31,7 +31,9 @@ sap.ui.define(
           formInputValues: {
             requestedCompany: "",
             requestedDepartment: "",
+            requestedDepartmentKey: "",
             requestedPosition: "",
+            requestedPositionKey: "",
             requestedCandidateQuantity: Number,
             jobLocation: "",
             jobDefinition: "",

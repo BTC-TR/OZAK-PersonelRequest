@@ -205,6 +205,7 @@
 															id="formInputValues4"
 															type="Number"
 															liveChange="_onlyNumberInput"
+															maxLength="3"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedCandidateQuantity',
 																type: 'sap.ui.model.type.Integer',
@@ -245,7 +246,7 @@
 															}"
 														>
 															<c:ListItem
-																key="{Btrt}"
+																key="{Btrtl}"
 																text="{Btext}"
 																additionalText="{Werks}"
 															/>

@@ -1,6 +1,12 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/core/UIComponent", "sap/m/library"],
-  function (Controller, UIComponent, mobileLibrary) {
+  [
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/core/UIComponent",
+    "sap/m/library",
+    "sap/m/MessageBox",
+    "sap/m/MessageToast",
+  ],
+  function (Controller, UIComponent, mobileLibrary, MessageBox, MessageToast) {
     "use strict";
 
     // shortcut for sap.m.URLHelper
@@ -149,6 +155,8 @@ sap.ui.define(
           if (messageType === "S") {
             if (ifTrueDelay > 0) {
               MessageToast.show(message, { duration: ifTrueDelay });
+            } else {
+              MessageBox.success(message);
             }
           } else {
             if (ifTrueDelay > 0) {
@@ -156,6 +164,26 @@ sap.ui.define(
               return;
             }
             MessageBox.error(message);
+          }
+        },
+        _showMessageBoxWithRoute: function (
+          message,
+          messageType,
+          routeName
+        ) {
+          let that = this;
+          if (messageType === "S") {
+            MessageBox.success(message, {
+              onClose: function (sAction) {
+                that.getRouter().navTo(routeName);
+              },
+            });
+          } else {
+            MessageBox.error(message, {
+              onClose: function (sAction) {
+                that.getRouter().navTo(routeName);
+              },
+            });
           }
         },
       }

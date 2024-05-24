@@ -38,7 +38,6 @@ sap.ui.define(
                 "OrgTreeHeaderToOrgItem,OrgTreeHeaderToPersonItem,OrgTreeHeaderToPositionItem",
             },
             success: (oData, oResponse) => {
-              console.log(oData);
               this._createTreeDataForOrgTree(oData);
             },
           });
@@ -78,14 +77,26 @@ sap.ui.define(
           jsonModel.setProperty("/sHelpPositionTreeData", treeData);
         },
         _onSaveForm: function () {
-          this._checkIfFormInputsValidated();
-          this._checkIfFormCheckBoxesValidated();
+          if (
+            !this._checkIfFormInputsValidated() &&
+            !this._checkIfFormCheckBoxesValidated() &&
+            !this.sHelcustomerComboBoxIsValid
+          ) {
+            this._saveForm();
+          } else {
+            this._showMessageBox(
+              "Gerekli Alanları Doldurunuz!",
+              "E",
+              true,
+              2000
+            );
+          }
         },
         _clearFormInputs: function () {
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", {
-            requestedCompany: "",
+            requestedCompany: "Şirket kodu buraya gelecek",
             requestedDepartment: "",
             requestedPosition: "",
             requestedCandidateQuantity: Number,
@@ -157,7 +168,7 @@ sap.ui.define(
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
               oView.byId("formInputValues4"),
-              oView.byId("formInputValues5"),
+              // oView.byId("formInputValues5"),
               oView.byId("formInputValues6"),
               oView.byId("formInputValues7"),
             ],
@@ -171,6 +182,7 @@ sap.ui.define(
         _checkIfFormCheckBoxesValidated: function () {
           let jsonModel = this.getView().getModel("jsonModel"),
             oView = this.getView(),
+            bValidationError = false,
             candidateExperienceLevelCheckBoxValues = jsonModel.getProperty(
               "/formInputValues/candidateExperienceLevel/checkboxValues"
             ),
@@ -184,6 +196,7 @@ sap.ui.define(
             oView.byId("experienceCheckBox1").setValueState("Error");
             oView.byId("experienceCheckBox2").setValueState("Error");
             oView.byId("experienceCheckBox3").setValueState("Error");
+            bValidationError = true;
           }
           if (!candidateEducationalLevelCheckBoxValues.includes(true)) {
             oView.byId("educationCheckBox1").setValueState("Error");
@@ -191,6 +204,7 @@ sap.ui.define(
             oView.byId("educationCheckBox3").setValueState("Error");
             oView.byId("educationCheckBox4").setValueState("Error");
             oView.byId("educationCheckBox5").setValueState("Error");
+            bValidationError = true;
           }
           if (!candidateAgeCheckBoxValues.includes(true)) {
             oView.byId("ageCheckBox1").setValueState("Error");
@@ -198,7 +212,9 @@ sap.ui.define(
             oView.byId("ageCheckBox3").setValueState("Error");
             oView.byId("ageCheckBox4").setValueState("Error");
             oView.byId("ageCheckBox5").setValueState("Error");
+            bValidationError = true;
           }
+          return bValidationError;
         },
         _resetExperienceCheckBoxesValueStates: function () {
           let oView = this.getView();
@@ -225,74 +241,125 @@ sap.ui.define(
         _saveForm: function () {
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
+            oView = this.getView(),
             that = this;
 
           let formData = {
-            Pernr: jsonModel.getProperty(),
-            Tneden: jsonModel.getProperty(),
-            Abukrs: jsonModel.getProperty(),
-            Apernr: jsonModel.getProperty(),
-            Tbukrs: jsonModel.getProperty(),
-            Torgeh: jsonModel.getProperty(),
-            Tplans: jsonModel.getProperty(),
-            Tcsayi: jsonModel.getProperty(),
-            Werks: jsonModel.getProperty(),
-            Btrtl: jsonModel.getProperty(),
-            Istnm: jsonModel.getProperty(),
-            Tcrb1: jsonModel.getProperty(),
-            Tcrb2: jsonModel.getProperty(),
-            Tcrb3: jsonModel.getProperty(),
-            Egtm4: jsonModel.getProperty(),
-            Egtm5: jsonModel.getProperty(),
-            Egtm6: jsonModel.getProperty(),
-            Egtm7: jsonModel.getProperty(),
-            Yas1: jsonModel.getProperty(),
-            Yas2: jsonModel.getProperty(),
-            Yas3: jsonModel.getProperty(),
-            Yas4: jsonModel.getProperty(),
-            Yas5: jsonModel.getProperty(),
-            Diger: jsonModel.getProperty(),
-            Statu: jsonModel.getProperty(),
+            Pernr: "1114",
+            Tneden: "01",
+            Abukrs: "",
+            Apernr: "",
+            Tbukrs: "",
+            Torgeh: jsonModel.getProperty(
+              "/formInputValues/requestedDepartmentKey"
+            ),
+            Tplans: jsonModel.getProperty(
+              "/formInputValues/requestedPositionKey"
+            ),
+            Tcsayi: jsonModel.getProperty(
+              "/formInputValues/requestedCandidateQuantity"
+            ),
+            Werks: jsonModel.getProperty("/formInputValues/jobWerks"),
+            Btrtl: jsonModel.getProperty("/formInputValues/jobBtrtl"),
+            Istnm: jsonModel.getProperty("/formInputValues/jobDefinition"),
+            Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
+            Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
+            Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
+            Egtm1: oView.byId("educationCheckBox1").getSelected() ? "X" : "",
+            Egtm2: oView.byId("educationCheckBox2").getSelected() ? "X" : "",
+            Egtm3: oView.byId("educationCheckBox3").getSelected() ? "X" : "",
+            Egtm4: oView.byId("educationCheckBox4").getSelected() ? "X" : "",
+            Egtm5: oView.byId("educationCheckBox5").getSelected() ? "X" : "",
+            Egtm6: "",
+            Egtm7: "",
+            Yas1: oView.byId("ageCheckBox1").getSelected() ? "X" : "",
+            Yas2: oView.byId("ageCheckBox2").getSelected() ? "X" : "",
+            Yas3: oView.byId("ageCheckBox3").getSelected() ? "X" : "",
+            Yas4: oView.byId("ageCheckBox4").getSelected() ? "X" : "",
+            Yas5: oView.byId("ageCheckBox5").getSelected() ? "X" : "",
+            Diger: jsonModel.getProperty(
+              "/formInputValues/otherCandidateFeatures"
+            ),
+            Statu: "",
           };
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);
 
-          oModel.read(sPath, oData, {
+          oModel.read(sPath, {
             success: (oData, oResponse) => {
-              that._showMessageBox("Kayıt Başarılı", "S", true, 0);
+              if (oData.Type === "S") {
+                that._showMessageBoxWithRoute("Kayıt Başarılı", oData.Type, "initialScreen");
+                
+              } else {
+                that._showMessageBox(oData.Message, oData.Type, true, 0);
+              }
             },
           });
         },
         onSHelpPositionTreeDataTreeSelectionChange: function (oEvent) {
           let jsonModel = this.getView().getModel("jsonModel"),
             oTitle = oEvent.getSource().getSelectedItem().getProperty("title"),
+            oHighlightText = oEvent
+              .getSource()
+              .getSelectedItem()
+              .getProperty("highlightText"),
             oIcon = oEvent.getSource().getSelectedItem().getProperty("icon");
           if (oIcon === "sap-icon://employee") {
             jsonModel.setProperty("/formInputValues/requestedPosition", oTitle);
-            let {found, ancestors} = this.findNodeAndAncestors(jsonModel.getProperty("/sHelpPositionTreeData"), oTitle)
-            jsonModel.setProperty("/formInputValues/requestedDepartment", ancestors[0].text)
+            jsonModel.setProperty(
+              "/formInputValues/requestedPositionKey",
+              oHighlightText
+            );
+            let { found, ancestors } = this.findNodeAndAncestors(
+              jsonModel.getProperty("/sHelpPositionTreeData"),
+              oTitle
+            );
+            jsonModel.setProperty(
+              "/formInputValues/requestedDepartment",
+              ancestors[0].text
+            );
+            jsonModel.setProperty(
+              "/formInputValues/requestedDepartmentKey",
+              ancestors[0].key
+            );
             this._closeDialog();
           }
         },
         findNodeAndAncestors: function (nodes, searchText, ancestors = []) {
           for (const node of nodes) {
             if (node.text === searchText) {
-                return { found: node, ancestors };
+              return { found: node, ancestors };
             }
             if (node.nodes) {
-                const result = this.findNodeAndAncestors(node.nodes, searchText, [...ancestors, node]);
-                if (result.found) {
-                    return result;
-                }
+              const result = this.findNodeAndAncestors(node.nodes, searchText, [
+                ...ancestors,
+                node,
+              ]);
+              if (result.found) {
+                return result;
+              }
             }
-        }
-        return { found: null, ancestors: [] };
+          }
+          return { found: null, ancestors: [] };
         },
         onSHelpCustomersSetComboBoxChange: function (oEvent) {
+          if (!this._checkSHelpCustomersSetComboBoxIsValıd(oEvent)) {
+            let oSource = oEvent.getSource().getSelectedItem(),
+              oText = oSource.getProperty("text"),
+              oKey = oSource.getProperty("key"),
+              oAdditionalText = oSource.getProperty("additionalText"),
+              jsonModel = this.getView().getModel("jsonModel");
+            jsonModel.setProperty("/formInputValues/jobLocation", oText);
+            jsonModel.setProperty("/formInputValues/jobWerks", oAdditionalText);
+            jsonModel.setProperty("/formInputValues/jobBtrtl", oKey);
+          }
+        },
+        _checkSHelpCustomersSetComboBoxIsValıd: function (oEvent) {
           const oSource = oEvent.getSource(),
             oComboBox = this.getView().byId("formInputValues5"),
             oSourceValue = oSource.getValue(),
             oItems = oComboBox.getItems();
+          let bValidationError = false;
           let isContains = false;
           oItems.forEach((item) => {
             if (item.getText() === oSourceValue) {
@@ -302,9 +369,12 @@ sap.ui.define(
           if (!isContains) {
             oComboBox.setValueState("Error");
             oComboBox.setValueStateText("Listede bulunan bir değer giriniz!");
+            bValidationError = true;
           } else {
             oComboBox.setValueState("None");
           }
+          this.sHelcustomerComboBoxIsValid = bValidationError;
+          return bValidationError;
         },
       }
     );

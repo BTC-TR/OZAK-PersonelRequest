@@ -2,7 +2,7 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
 >
-    <Dialog title="Pozisyon Seçimi" type="Standard">
+    <Dialog id="idDialog" title="Pozisyon Seçimi" type="Standard">
         <subHeader>
             <OverflowToolbar>
                 <SearchField
@@ -16,6 +16,7 @@
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
                     title="{jsonModel>text}"
+                    highlightText="{jsonModel>key}"
                 />
             </Tree>
         </content>
