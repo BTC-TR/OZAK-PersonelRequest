@@ -39,7 +39,12 @@
         <Table
             id="idMyPYPListTable"
             items="{
-                path: 'jsonModel>/myPYPList'
+                path: '/PersonalFormListSet',
+                filters: [{
+                    path: 'IPernr',
+                    operator: 'EQ',
+                    value1: '00001114'
+                }]
             }"
             fixedLayout="false"
             growing="true"
@@ -47,7 +52,7 @@
         >
             <headerToolbar>
                 <Toolbar class="sapUiTinyMarginTop">
-                    <Title text="Talep Listem ({= ${jsonModel>/myPYPList}.length})" />
+                    <Title text="Talep Listem" />
                     <ToolbarSpacer />
                     <SearchField
                         id="searchField"
@@ -56,7 +61,7 @@
                         tooltip="{i18n>listSearchTooltip}"
                         suggest="onSuggest"
                         suggestionItems="{
-                            path: 'jsonModel>/myPYPList'
+                            path: '/PersonalFormListSet'
                         }"
                         search="_onSearchcIdMyPYPListTable"
                         width="auto"
@@ -95,14 +100,14 @@
             <items>
                 <ColumnListItem>
                     <ObjectIdentifier text="1" />
-                    <ObjectIdentifier text="{jsonModel>PYPInfo/PYPDescription}" />
-                    <ObjectIdentifier text="{jsonModel>ProjectInfo/projectOfficerInfo/userFullName}" />
-                    <ObjectIdentifier text="{jsonModel>dummyData1}" />
-                    <ObjectStatus
-                        text="{jsonModel>statusInfo/statusText}"
-                        state="{jsonModel>statusInfo/statusType}"
-                        icon="{jsonModel>statusInfo/statusIcon}"
-                    />
+                    <ObjectIdentifier text="{Tplans}" />
+                    <ObjectIdentifier text="{Tcsayi}" />
+                    <ObjectIdentifier text="" />
+                    <!-- <ObjectStatus
+                        text=""
+                        state=""
+                        icon=""
+                    /> -->
                 </ColumnListItem>
             </items>
         </Table>

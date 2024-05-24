@@ -2,7 +2,11 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
 >
-    <Dialog id="idDialog" title="Pozisyon Seçimi" type="Standard">
+    <Dialog
+        id="idDialog"
+        title="Pozisyon Seçimi"
+        type="Standard"
+    >
         <subHeader>
             <OverflowToolbar>
                 <SearchField
@@ -12,7 +16,12 @@
             </OverflowToolbar>
         </subHeader>
         <content>
-            <Tree id="idSHelpPositionTreeDataTree" selectionChange="onSHelpPositionTreeDataTreeSelectionChange" items="{jsonModel>/sHelpPositionTreeData}" mode="SingleSelectMaster">
+            <Tree
+                id="idSHelpPositionTreeDataTree"
+                selectionChange="onSHelpPositionTreeDataTreeSelectionChange"
+                items="{jsonModel>/sHelpPositionTreeData}"
+                mode="SingleSelectMaster"
+            >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
                     title="{jsonModel>text}"

@@ -304,7 +304,7 @@ sap.ui.define(
               .getSelectedItem()
               .getProperty("highlightText"),
             oIcon = oEvent.getSource().getSelectedItem().getProperty("icon");
-          if (oIcon === "sap-icon://employee") {
+          if (oIcon === "sap-icon://family-care") {
             jsonModel.setProperty("/formInputValues/requestedPosition", oTitle);
             jsonModel.setProperty(
               "/formInputValues/requestedPositionKey",
