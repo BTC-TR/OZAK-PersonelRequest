@@ -2,10 +2,11 @@ sap.ui.define(
   [
     "./BaseController",
     "../model/formatter",
+    "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
   ],
-  function (BaseController, formatter, Filter, FilterOperator) {
+  function (BaseController, formatter, JSONModel, Filter, FilterOperator) {
     "use strict";
 
     return BaseController.extend(
@@ -19,8 +20,16 @@ sap.ui.define(
             .attachMatched(this._onRouteMatched, this);
         },
         _onRouteMatched: function (oEvent) {
+          let jsonModel = this.getView().getModel("jsonModel");
           this._clearFormInputs();
           this._fetchSHelpPositionTreeData();
+          jsonModel.setProperty(
+            "/guid",
+            oEvent.getParameter("arguments").guid
+              ? oEvent.getParameter("arguments").guid
+              : "00000000-0000-0000-0000-000000000000"
+          );
+          this._getAttachment(oEvent);
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
@@ -284,17 +293,97 @@ sap.ui.define(
           };
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);
-
+          if (that.getView().byId("idUploadCollection").getItems().length > 0) {
+            that._uploadAttachment(jsonModel.getProperty("/guid"));
+          }
           oModel.read(sPath, {
             success: (oData, oResponse) => {
               if (oData.Type === "S") {
-                that._showMessageBoxWithRoute("Kayıt Başarılı", oData.Type, "initialScreen");
-                
+                that._showMessageBoxWithRoute(
+                  "Kayıt Başarılı",
+                  oData.Type,
+                  "initialScreen"
+                );
               } else {
                 that._showMessageBox(oData.Message, oData.Type, true, 0);
               }
             },
           });
+        },
+        _uploadAttachment: function (sGuid) {
+          var parts = [];
+
+          parts.push(sGuid.slice(0, 8));
+          parts.push(sGuid.slice(8, 12));
+          parts.push(sGuid.slice(12, 16));
+          parts.push(sGuid.slice(16, 20));
+          parts.push(sGuid.slice(20, 32));
+          sGuid = parts.join("-");
+
+          // var sPath = this.getView().getModel().createKey("PersonalAttachmentsListSet", {
+          //     Guid: sGuid,
+          //     IType: "I"
+          //   }),
+          //   sURL = "/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/" + sPath + "/NavToAttachmentSave";
+
+          // for (var i = 0; i < this.getView().byId("idUploadCollection")._aFileUploadersForPendingUpload.length; i++) {
+          //   this.getView().byId("idUploadCollection")._aFileUploadersForPendingUpload[i].setUploadUrl(sURL);
+          // }
+
+          this.getView().byId("idUploadCollection").upload();
+        },
+        onUploadSetBeforeUploadStarts: function (oEvent) {
+          var oHeaderItem = oEvent.getParameter("item"),
+            slugVal = oHeaderItem.getFileName();
+          oHeaderItem.removeAllStatuses();
+          oHeaderItem.addHeaderField(
+            new sap.ui.core.Item({
+              key: "slug",
+              text: slugVal,
+            })
+          );
+          oHeaderItem.addHeaderField(
+            new sap.ui.core.Item({
+              key: "x-csrf-token",
+              text: this.getOwnerComponent().getModel().getSecurityToken(),
+            })
+          );
+        },
+        onUploadSetUploadCompleted: function (oEvent) {
+          var oStatus = oEvent.getParameter("status"),
+            oItem = oEvent.getParameter("item"),
+            oUploadSet = this.getView().byId("idUploadCollection");
+          if (oStatus && oStatus !== 201) {
+            oItem.setUploadState("Error");
+            oItem.removeAllStatuses();
+          } else {
+            oUploadSet.removeIncompleteItem(oItem);
+            // this.setAttachmentModel();
+          }
+        },
+        _getAttachment: function (oEvent) {
+          let that = this;
+          this.getView()
+            .getModel()
+            .read("/PersonalAttachmentsListSet", {
+              filters: [
+                new Filter(
+                  "IGuid",
+                  FilterOperator.EQ,
+                  this.getView().getModel("jsonModel").getProperty("/guid")
+                ),
+              ],
+              success: function (oData) {
+                that
+                  .getView()
+                  .setModel(new JSONModel(oData.results), "attachmentModel");
+                that.getView().setBusy(false);
+              },
+              error: function (oResponse) {
+                console.log(oResponse);
+                that.getView().setBusy(false);
+              },
+            });
         },
         onSHelpPositionTreeDataTreeSelectionChange: function (oEvent) {
           let jsonModel = this.getView().getModel("jsonModel"),

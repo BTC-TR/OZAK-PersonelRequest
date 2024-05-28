@@ -270,13 +270,39 @@
 												<f:FormElement label="İş Tanımı Eki">
 													<f:fields>
 														<upload:UploadSet
-															id="attachmentUpload"
-															items="{jsonModel>/formInputValues/jobDefinitionAttachment/items}"
+															id="idUploadCollection"
+															items="{attachmentModel>/}"
+															beforeUploadStarts="onUploadSetBeforeUploadStarts"
+															uploadCompleted="onUploadSetUploadCompleted"
 														>
 															<upload:items>
-																<upload:UploadSetItem />
+																<upload:UploadSetItem
+																	url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/PersonalAttachmentSaveSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
+																		/$value"
+																	fileName="{attachmentModel>FileName}"
+																	mediaType="{attachmentModel>FileType}"
+																/>
 															</upload:items>
 														</upload:UploadSet>
+														<!-- <UploadCollection
+															id="idUploadCollection"
+															noDataDescription=" "
+															noDataText="Ek yok"
+															uploadButtonInvisible="true"
+															items="{attachmentModel>/}"
+														>
+															<items>
+																<UploadCollectionItem
+																	enableDelete="false"
+																	enableEdit="false"
+																	fileName="{attachmentModel>FileName}"
+																	mimeType="{attachmentModel>FileType}"
+																	url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/PersonalAttachmentSaveSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')"
+																	visibleDelete="false"
+																	visibleEdit="false"
+																/>
+															</items>
+														</UploadCollection> -->
 													</f:fields>
 												</f:FormElement>
 											</f:formElements>

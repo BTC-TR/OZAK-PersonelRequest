@@ -100,14 +100,18 @@
             <items>
                 <ColumnListItem>
                     <ObjectIdentifier text="1" />
-                    <ObjectIdentifier text="{Tplans}" />
-                    <ObjectIdentifier text="{Tcsayi}" />
-                    <ObjectIdentifier text="" />
-                    <!-- <ObjectStatus
-                        text=""
-                        state=""
-                        icon=""
-                    /> -->
+                    <ObjectIdentifier text="{TplansT}" />
+                    <ObjectIdentifier text="{
+                        path: 'Tcsayi',
+                        type: 'sap.ui.model.odata.type.String',
+                        constraints: {
+                            isDigitSequence: true,
+                            maxLength: 10
+                        }
+                    }" />
+                    <ObjectIdentifier text="{Btext}" />
+                    <ObjectIdentifier text="{Statu}" />
+                    <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
                 </ColumnListItem>
             </items>
         </Table>
