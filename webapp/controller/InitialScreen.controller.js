@@ -36,7 +36,9 @@ sap.ui.define(
           };
           this.oSF = this.getView().byId("searchField");
         },
-        _onRouteMatched: function (oEvent) {},
+        _onRouteMatched: function (oEvent) {
+          this._getUserInfo();
+        },
         onSearch: function (oEvent) {
           if (oEvent.getParameters().refreshButtonPressed) {
             // Search field's 'refresh' button has been pressed.

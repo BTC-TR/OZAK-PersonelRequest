@@ -28,6 +28,7 @@ sap.ui.define([
             // set the device model
             this.setModel(models.createDeviceModel(), "device");
             this.setModel(models.createJsonModel(), "jsonModel");
+            this.setModel(models.createUserModel(), "userModel");
 
             // create the views based on the url/hash
             this.getRouter().initialize();

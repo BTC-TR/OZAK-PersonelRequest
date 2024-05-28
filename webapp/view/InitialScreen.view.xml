@@ -110,7 +110,16 @@
                         }
                     }" />
                     <ObjectIdentifier text="{Btext}" />
-                    <ObjectIdentifier text="{Statu}" />
+                    <ObjectStatus text="{
+                        path: 'Statu',
+                        formatter: '.formatter.setStatusText'
+                    }" icon="{
+                        path: 'Statu',
+                        formatter: '.formatter.setStatusIcon'
+                    }" state="{
+                        path: 'Statu',
+                        formatter: '.formatter.setStatusState'
+                    }"/>
                     <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
                 </ColumnListItem>
             </items>

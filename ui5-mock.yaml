@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
-
 specVersion: "2.6"
 metadata:
   name: ozak.com.zhrpersonalrequestform
@@ -9,13 +7,15 @@ server:
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
-        ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        ignoreCertError: false
         ui5:
           path:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
         backend:
+          - path: /sap
+            url: http://mSAPHRAPDEV.ozak.local:8000
           - path: /sap
             url: http://mSAPHRAPDEV.ozak.local:8000
     - name: fiori-tools-appreload
@@ -30,7 +30,11 @@ server:
         mountPath: /
         services:
           - urlPath: /sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV
-            metadataPath: ./webapp/localService/metadata.xml
-            mockdataPath: ./webapp/localService/data
+            generateMockData: true
+            metadataXmlPath: ./webapp/localService/mainService/metadata.xml
+            mockdataRootPath: ./webapp/localService/data
+          - urlPath: /sap/opu/odata/sap/ZHR_LOGIN_SRV
+            metadataPath: ./webapp/localService/ZHR_LOGIN_SRV/metadata.xml
+            mockdataPath: ./webapp/localService/ZHR_LOGIN_SRV/mockdata
             generateMockData: true
         annotations: []

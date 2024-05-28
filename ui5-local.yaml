@@ -32,6 +32,8 @@ server:
         backend:
           - path: /sap
             url: http://mSAPHRAPDEV.ozak.local:8000
+          - path: /sap
+            url: http://mSAPHRAPDEV.ozak.local:8000
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:

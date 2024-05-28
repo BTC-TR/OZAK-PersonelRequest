@@ -21,7 +21,16 @@
                 "type": "OData",
                 "settings": {
                     "annotations": [],
-                    "localUri": "localService/metadata.xml",
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "ZHR_LOGIN_SRV": {
+                "uri": "/sap/opu/odata/sap/ZHR_LOGIN_SRV",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZHR_LOGIN_SRV/metadata.xml",
                     "odataVersion": "2.0"
                 }
             }
@@ -74,6 +83,18 @@
                 "dataSource": "mainService",
                 "preload": true,
                 "settings": {}
+            },
+            "ZHR_LOGIN_SRV": {
+                "dataSource": "ZHR_LOGIN_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
             }
         },
         "resources": {

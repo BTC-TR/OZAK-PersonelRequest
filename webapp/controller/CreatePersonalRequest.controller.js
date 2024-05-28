@@ -29,7 +29,7 @@ sap.ui.define(
               ? oEvent.getParameter("arguments").guid
               : "00000000-0000-0000-0000-000000000000"
           );
-          this._getAttachment(oEvent);
+          // this._getAttachment(oEvent);
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
