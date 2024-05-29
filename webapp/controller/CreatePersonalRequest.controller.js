@@ -37,7 +37,7 @@ sap.ui.define(
             sPath = "/SHelp_OrgTreeHeaderSet",
             that = this;
           let oFilter = new Filter(
-            [new Filter("IPernr", FilterOperator.EQ, jsonModel.getProperty("/Pernr"))],
+            [new Filter("IPernr", FilterOperator.EQ, this.getModel("userModel").getProperty("/Pernr"))],
             false
           );
           oModel.read(sPath, {
@@ -254,7 +254,7 @@ sap.ui.define(
             that = this;
 
           let formData = {
-            Pernr: jsonModel.getProperty("/Pernr"),
+            Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Tneden: "01",
             Abukrs: "",
             Apernr: "",
@@ -294,7 +294,8 @@ sap.ui.define(
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);
           if (that.getView().byId("idUploadCollection").getItems().length > 0) {
-            that._uploadAttachment(jsonModel.getProperty("/guid"));
+            // that._uploadAttachment(jsonModel.getProperty("/guid"));
+            this.onSendDocuments();
           }
           oModel.read(sPath, {
             success: (oData, oResponse) => {
@@ -309,28 +310,6 @@ sap.ui.define(
               }
             },
           });
-        },
-        _uploadAttachment: function (sGuid) {
-          var parts = [];
-
-          parts.push(sGuid.slice(0, 8));
-          parts.push(sGuid.slice(8, 12));
-          parts.push(sGuid.slice(12, 16));
-          parts.push(sGuid.slice(16, 20));
-          parts.push(sGuid.slice(20, 32));
-          sGuid = parts.join("-");
-
-          // var sPath = this.getView().getModel().createKey("PersonalAttachmentsListSet", {
-          //     Guid: sGuid,
-          //     IType: "I"
-          //   }),
-          //   sURL = "/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/" + sPath + "/NavToAttachmentSave";
-
-          // for (var i = 0; i < this.getView().byId("idUploadCollection")._aFileUploadersForPendingUpload.length; i++) {
-          //   this.getView().byId("idUploadCollection")._aFileUploadersForPendingUpload[i].setUploadUrl(sURL);
-          // }
-
-          this.getView().byId("idUploadCollection").upload();
         },
         onUploadSetBeforeUploadStarts: function (oEvent) {
           var oHeaderItem = oEvent.getParameter("item"),
@@ -348,6 +327,91 @@ sap.ui.define(
               text: this.getOwnerComponent().getModel().getSecurityToken(),
             })
           );
+        },
+        onSendDocuments: async function() {
+          var oDocumentUS = sap.ui.core.Fragment.byId(this.getView().getId(), "DocumentUS");
+          var oViewModel = this.getModel("attachmentModel");
+          var aDevaredDocuments = oViewModel.getProperty("/");
+          var oData = {};
+    
+          if (oDocumentUS) {
+            this.addDevaredDocuments();
+          }
+    
+          oData.Documents = aDevaredDocuments.length ? aDevaredDocuments : [];
+    
+          await this.uploadDocument();
+    
+          // if (oUploadCollection) {
+          // 	this.oDocument.destroy();
+          // 	this.oDocument = null;
+          // 	oViewModel.setProperty("/Documents", []);
+          // }
+        },
+        addDevaredDocuments: function() {
+          var oDocumentUS = this.byId("idUploadCollection");
+          var oViewModel = this.getModel("attachmentModel");
+          var aDevaredDocuments = oViewModel.getProperty("/");
+          var aOriginDocuments = oDocumentUS.getBinding("items").getCurrentContexts();
+          var aNewDocuments = oDocumentUS.getItems();
+          var sID = oViewModel.getProperty("/ID");
+          var aOriginDocumentID = [];
+          var aNewDocumentID = [];
+    
+          aOriginDocumentID = aOriginDocuments.map(oOriginDocument => {
+            return {
+              DocumentID: oOriginDocument.getObject("DocumentID")
+            };
+          });
+    
+          aNewDocumentID = aNewDocuments.map(oNewDocument => {
+            return {
+              DocumentID: oViewModel.getProperty(oNewDocument.getBindingContext("model").getPath() + "/DocumentID")
+            };
+          });
+    
+          aOriginDocumentID.forEach((oOriginDocumentID) => {
+            if (aNewDocumentID.findIndex(oNewDocumentID => oNewDocumentID.DocumentID === oOriginDocumentID.DocumentID) === -1) {
+              aDevaredDocuments.push({
+                ID: sID,
+                DocumentID: oOriginDocumentID.DocumentID
+              });
+            }
+          });
+    
+          oViewModel.setProperty("/DevaredDocuments", aDevaredDocuments);
+        },
+        uploadDocument: async function() {
+          var oDocumentUS = this.byId("DocumentUS");
+          var iDocumentItemsCount = 0;
+          var sServiceUrl = "";
+    
+          if (!oDocumentUS) {
+            return;
+          }
+    
+          iDocumentItemsCount = oDocumentUS.getIncompleteItems().length;
+          sServiceUrl = this.getUploadUrl();
+    
+          oDocumentUS.getIncompleteItems().forEach(oItem => {
+            oItem.setUploadUrl(sServiceUrl);
+          });
+    
+          if (iDocumentItemsCount > 0) {
+            await oDocumentUS.upload();
+          }
+        },
+        getUploadUrl: function() {
+          var oModel = this.getModel();
+          var sPath = oModel.createKey("/CreateAttachmentSet", {
+            Guid:  this.getView().getModel("jsonModel").getProperty("/guid"),
+            FileName: ""
+          });
+          var sDocumentPath = "";
+    
+          sDocumentPath = oModel.sServiceUrl + sPath + "/ToAttachment";
+    
+          return sDocumentPath;
         },
         onUploadSetUploadCompleted: function (oEvent) {
           var oStatus = oEvent.getParameter("status"),
