@@ -273,7 +273,6 @@
 															id="idUploadCollection"
 															items="{attachmentModel>/}"
 															beforeUploadStarts="onUploadSetBeforeUploadStarts"
-															uploadCompleted="onUploadSetUploadCompleted"
 														>
 															<upload:items>
 																<upload:UploadSetItem

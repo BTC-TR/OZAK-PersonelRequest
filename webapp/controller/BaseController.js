@@ -166,11 +166,7 @@ sap.ui.define(
             MessageBox.error(message);
           }
         },
-        _showMessageBoxWithRoute: function (
-          message,
-          messageType,
-          routeName
-        ) {
+        _showMessageBoxWithRoute: function (message, messageType, routeName) {
           let that = this;
           if (messageType === "S") {
             MessageBox.success(message, {
@@ -186,54 +182,77 @@ sap.ui.define(
             });
           }
         },
-        onPressSignOut: function() {
-          this.getView().getModel("loginModel").callFunction("/DeleteSession", {
-            method: "POST",
-            urlParameters: {
-              LoginId: localStorage.getItem("Guid")
-            },
-            success: function(oData) {
-              if (oData.Type === "E") {
-                MessageBox.error(oData.Message);
-              } else {
-                window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
-                localStorage.removeItem("Guid");
-              }
-            },
-            error: function(oResponse) {
-              console.log(oResponse);
-            }
-          });
+        onPressSignOut: function () {
+          this.getView()
+            .getModel("loginModel")
+            .callFunction("/DeleteSession", {
+              method: "POST",
+              urlParameters: {
+                LoginId: localStorage.getItem("Guid"),
+              },
+              success: function (oData) {
+                if (oData.Type === "E") {
+                  MessageBox.error(oData.Message);
+                } else {
+                  window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
+                  localStorage.removeItem("Guid");
+                }
+              },
+              error: function (oResponse) {
+                console.log(oResponse);
+              },
+            });
         },
-        _getUserInfo: function() {
-          var sPath = this.getView().getModel("ZHR_LOGIN_SRV").createKey("PersonalSet", {
-              IvLoginId: localStorage.getItem("Guid")
-            }),
+        _getUserInfo: function () {
+          var sPath = this.getOwnerComponent()
+              .getModel("loginModel")
+              .createKey("PersonalSet", {
+                IvLoginId: localStorage.getItem("Guid"),
+              }),
             that = this;
-    
-          this.getView().getModel("ZHR_LOGIN_SRV").read("/" + sPath, {
-            success: function(oData) {
-              if (oData.EvPernr) {
-                that.getOwnerComponent().getModel("userModel").setProperty("/Pernr", oData.EvPernr);
-                that.getOwnerComponent().getModel("userModel").setProperty("/Ename", oData.EvEname);
-                that.getOwnerComponent().getModel("userModel").setProperty("/Yonetici", oData.EvYonetici);
-                that.getOwnerComponent().getModel("userModel").setProperty("/Werks", oData.Werks);
-                that.getOwnerComponent().getModel("userModel").setProperty("/Stell", oData.Stell);
-                that.getOwnerComponent().getModel("userModel").setProperty("/Bukrs", oData.Bukrs);
-                that.getOwnerComponent().getModel("userModel").refresh(true);
-    
-              } else {
-                MessageBox.error("Hata oluştu.", {
-                  onClose: function() {
-                    window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
-                  }
-                });
-              }
-            },
-            error: function(oResponse) {
-              console.log(oResponse);
-            }
-          });
+
+          this.getOwnerComponent()
+            .getModel("loginModel")
+            .read("/" + sPath, {
+              success: function (oData) {
+                if (oData.EvPernr) {
+                  that
+                    .getOwnerComponent()
+                    .getModel("userModel")
+                    .setProperty("/Pernr", oData.EvPernr);
+                  that
+                    .getOwnerComponent()
+                    .getModel("userModel")
+                    .setProperty("/Ename", oData.EvEname);
+                  that
+                    .getOwnerComponent()
+                    .getModel("userModel")
+                    .setProperty("/Yonetici", oData.EvYonetici);
+                  that
+                    .getOwnerComponent()
+                    .getModel("userModel")
+                    .setProperty("/Werks", oData.Werks);
+                  that
+                    .getOwnerComponent()
+                    .getModel("userModel")
+                    .setProperty("/Stell", oData.Stell);
+                  that
+                    .getOwnerComponent()
+                    .getModel("userModel")
+                    .setProperty("/Bukrs", oData.Bukrs);
+                  that.getOwnerComponent().getModel("userModel").refresh(true);
+                } else {
+                  MessageBox.error("Hata oluştu.", {
+                    onClose: function () {
+                      window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
+                    },
+                  });
+                }
+              },
+              error: function (oResponse) {
+                console.log(oResponse);
+              },
+            });
         },
       }
     );

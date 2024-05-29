@@ -37,7 +37,7 @@ sap.ui.define(
             sPath = "/SHelp_OrgTreeHeaderSet",
             that = this;
           let oFilter = new Filter(
-            [new Filter("IPernr", FilterOperator.EQ, "00001114")],
+            [new Filter("IPernr", FilterOperator.EQ, jsonModel.getProperty("/Pernr"))],
             false
           );
           oModel.read(sPath, {
@@ -254,7 +254,7 @@ sap.ui.define(
             that = this;
 
           let formData = {
-            Pernr: "1114",
+            Pernr: jsonModel.getProperty("/Pernr"),
             Tneden: "01",
             Abukrs: "",
             Apernr: "",
@@ -365,7 +365,7 @@ sap.ui.define(
           let that = this;
           this.getView()
             .getModel()
-            .read("/PersonalAttachmentsListSet", {
+            .read("/AttachmentListSet", {
               filters: [
                 new Filter(
                   "IGuid",

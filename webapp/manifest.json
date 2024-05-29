@@ -25,7 +25,7 @@
                     "odataVersion": "2.0"
                 }
             },
-            "ZHR_LOGIN_SRV": {
+            "loginModel": {
                 "uri": "/sap/opu/odata/sap/ZHR_LOGIN_SRV",
                 "type": "OData",
                 "settings": {
@@ -84,8 +84,8 @@
                 "preload": true,
                 "settings": {}
             },
-            "ZHR_LOGIN_SRV": {
-                "dataSource": "ZHR_LOGIN_SRV",
+            "loginModel": {
+                "dataSource": "loginModel",
                 "preload": true,
                 "settings": {
                     "defaultBindingMode": "TwoWay",
