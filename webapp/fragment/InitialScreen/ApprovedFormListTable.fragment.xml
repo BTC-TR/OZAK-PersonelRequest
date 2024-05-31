@@ -15,6 +15,7 @@
         fixedLayout="false"
         growing="true"
         growingScrollToLoad="true"
+        growingThreshold="15"
     >
         <headerToolbar>
             <Toolbar class="sapUiTinyMarginTop">

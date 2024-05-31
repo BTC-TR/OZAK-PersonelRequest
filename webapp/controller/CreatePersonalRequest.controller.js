@@ -403,7 +403,7 @@ sap.ui.define(
         getUploadUrl: function() {
           var oModel = this.getModel();
           var sPath = oModel.createKey("/CreateAttachmentSet", {
-            Guid:  localStorage.getItem("Guid"),
+            Guid:  localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
             IType: "1"
           });
           var sDocumentPath = "";
@@ -433,7 +433,7 @@ sap.ui.define(
                 new Filter(
                   "IGuid",
                   FilterOperator.EQ,
-                  this.getView().getModel("jsonModel").getProperty("/guid")
+                  localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid")
                 ),
               ],
               success: function (oData) {

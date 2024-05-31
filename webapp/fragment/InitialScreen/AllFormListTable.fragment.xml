@@ -9,6 +9,7 @@
         }"
         fixedLayout="false"
         growing="true"
+        growingThreshold="15"
         growingScrollToLoad="true"
     >
         <headerToolbar>
