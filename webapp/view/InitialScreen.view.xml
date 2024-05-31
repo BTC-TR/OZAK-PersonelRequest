@@ -99,7 +99,7 @@
             </columns>
             <items>
                 <ColumnListItem>
-                    <ObjectIdentifier text="1" />
+                    <ObjectIdentifier text="" />
                     <ObjectIdentifier text="{TplansT}" />
                     <ObjectIdentifier text="{
                         path: 'Tcsayi',

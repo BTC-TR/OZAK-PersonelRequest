@@ -29,7 +29,7 @@ sap.ui.define(
               ? oEvent.getParameter("arguments").guid
               : "00000000-0000-0000-0000-000000000000"
           );
-          // this._getAttachment(oEvent);
+          this._getAttachment(oEvent);
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
@@ -293,10 +293,7 @@ sap.ui.define(
           };
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);
-          if (that.getView().byId("idUploadCollection").getItems().length > 0) {
-            // that._uploadAttachment(jsonModel.getProperty("/guid"));
-            this.onSendDocuments();
-          }
+          
           oModel.read(sPath, {
             success: (oData, oResponse) => {
               if (oData.Type === "S") {
@@ -305,6 +302,7 @@ sap.ui.define(
                   oData.Type,
                   "initialScreen"
                 );
+                that.onSendDocuments();
               } else {
                 that._showMessageBox(oData.Message, oData.Type, true, 0);
               }
@@ -329,7 +327,8 @@ sap.ui.define(
           );
         },
         onSendDocuments: async function() {
-          var oDocumentUS = sap.ui.core.Fragment.byId(this.getView().getId(), "DocumentUS");
+          // var oDocumentUS = sap.ui.core.Fragment.byId(this.getView().getId(), "DocumentUS");
+          var oDocumentUS = this.getView().byId("idUploadCollection");
           var oViewModel = this.getModel("attachmentModel");
           var aDevaredDocuments = oViewModel.getProperty("/");
           var oData = {};
@@ -382,7 +381,7 @@ sap.ui.define(
           oViewModel.setProperty("/DevaredDocuments", aDevaredDocuments);
         },
         uploadDocument: async function() {
-          var oDocumentUS = this.byId("DocumentUS");
+          var oDocumentUS = this.byId("idUploadCollection");
           var iDocumentItemsCount = 0;
           var sServiceUrl = "";
     
@@ -404,8 +403,8 @@ sap.ui.define(
         getUploadUrl: function() {
           var oModel = this.getModel();
           var sPath = oModel.createKey("/CreateAttachmentSet", {
-            Guid:  this.getView().getModel("jsonModel").getProperty("/guid"),
-            FileName: ""
+            Guid:  localStorage.getItem("Guid"),
+            IType: "1"
           });
           var sDocumentPath = "";
     

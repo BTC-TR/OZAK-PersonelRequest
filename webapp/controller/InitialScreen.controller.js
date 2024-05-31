@@ -38,6 +38,7 @@ sap.ui.define(
         },
         _onRouteMatched: function (oEvent) {
           this._getUserInfo();
+          this.getView().byId("idMyPYPListTable").getModel().refresh(true);
         },
         onSearch: function (oEvent) {
           if (oEvent.getParameters().refreshButtonPressed) {

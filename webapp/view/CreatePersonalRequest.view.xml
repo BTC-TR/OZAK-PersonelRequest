@@ -277,7 +277,7 @@
 														>
 															<upload:items>
 																<upload:UploadSetItem
-																	url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/PersonalAttachmentSaveSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
+																	url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
 																		/$value"
 																	fileName="{attachmentModel>FileName}"
 																	mediaType="{attachmentModel>FileType}"
