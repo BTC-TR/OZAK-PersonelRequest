@@ -61,16 +61,16 @@ sap.ui.define(
             selectedKey = oSource.getSelectedKey();
             switch (selectedKey) {
               case "All":
-                oTable = this.byId("idPersonalFormListSetTable");
+                this.oTable = this.byId("idPersonalFormListSetTable");
                 break;
               case "bekleyen":
-                oTable = this.byId("idPersonalFormListSetTableWaiting");
+                this.oTable = this.byId("idPersonalFormListSetTableWaiting");
                 break;
               case "red":
-                oTable = this.byId("idPersonalFormListSetTableDeclined");
+                this.oTable = this.byId("idPersonalFormListSetTableDeclined");
                 break;
               case "onay":
-                oTable = this.byId("idPersonalFormListSetTableApproved");
+                this.oTable = this.byId("idPersonalFormListSetTableApproved");
                 break;
             }
         },
