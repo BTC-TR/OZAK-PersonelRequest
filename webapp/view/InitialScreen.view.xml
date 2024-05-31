@@ -38,13 +38,12 @@
         </customHeader>
         <IconTabBar
             stretchContentHeight="true"
-            headerBackgroundDesign="Translucent"
             expandable="false"
         >
             <items>
                 <IconTabFilter
                     showAll="true"
-                    count="999"
+                    count="{= ${jsonModel>/PersonalFormListSet}.length}"
                     text="Talep(ler)"
                     key="All"
                 >

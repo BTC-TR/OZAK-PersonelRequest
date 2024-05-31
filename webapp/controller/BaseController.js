@@ -205,9 +205,9 @@ sap.ui.define(
         },
         _getUserInfo: function () {
           var that = this;
-
           return new Promise((resolve, reject) => {
-            var sPath = that.getOwnerComponent()
+            var sPath = that
+              .getOwnerComponent()
               .getModel("loginModel")
               .createKey("PersonalSet", {
                 IvLoginId: localStorage.getItem("Guid"),

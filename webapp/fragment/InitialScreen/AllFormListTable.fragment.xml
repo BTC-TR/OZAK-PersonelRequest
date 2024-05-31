@@ -73,15 +73,15 @@
                 <ObjectIdentifier text="{jsonModel>Btext}" />
                 <ObjectStatus
                     text="{
-                        path: 'Statu',
+                        path: 'jsonModel>Statu',
                         formatter: '.formatter.setStatusText'
                     }"
                     icon="{
-                        path: 'Statu',
+                        path: 'jsonModel>Statu',
                         formatter: '.formatter.setStatusIcon'
                     }"
                     state="{
-                        path: 'Statu',
+                        path: 'jsonModel>Statu',
                         formatter: '.formatter.setStatusState'
                     }"
                 />
