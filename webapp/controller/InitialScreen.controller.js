@@ -58,19 +58,20 @@ sap.ui.define(
         },
         onIconTabBarSelect: function (oEvent) {
           let oSource = oEvent.getSource(),
-            selectedKey = oSource.getSelectedKey();
+            selectedKey = oSource.getSelectedKey(),
+            that = this;
             switch (selectedKey) {
               case "All":
-                this.oTable = this.byId("idPersonalFormListSetTable");
+                that._oTable = this.byId("idPersonalFormListSetTable");
                 break;
               case "bekleyen":
-                this.oTable = this.byId("idPersonalFormListSetTableWaiting");
+                that._oTable = this.byId("idPersonalFormListSetTableWaiting");
                 break;
               case "red":
-                this.oTable = this.byId("idPersonalFormListSetTableDeclined");
+                that._oTable = this.byId("idPersonalFormListSetTableDeclined");
                 break;
               case "onay":
-                this.oTable = this.byId("idPersonalFormListSetTableApproved");
+                that._oTable = this.byId("idPersonalFormListSetTableApproved");
                 break;
             }
         },

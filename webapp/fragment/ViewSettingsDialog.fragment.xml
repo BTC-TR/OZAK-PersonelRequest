@@ -8,7 +8,7 @@
         <sortItems>
             <ViewSettingsItem
                 text="Talep Edilen Pozisyon"
-                key="PYPInfo/PYPDescription"
+                key="TplansT"
                 selected="true"/>
 
         </sortItems>
