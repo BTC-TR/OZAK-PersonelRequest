@@ -1,0 +1,97 @@
+<c:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+>
+    <Table
+        id="idMyPYPListTable"
+        items="{
+            path: '/PersonalFormListSet',
+            filters: [{
+                path: 'IPernr',
+                operator: 'EQ',
+                value1: '00001114'
+            }]
+        }"
+        fixedLayout="false"
+        growing="true"
+        growingScrollToLoad="true"
+    >
+        <headerToolbar>
+            <Toolbar class="sapUiTinyMarginTop">
+                <Title text="Talep Listem" />
+                <ToolbarSpacer />
+                <SearchField
+                    id="searchField"
+                    showRefreshButton="false"
+                    enableSuggestions="true"
+                    tooltip="{i18n>listSearchTooltip}"
+                    suggest="onSuggest"
+                    suggestionItems="{
+                        path: '/PersonalFormListSet'
+                    }"
+                    search="_onSearchcIdMyPYPListTable"
+                    width="auto"
+                >
+                    <SuggestionItem
+                        key="{jsonModel>id}"
+                        text="{jsonModel>PYPInfo/PYPName}"
+                        description="{jsonModel>dummyData1}"
+                    />
+                </SearchField>
+                <Button
+                    id="sortButton"
+                    press=".onOpenViewSettings"
+                    icon="sap-icon://sort"
+                    type="Transparent"
+                />
+            </Toolbar>
+        </headerToolbar>
+        <columns>
+            <Column>
+                <Text text="Talep No" />
+            </Column>
+            <Column>
+                <Text text="Talep Edilen Pozisyon" />
+            </Column>
+            <Column>
+                <Text text="Talep Edilen Çalışan Sayısı" />
+            </Column>
+            <Column>
+                <Text text="Çalışacağı Lokasyon" />
+            </Column>
+            <Column>
+                <Text text="Onay Durumu" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <ObjectIdentifier text="" />
+                <ObjectIdentifier text="{TplansT}" />
+                <ObjectIdentifier text="{
+                    path: 'Tcsayi',
+                    type: 'sap.ui.model.odata.type.String',
+                    constraints: {
+                        isDigitSequence: true,
+                        maxLength: 10
+                    }
+                }" />
+                <ObjectIdentifier text="{Btext}" />
+                <ObjectStatus
+                    text="{
+                        path: 'Statu',
+                        formatter: '.formatter.setStatusText'
+                    }"
+                    icon="{
+                        path: 'Statu',
+                        formatter: '.formatter.setStatusIcon'
+                    }"
+                    state="{
+                        path: 'Statu',
+                        formatter: '.formatter.setStatusState'
+                    }"
+                />
+                <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
+            </ColumnListItem>
+        </items>
+    </Table>
+</c:FragmentDefinition>
