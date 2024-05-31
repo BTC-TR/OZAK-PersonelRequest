@@ -3,9 +3,14 @@
     xmlns:c="sap.ui.core"
 >
     <Table
-        id="idMyPYPListTableAll"
+        id="idMyPYPListTable"
         items="{
-            path: 'jsonModel>/PersonalFormListSet'
+            path: '/PersonalFormListSet',
+            filters: [{
+                path: 'IPernr',
+                operator: 'EQ',
+                value1: '{userModel>/Pernr}'
+            }]
         }"
         fixedLayout="false"
         growing="true"
@@ -24,13 +29,13 @@
                     suggestionItems="{
                         path: '/PersonalFormListSet'
                     }"
-                    search="_onSearchcidMyPYPListTableAll"
+                    search="_onSearchcIdMyPYPListTable"
                     width="auto"
                 >
                     <SuggestionItem
                         key="{jsonModel>id}"
-                        text="{jsonModel>TplansT}"
-                        description="{jsonModel>Btext}"
+                        text="{jsonModel>PYPInfo/PYPName}"
+                        description="{jsonModel>dummyData1}"
                     />
                 </SearchField>
                 <Button
@@ -61,16 +66,16 @@
         <items>
             <ColumnListItem>
                 <ObjectIdentifier text="" />
-                <ObjectIdentifier text="{jsonModel>TplansT}" />
+                <ObjectIdentifier text="{TplansT}" />
                 <ObjectIdentifier text="{
-                    path: 'jsonModel>Tcsayi',
+                    path: 'Tcsayi',
                     type: 'sap.ui.model.odata.type.String',
                     constraints: {
                         isDigitSequence: true,
                         maxLength: 10
                     }
                 }" />
-                <ObjectIdentifier text="{jsonModel>Btext}" />
+                <ObjectIdentifier text="{Btext}" />
                 <ObjectStatus
                     text="{
                         path: 'Statu',

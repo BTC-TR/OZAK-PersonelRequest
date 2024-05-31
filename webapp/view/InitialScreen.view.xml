@@ -37,14 +37,15 @@
             </Toolbar>
         </customHeader>
         <IconTabBar
-            id="iconTabBar7"
-            class="sapUiResponsiveContentPadding"
+            stretchContentHeight="true"
+            headerBackgroundDesign="Translucent"
+            expandable="false"
         >
             <items>
                 <IconTabFilter
                     showAll="true"
-                    count="123"
-                    text="Products"
+                    count="999"
+                    text="Talep(ler)"
                     key="All"
                 >
                     <c:Fragment
@@ -52,15 +53,16 @@
                         fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.AllFormListTable"
                     />
                     <customData>
-                        <BadgeCustomData visible="false" />
+                        <BadgeCustomData visible="true" />
                     </customData>
                 </IconTabFilter>
                 <IconTabSeparator />
                 <IconTabFilter
-                    icon="sap-icon://begin"
-                    iconColor="Positive"
-                    count="53"
-                    text="Ok"
+                    icon="sap-icon://pending"
+                    iconColor="Critical"
+                    count="999"
+                    text="Onayda Bekleyen(ler)"
+                    design="Horizontal"
                     key="Ok"
                 >
                     <customData>
@@ -68,22 +70,24 @@
                     </customData>
                 </IconTabFilter>
                 <IconTabFilter
-                    icon="sap-icon://compare"
-                    iconColor="Critical"
-                    count="51"
-                    text="Heavy"
-                    key="Heavy"
+                    icon="sap-icon://decline"
+                    iconColor="Negative"
+                    count="999"
+                    text="Reddedilen(ler)"
+                    design="Horizontal"
+                    key="Overweight"
                 >
                     <customData>
                         <BadgeCustomData visible="true" />
                     </customData>
                 </IconTabFilter>
                 <IconTabFilter
-                    icon="sap-icon://inventory"
-                    iconColor="Negative"
-                    count="19"
-                    text="Overweight"
-                    key="Overweight"
+                    icon="sap-icon://accept"
+                    iconColor="Positive"
+                    count="999"
+                    text="Onaylanan(lar)"
+                    design="Horizontal"
+                    key="Heavy"
                 >
                     <customData>
                         <BadgeCustomData visible="true" />

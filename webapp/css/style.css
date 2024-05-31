@@ -17,3 +17,6 @@ div[role="toolbar"] {
     position: absolute !important;
     top: calc(50% - 9px);
 }
+.sapMITBContent {
+    padding: 0 !important;
+}

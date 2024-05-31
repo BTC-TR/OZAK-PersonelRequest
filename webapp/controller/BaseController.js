@@ -204,55 +204,46 @@ sap.ui.define(
             });
         },
         _getUserInfo: function () {
-          var sPath = this.getOwnerComponent()
+          var that = this;
+
+          return new Promise((resolve, reject) => {
+            var sPath = that.getOwnerComponent()
               .getModel("loginModel")
               .createKey("PersonalSet", {
                 IvLoginId: localStorage.getItem("Guid"),
-              }),
-            that = this;
-
-          this.getOwnerComponent()
-            .getModel("loginModel")
-            .read("/" + sPath, {
-              success: function (oData) {
-                if (oData.EvPernr) {
-                  that
-                    .getOwnerComponent()
-                    .getModel("userModel")
-                    .setProperty("/Pernr", oData.EvPernr);
-                  that
-                    .getOwnerComponent()
-                    .getModel("userModel")
-                    .setProperty("/Ename", oData.EvEname);
-                  that
-                    .getOwnerComponent()
-                    .getModel("userModel")
-                    .setProperty("/Yonetici", oData.EvYonetici);
-                  that
-                    .getOwnerComponent()
-                    .getModel("userModel")
-                    .setProperty("/Werks", oData.Werks);
-                  that
-                    .getOwnerComponent()
-                    .getModel("userModel")
-                    .setProperty("/Stell", oData.Stell);
-                  that
-                    .getOwnerComponent()
-                    .getModel("userModel")
-                    .setProperty("/Bukrs", oData.Bukrs);
-                  that.getOwnerComponent().getModel("userModel").refresh(true);
-                } else {
-                  MessageBox.error("Hata oluştu.", {
-                    onClose: function () {
-                      window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
-                    },
-                  });
-                }
-              },
-              error: function (oResponse) {
-                console.log(oResponse);
-              },
-            });
+              });
+            that
+              .getOwnerComponent()
+              .getModel("loginModel")
+              .read("/" + sPath, {
+                success: function (oData) {
+                  if (oData.EvPernr) {
+                    let userModel = that
+                      .getOwnerComponent()
+                      .getModel("userModel");
+                    userModel.setProperty("/Pernr", oData.EvPernr);
+                    userModel.setProperty("/Ename", oData.EvEname);
+                    userModel.setProperty("/Yonetici", oData.EvYonetici);
+                    userModel.setProperty("/Werks", oData.Werks);
+                    userModel.setProperty("/Stell", oData.Stell);
+                    userModel.setProperty("/Bukrs", oData.Bukrs);
+                    userModel.refresh(true);
+                    resolve(); // Resolve the promise
+                  } else {
+                    MessageBox.error("Hata oluştu.", {
+                      onClose: function () {
+                        window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
+                      },
+                    });
+                    reject(new Error("User information is incomplete")); // Reject the promise
+                  }
+                },
+                error: function (oResponse) {
+                  console.log(oResponse);
+                  reject(oResponse); // Reject the promise
+                },
+              });
+          });
         },
       }
     );

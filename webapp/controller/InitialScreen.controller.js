@@ -27,7 +27,7 @@ sap.ui.define(
             .getRoute("initialScreen")
             .attachMatched(this._onRouteMatched, this);
           var oList = this.byId("list");
-          var oTable = this.byId("idMyPYPListTable");
+          var oTable = this.byId("idMyPYPListTableAll");
           this._oList = oList;
           this._oTable = oTable;
           this._oListFilterState = {
@@ -37,8 +37,27 @@ sap.ui.define(
           this.oSF = this.getView().byId("searchField");
         },
         _onRouteMatched: function (oEvent) {
-          this._getUserInfo();
-          this.getView().byId("idMyPYPListTable").getModel().refresh(true);
+          this._getUserInfo().then(() => {
+            this._fetchAllFormListData();
+          });
+          this.getView().byId("idMyPYPListTableAll").getModel().refresh(true);
+          // this._fetchAllFormListData();
+        },
+        _fetchAllFormListData: function () {
+          let oModel = this.getView().getModel(),
+            jsonModel = this.getModel("jsonModel"),
+            oTable = this.getView().byId("idMyPYPListTableAll"),
+            IPernr = this.getModel("userModel").getProperty("/Pernr"),
+            that = this,
+            sPath = "/PersonalFormListSet";
+          oTable.setBusy(true);
+          oModel.read(sPath, {
+            filters: [new Filter("IPernr", FilterOperator.EQ, IPernr)],
+            success: (oData, oResponse) => {
+              jsonModel.setProperty("/PersonalFormListSet", oData.results);
+              oTable.setBusy(false);
+            },
+          });
         },
         onSearch: function (oEvent) {
           if (oEvent.getParameters().refreshButtonPressed) {
@@ -75,7 +94,7 @@ sap.ui.define(
                         .indexOf(sValue.toUpperCase()) > -1
                     );
                   }),
-                  new Filter("PYPInfo/PYPName", function (sDes) {
+                  new Filter("TplansT", function (sDes) {
                     return (
                       (sDes || "").toUpperCase().indexOf(sValue.toUpperCase()) >
                       -1
@@ -156,8 +175,8 @@ sap.ui.define(
           aSorters.push(new Sorter(sPath, bDescending));
           this._oTable.getBinding("items").sort(aSorters);
         },
-        _onSearchcIdMyPYPListTable: function (oEvent) {
-          let table = this.getView().byId("idMyPYPListTable"),
+        _onSearchcidMyPYPListTableAll: function (oEvent) {
+          let table = this.getView().byId("idMyPYPListTableAll"),
             oBinding = table.getBinding("items"),
             oFilter = [],
             inputValue = oEvent.getSource().getValue();
@@ -165,7 +184,7 @@ sap.ui.define(
             oFilter = new Filter(
               [
                 new Filter(
-                  "PYPInfo/PYPName",
+                  "TplansT",
                   FilterOperator.Contains,
                   inputValue
                 ),
