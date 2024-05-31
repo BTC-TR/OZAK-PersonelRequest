@@ -39,6 +39,7 @@
         <IconTabBar
             stretchContentHeight="true"
             expandable="false"
+            select="onIconTabBarSelect"
         >
             <items>
                 <IconTabFilter
@@ -62,8 +63,12 @@
                     count="999"
                     text="Onayda Bekleyen(ler)"
                     design="Horizontal"
-                    key="Ok"
+                    key="bekleyen"
                 >
+                    <c:Fragment
+                        type="XML"
+                        fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.WaitingFormListTable"
+                    />
                     <customData>
                         <BadgeCustomData visible="true" />
                     </customData>
@@ -74,20 +79,44 @@
                     count="999"
                     text="Reddedilen(ler)"
                     design="Horizontal"
-                    key="Overweight"
+                    key="red"
                 >
+                    <c:Fragment
+                        type="XML"
+                        fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.DeclinedFormListTable"
+                    />
                     <customData>
                         <BadgeCustomData visible="true" />
                     </customData>
                 </IconTabFilter>
                 <IconTabFilter
-                    icon="sap-icon://accept"
+                    icon="sap-icon://approvals"
                     iconColor="Positive"
                     count="999"
                     text="Onaylanan(lar)"
                     design="Horizontal"
-                    key="Heavy"
+                    key="onay"
                 >
+                    <c:Fragment
+                        type="XML"
+                        fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.ApprovedFormListTable"
+                    />
+                    <customData>
+                        <BadgeCustomData visible="true" />
+                    </customData>
+                </IconTabFilter>
+                <IconTabFilter
+                    icon="sap-icon://sys-enter"
+                    iconColor="Positive"
+                    count="999"
+                    text="Sisteme Aktarılan(lar)"
+                    design="Horizontal"
+                    key="system"
+                >
+                    <c:Fragment
+                        type="XML"
+                        fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.TransferedFormListTable"
+                    />
                     <customData>
                         <BadgeCustomData visible="true" />
                     </customData>

@@ -3,9 +3,14 @@
     xmlns:c="sap.ui.core"
 >
     <Table
-        id="idPersonalFormListSetTable"
+        id="idPersonalFormListSetTableDeclined"
         items="{
-            path: 'jsonModel>/PersonalFormListSet'
+            path: 'jsonModel>/PersonalFormListSet',
+            filters:[{
+                path: 'Statu',
+                operator: 'EQ',
+                value1: '03'
+            }]
         }"
         fixedLayout="false"
         growing="true"
@@ -16,7 +21,6 @@
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
                 <SearchField
-                    id="searchField"
                     showRefreshButton="false"
                     enableSuggestions="true"
                     tooltip="{i18n>listSearchTooltip}"
@@ -24,7 +28,7 @@
                     suggestionItems="{
                         path: '/PersonalFormListSet'
                     }"
-                    search="_onSearchcidMyPYPListTableAll($event, 'idPersonalFormListSetTable', '0')"
+                    search="_onSearchcidMyPYPListTableAll($event, 'idPersonalFormListSetTableDeclined', '03')"
                     width="auto"
                 >
                     <SuggestionItem
@@ -34,7 +38,6 @@
                     />
                 </SearchField>
                 <Button
-                    id="sortButton"
                     press=".onOpenViewSettings"
                     icon="sap-icon://sort"
                     type="Transparent"

@@ -93,7 +93,7 @@ sap.ui.define(
             .callFunction("/DeleteSession", {
               method: "POST",
               urlParameters: {
-                LoginId: localStorage.getItem("Guid"),
+                LoginId: localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
               },
               success: function (oData) {
                 if (oData.Type === "E") {
@@ -188,7 +188,7 @@ sap.ui.define(
             .callFunction("/DeleteSession", {
               method: "POST",
               urlParameters: {
-                LoginId: localStorage.getItem("Guid"),
+                LoginId: localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
               },
               success: function (oData) {
                 if (oData.Type === "E") {
@@ -210,7 +210,7 @@ sap.ui.define(
               .getOwnerComponent()
               .getModel("loginModel")
               .createKey("PersonalSet", {
-                IvLoginId: localStorage.getItem("Guid"),
+                IvLoginId: localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
               });
             that
               .getOwnerComponent()

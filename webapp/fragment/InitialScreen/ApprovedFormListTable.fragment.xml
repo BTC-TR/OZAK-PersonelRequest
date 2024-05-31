@@ -3,13 +3,13 @@
     xmlns:c="sap.ui.core"
 >
     <Table
-        id="idMyPYPListTable"
+        id="idPersonalFormListSetTableApproved"
         items="{
-            path: '/PersonalFormListSet',
-            filters: [{
-                path: 'IPernr',
+            path: 'jsonModel>/PersonalFormListSet',
+            filters:[{
+                path: 'Statu',
                 operator: 'EQ',
-                value1: '{userModel>/Pernr}'
+                value1: '02'
             }]
         }"
         fixedLayout="false"
@@ -21,7 +21,6 @@
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
                 <SearchField
-                    id="searchField"
                     showRefreshButton="false"
                     enableSuggestions="true"
                     tooltip="{i18n>listSearchTooltip}"
@@ -29,17 +28,16 @@
                     suggestionItems="{
                         path: '/PersonalFormListSet'
                     }"
-                    search="_onSearchcIdMyPYPListTable"
+                    search="_onSearchcidMyPYPListTableAll($event, 'idPersonalFormListSetTableApproved', '02')"
                     width="auto"
                 >
                     <SuggestionItem
                         key="{jsonModel>id}"
-                        text="{jsonModel>PYPInfo/PYPName}"
-                        description="{jsonModel>dummyData1}"
+                        text="{jsonModel>TplansT}"
+                        description="{jsonModel>Btext}"
                     />
                 </SearchField>
                 <Button
-                    id="sortButton"
                     press=".onOpenViewSettings"
                     icon="sap-icon://sort"
                     type="Transparent"
@@ -66,27 +64,27 @@
         <items>
             <ColumnListItem>
                 <ObjectIdentifier text="" />
-                <ObjectIdentifier text="{TplansT}" />
+                <ObjectIdentifier text="{jsonModel>TplansT}" />
                 <ObjectIdentifier text="{
-                    path: 'Tcsayi',
+                    path: 'jsonModel>Tcsayi',
                     type: 'sap.ui.model.odata.type.String',
                     constraints: {
                         isDigitSequence: true,
                         maxLength: 10
                     }
                 }" />
-                <ObjectIdentifier text="{Btext}" />
+                <ObjectIdentifier text="{jsonModel>Btext}" />
                 <ObjectStatus
                     text="{
-                        path: 'Statu',
+                        path: 'jsonModel>Statu',
                         formatter: '.formatter.setStatusText'
                     }"
                     icon="{
-                        path: 'Statu',
+                        path: 'jsonModel>Statu',
                         formatter: '.formatter.setStatusIcon'
                     }"
                     state="{
-                        path: 'Statu',
+                        path: 'jsonModel>Statu',
                         formatter: '.formatter.setStatusState'
                     }"
                 />

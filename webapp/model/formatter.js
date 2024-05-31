@@ -22,6 +22,8 @@ sap.ui.define([], function () {
           return "Onaylandı";
         case "03":
           return "Reddedildi";
+        case "04":
+          return "Sisteme Aktarıldı";
         default:
           break;
       }
@@ -34,6 +36,8 @@ sap.ui.define([], function () {
           return "sap-icon://accept";
         case "03":
           return "sap-icon://decline";
+        case "04":
+          return "sap-icon://sys-enter";
         default:
           break;
       }
@@ -46,6 +50,8 @@ sap.ui.define([], function () {
           return "Success";
         case "03":
           return "Error";
+        case "04":
+          return "Success";
         default:
           break;
       }

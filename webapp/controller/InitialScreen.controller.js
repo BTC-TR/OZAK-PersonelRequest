@@ -26,27 +26,24 @@ sap.ui.define(
           oRouter
             .getRoute("initialScreen")
             .attachMatched(this._onRouteMatched, this);
-          var oList = this.byId("list");
-          var oTable = this.byId("idMyPYPListTableAll");
-          this._oList = oList;
+          var oTable = this.byId("idPersonalFormListSetTable");
           this._oTable = oTable;
-          this._oListFilterState = {
-            aFilter: [],
-            aSearch: [],
-          };
           this.oSF = this.getView().byId("searchField");
         },
         _onRouteMatched: function (oEvent) {
           this._getUserInfo().then(() => {
             this._fetchAllFormListData();
           });
-          this.getView().byId("idMyPYPListTableAll").getModel().refresh(true);
+          this.getView()
+            .byId("idPersonalFormListSetTable")
+            .getModel()
+            .refresh(true);
           // this._fetchAllFormListData();
         },
         _fetchAllFormListData: function () {
           let oModel = this.getView().getModel(),
             jsonModel = this.getModel("jsonModel"),
-            oTable = this.getView().byId("idMyPYPListTableAll"),
+            oTable = this.getView().byId("idPersonalFormListSetTable"),
             IPernr = this.getModel("userModel").getProperty("/Pernr"),
             that = this,
             sPath = "/PersonalFormListSet";
@@ -59,26 +56,46 @@ sap.ui.define(
             },
           });
         },
-        onSearch: function (oEvent) {
-          if (oEvent.getParameters().refreshButtonPressed) {
-            // Search field's 'refresh' button has been pressed.
-            // This is visible if you select any list item.
-            // In this case no new search is triggered, we only
-            // refresh the list binding.
-            this.onRefresh();
-            return;
-          }
-
-          var sQuery = oEvent.getParameter("query");
-
-          if (sQuery) {
-            this._oListFilterState.aSearch = [
-              new Filter("PYPInfo/PYPName", FilterOperator.Contains, sQuery),
-            ];
+        onIconTabBarSelect: function (oEvent) {
+          let oSource = oEvent.getSource(),
+            selectedKey = oSource.getSelectedKey();
+            switch (selectedKey) {
+              case "All":
+                oTable = this.byId("idPersonalFormListSetTable");
+                break;
+              case "bekleyen":
+                oTable = this.byId("idPersonalFormListSetTableWaiting");
+                break;
+              case "red":
+                oTable = this.byId("idPersonalFormListSetTableDeclined");
+                break;
+              case "onay":
+                oTable = this.byId("idPersonalFormListSetTableApproved");
+                break;
+            }
+        },
+        _onSearchcidMyPYPListTableAll: function (oEvent, tableName, statu) {
+          let table = this.getView().byId(tableName),
+            oBinding = table.getBinding("items"),
+            oFilter = new Filter(
+              [
+                new Filter("Statu", FilterOperator.Contains, statu),
+              ],
+              true
+            ),
+            inputValue = oEvent.getSource().getValue();
+          if (inputValue !== "") {
+            oFilter = new Filter(
+              [
+                new Filter("TplansT", FilterOperator.Contains, inputValue),
+                new Filter("Statu", FilterOperator.Contains, statu),
+              ],
+              true
+            );
+            oBinding.filter([oFilter]);
           } else {
-            this._oListFilterState.aSearch = [];
+            oBinding.filter([oFilter]);
           }
-          this._applyFilterSearch();
         },
         onSuggest: function (event) {
           var sValue = event.getParameter("suggestValue"),
@@ -108,28 +125,6 @@ sap.ui.define(
 
           this.oSF.getBinding("suggestionItems").filter(aFilters);
           this.oSF.suggest();
-        },
-        _applyFilterSearch: function () {
-          var aFilters = this._oListFilterState.aSearch.concat(
-              this._oListFilterState.aFilter
-            ),
-            oViewModel = this.getModel("listView");
-          this._oList.getBinding("items").filter(aFilters, "Application");
-          // changes the noDataText of the list in case there are no filter results
-          if (aFilters.length !== 0) {
-            oViewModel.setProperty(
-              "/noDataText",
-              this.getResourceBundle().getText(
-                "listListNoDataWithFilterOrSearchText"
-              )
-            );
-          } else if (this._oListFilterState.aSearch.length > 0) {
-            // only reset the no data text to default when no new search was triggered
-            oViewModel.setProperty(
-              "/noDataText",
-              this.getResourceBundle().getText("listListNoDataText")
-            );
-          }
         },
         onOpenViewSettings: function (oEvent) {
           var sDialogTab = "filter";
@@ -174,31 +169,6 @@ sap.ui.define(
           bDescending = mParams.sortDescending;
           aSorters.push(new Sorter(sPath, bDescending));
           this._oTable.getBinding("items").sort(aSorters);
-        },
-        _onSearchcidMyPYPListTableAll: function (oEvent) {
-          let table = this.getView().byId("idMyPYPListTableAll"),
-            oBinding = table.getBinding("items"),
-            oFilter = [],
-            inputValue = oEvent.getSource().getValue();
-          if (inputValue !== "") {
-            oFilter = new Filter(
-              [
-                new Filter(
-                  "TplansT",
-                  FilterOperator.Contains,
-                  inputValue
-                ),
-                // new Filter("Maktx", FilterOperator.Contains, inputValue),
-                // new Filter("Charg", FilterOperator.Contains, inputValue),
-                // new Filter("Lgort", FilterOperator.Contains, inputValue),
-                // new Filter("Labst", FilterOperator.Contains, inputValue)
-              ],
-              false
-            );
-            oBinding.filter([oFilter]);
-          } else {
-            oBinding.filter([oFilter]);
-          }
         },
       }
     );
