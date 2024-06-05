@@ -25,7 +25,7 @@
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
                     title="{jsonModel>text}"
-                    highlightText="{jsonModel>key}"
+                    highlightText="{jsonModel>Objid}"
                 />
             </Tree>
         </content>

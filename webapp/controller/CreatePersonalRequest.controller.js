@@ -24,6 +24,7 @@ sap.ui.define(
         models: models,
         onInit: function () {
           var oRouter = this.getRouter();
+          this.treeData = [];
           oRouter
             .getRoute("createPersonalRequest")
             .attachMatched(this._onRouteMatched, this);
@@ -99,46 +100,70 @@ sap.ui.define(
         },
         _createTreeDataForOrgTree: function (oData) {
           let jsonModel = this.getView().getModel("jsonModel"),
-            result = oData.results[0],
-            treeData = [];
-          result.OrgTreeHeaderToOrgItem.results.forEach((item, index) => {
-            if (item.Pup === 0) {
-              let text = result.OrgTreeHeaderToPersonItem.results.find(
-                (element) => {
-                  return element["Objid"] === item["Objid"];
-                }
-              )
-              treeData.push({
-                text: text.Stext,
-                key: item.Objid,
-                ref: "sap-icon://overview-chart",
-                nodes: [],
-              });
-            }
-            
-          });
-          // result.OrgTreeHeaderToPositionItem.results.forEach(
-          //   (item, positionIndex) => {
-          //     let orgIndex = Number(item.IPernr);
-          //     treeData[orgIndex - 1].nodes.push({
-          //       text: item.PlansT,
-          //       key: item.Plans,
-          //       ref: "sap-icon://family-care",
-          //       nodes: [],
-          //     });
-          //   }
-          // );
-          // result.OrgTreeHeaderToPersonItem.results.forEach((item, index) => {
-          //   let positionIndex = Number(item.IPernr);
-          //   treeData[0].nodes[positionIndex - 1].nodes.push({
-          //     text: item.Ename,
-          //     key: item.Pernr,
-          //     ref: "sap-icon://employee",
-          //     nodes: [],
-          //   });
-          // });
-          jsonModel.setProperty("/sHelpPositionTreeData", treeData);
+            result = oData.results[0];
+          this.treeConnectionList = result.OrgTreeHeaderToOrgItem.results;
+          this.treeNodeInfo = result.OrgTreeHeaderToPersonItem.results;
+          this._addNodes();
+          // jsonModel.setProperty("/sHelpPositionTreeData", this.treeData);
         },
+        _addNodes: function () {
+          const map = [];
+          const roots = [];
+
+          // İlk olarak, her öğeyi bir haritada saklıyoruz
+          this.treeConnectionList.forEach((item) => {
+            map[item.Seqnr] = {
+              Seqnr: item.Seqnr,
+              Pup: item.Pup,
+              Objid: item.Objid,
+              Otype: item.Otype,
+              nodes: [],
+              added: false,
+            };
+          });
+
+          // Şimdi her öğeyi uygun yere yerleştiriyoruz
+          this.treeConnectionList.forEach((item) => {
+            if (item.Pup !== 0) {
+              // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
+              if (map[item.Pup]) {
+                map[item.Pup].nodes.push(map[item.Seqnr]);
+                map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+              }
+            } else {
+              // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
+              roots.push(map[item.Seqnr]);
+            }
+          });
+          this.treeNodeInfo.forEach((desc) => {
+            for (let key in map) {
+              if (map[key].Objid === desc.Objid) {
+                map[key].text = desc.Stext;
+                switch (desc.Otype) {
+                  case "P":
+                    map[key].ref = "sap-icon://employee";
+                    break;
+                  case "S":
+                    map[key].ref = "sap-icon://family-care";
+                    break;
+                  case "O":
+                    map[key].ref = "sap-icon://overview-chart";
+                    break;
+                  default:
+                    map[key].ref = "";
+                }
+              }
+            }
+          });
+          let filteredMap = map.filter((item) => {
+            return !item.added;
+          });
+          this.getModel("jsonModel").setProperty(
+            "/sHelpPositionTreeData",
+            filteredMap
+          );
+        },
+        _fineNodeInsideNode: function () {},
         _onSaveForm: function () {
           if (
             !this._checkIfFormInputsValidated() &&
@@ -159,6 +184,7 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", models._formInputValues());
+          this.treeData = [];
           this._resetAllFormInputsValueState();
         },
         _positionValueHelp: function () {
