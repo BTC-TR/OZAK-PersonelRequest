@@ -248,7 +248,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Yapılan Pozisyon"
-													visible="{= ${jsonModel>/formInputValues/persStatus02}}"
+													visible="{= ${jsonModel>/formInputValues/persStatus02} ||  ${jsonModel>/formInputValues/customerFormVisibility}}"
 												>
 													<f:fields>
 														<Input
@@ -270,7 +270,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Yapılan Pozisyon"
-													visible="{= ${jsonModel>/formInputValues/persStatus01}}"
+													visible="{= ${jsonModel>/formInputValues/persStatus01} &amp;&amp; !${jsonModel>/formInputValues/customerFormVisibility}}"
 												>
 													<f:fields>
 														<Input

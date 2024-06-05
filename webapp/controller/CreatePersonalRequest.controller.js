@@ -2,17 +2,19 @@ sap.ui.define(
   [
     "./BaseController",
     "../model/formatter",
+    "../model/models",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
   ],
-  function (BaseController, formatter, JSONModel, Filter, FilterOperator) {
+  function (BaseController, formatter, models, JSONModel, Filter, FilterOperator) {
     "use strict";
 
     return BaseController.extend(
       "ozak.com.zhrpersonalrequestform.controller.CreatePersonalRequest",
       {
         formatter: formatter,
+        models: models,
         onInit: function () {
           var oRouter = this.getRouter();
           oRouter
@@ -72,6 +74,10 @@ sap.ui.define(
         _unselectCheckBox: function (oEvent, unselectCheckBox) {
           let oSource = oEvent.getSource(),
             oSelected = oSource.getSelected();
+          if (oSelected === false) {
+            oSource.setSelected(true);
+            return;
+          }
           if (unselectCheckBox && oSelected) {
             this.getView().byId(unselectCheckBox).setSelected(false);
           }
@@ -134,34 +140,7 @@ sap.ui.define(
         _clearFormInputs: function () {
           let jsonModel = this.getView().getModel("jsonModel");
 
-          jsonModel.setProperty("/formInputValues", {
-            requestedCompany: "",
-            requestedDepartment: "",
-            requestedPosition: "",
-            requestedCandidateQuantity: Number,
-            jobLocation: "",
-            positionRequestType: false,
-            persStatus01: false,
-            persStatus02: true,
-            customerFormVisibility: true,
-            customerFormEnabled: false,
-            formYes: true,
-            formNo: false,
-            jobDefinition: "",
-            jobDefinitionAttachment: {
-              items: [],
-            },
-            candidateExperienceLevel: {
-              checkboxValues: [false, false, false],
-            },
-            candidateEducationalLevel: {
-              checkboxValues: [false, false, false, false, false],
-            },
-            candidateAge: {
-              checkboxValues: [false, false, false, false, false],
-            },
-            otherCandidateFeatures: "",
-          });
+          jsonModel.setProperty("/formInputValues", models._formInputValues());
           this._resetAllFormInputsValueState();
         },
         _positionValueHelp: function () {

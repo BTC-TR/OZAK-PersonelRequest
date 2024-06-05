@@ -31,40 +31,42 @@ sap.ui.define(
           busy: true,
           today: new Date(),
           oneMonthLater: new Date(date.setMonth(date.getMonth() + 1)),
-
-          formInputValues: {
-            requestedCompany: "",
-            requestedDepartment: "",
-            requestedDepartmentKey: "",
-            requestedPosition: "",
-            requestedPositionKey: "",
-            positionRequestType: false,
-            persStatus01: false,
-            persStatus02: true,
-            customerFormVisibility: true,
-            customerFormEnabled: false,
-            formYes: true,
-            formNo: false,
-            requestedCandidateQuantity: Number,
-            jobLocation: "",
-            jobDefinition: "",
-            jobDefinitionAttachment: {
-              items: [],
-            },
-            candidateExperienceLevel: {
-              checkboxValues: [false, false, false],
-            },
-            candidateEducationalLevel: {
-              checkboxValues: [false, false, false, false, false],
-            },
-            candidateAge: {
-              checkboxValues: [false, false, false, false, false],
-            },
-            otherCandidateFeatures: "",
-          },
+          formInputValues: this._formInputValues(),
           sHelpPositionTreeData: [],
         });
         return oModel;
+      },
+      _formInputValues: function () {
+        return {
+          requestedCompany: "",
+          requestedDepartment: "",
+          requestedDepartmentKey: "",
+          requestedPosition: "",
+          requestedPositionKey: "",
+          positionRequestType: false,
+          persStatus01: false,
+          persStatus02: true,
+          customerFormVisibility: true,
+          customerFormEnabled: false,
+          formYes: true,
+          formNo: false,
+          requestedCandidateQuantity: Number,
+          jobLocation: "",
+          jobDefinition: "",
+          jobDefinitionAttachment: {
+            items: [],
+          },
+          candidateExperienceLevel: {
+            checkboxValues: [false, false, false],
+          },
+          candidateEducationalLevel: {
+            checkboxValues: [false, false, false, false, false],
+          },
+          candidateAge: {
+            checkboxValues: [false, false, false, false, false],
+          },
+          otherCandidateFeatures: "",
+        };
       },
     };
   }
