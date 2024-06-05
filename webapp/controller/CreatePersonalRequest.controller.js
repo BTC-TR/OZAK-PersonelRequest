@@ -6,14 +6,16 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+	"sap/m/MessageToast",
   ],
   function (
     BaseController,
-    formatter,
-    models,
-    JSONModel,
-    Filter,
-    FilterOperator
+	formatter,
+	models,
+	JSONModel,
+	Filter,
+	FilterOperator,
+	MessageToast
   ) {
     "use strict";
 
@@ -290,6 +292,15 @@ sap.ui.define(
           oView.byId("ageCheckBox4").setValueState("None");
           oView.byId("ageCheckBox5").setValueState("None");
         },
+        _onSaveForm: function () {
+          let boxValidation = this._checkIfFormCheckBoxesValidated();
+          let formValidation = this._checkIfFormInputsValidated();
+          if (!boxValidation && !formValidation) {
+            this._saveForm();
+          } else {
+            MessageToast.show("Gerekli Alanları Doldurunuz !")
+          }
+        },
         _saveForm: function () {
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
@@ -504,7 +515,7 @@ sap.ui.define(
             Guid: localStorage.getItem("Guid")
               ? localStorage.getItem("Guid")
               : this.getModel("userModel").getProperty("/guid"),
-            IType: "1",
+            IType: "I",
           });
           var sDocumentPath = "";
 
