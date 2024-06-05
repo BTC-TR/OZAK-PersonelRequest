@@ -585,7 +585,7 @@ sap.ui.define(
             );
             jsonModel.setProperty(
               "/formInputValues/requestedDepartmentKey",
-              ancestors[0].key
+              ancestors[0].Objid
             );
             this._closeDialog();
             this._getCompanyCode();
