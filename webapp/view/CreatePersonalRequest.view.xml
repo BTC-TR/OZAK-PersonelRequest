@@ -135,7 +135,7 @@
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
-													visible="{= !${jsonModel>/customerFormVisibility} }"
+													visible="{= !${jsonModel>/formInputValues/customerFormVisibility} }"
 													label="Yeni bir pozisyon yaratmak istiyorum"
 												>
 													<VBox>
@@ -150,7 +150,7 @@
 															/>
 															<CheckBox
 																id="persStatus01"
-																selected="{jsonModel>/persStatus01}"
+																selected="{jsonModel>/formInputValues/persStatus01}"
 																valueState="Information"
 																select="_unselectCheckBox($event, 'persStatus02')"
 															/>
@@ -166,7 +166,7 @@
 															/>
 															<CheckBox
 																id="persStatus02"
-																selected="{jsonModel>/persStatus02}"
+																selected="{jsonModel>/formInputValues/persStatus02}"
 																valueState="Information"
 																select="_unselectCheckBox($event, 'persStatus01')"
 															/>
@@ -235,7 +235,7 @@
 													<f:fields>
 														<Input
 															id="formInputValues2"
-															enabled="{= ${jsonModel>/customerFormEnabled} || ${jsonModel>/persStatus01}}"
+															enabled="{= ${jsonModel>/formInputValues/customerFormEnabled} || ${jsonModel>/formInputValues/persStatus01}}"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedDepartment',
 																type: 'sap.ui.model.type.String',
@@ -248,7 +248,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Yapılan Pozisyon"
-													visible="{= ${jsonModel>/persStatus02}}"
+													visible="{= ${jsonModel>/formInputValues/persStatus02}}"
 												>
 													<f:fields>
 														<Input
@@ -270,7 +270,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Yapılan Pozisyon"
-													visible="{= ${jsonModel>/persStatus01}}"
+													visible="{= ${jsonModel>/formInputValues/persStatus01}}"
 												>
 													<f:fields>
 														<Input
@@ -287,7 +287,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Ayrılan Çalışan Adı Soyadı"
-													visible="{= ${jsonModel>/customerFormVisibility} }"
+													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
 												>
 													<f:fields>
 														<Input
@@ -308,7 +308,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Edilen Çalışan Sayısı"
-													visible="{= !${jsonModel>/customerFormVisibility} }"
+													visible="{= !${jsonModel>/formInputValues/customerFormVisibility} }"
 												>
 													<f:fields>
 														<Input
@@ -328,7 +328,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Çalışacağı Lokasyon"
-													visible="{= ${jsonModel>/customerFormVisibility} || ${jsonModel>/persStatus01}}"
+													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} || ${jsonModel>/formInputValues/persStatus01}}"
 												>
 													<f:fields>
 														<ComboBox
@@ -357,7 +357,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Gerekçesi"
-													visible="{= !${jsonModel>/customerFormVisibility}}"
+													visible="{= !${jsonModel>/formInputValues/customerFormVisibility}}"
 												>
 													<f:fields>
 														<Input

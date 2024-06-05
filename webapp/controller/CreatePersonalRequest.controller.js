@@ -31,7 +31,6 @@ sap.ui.define(
               : "00000000-0000-0000-0000-000000000000"
           );
           this._getAttachment(oEvent);
-
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
@@ -80,7 +79,7 @@ sap.ui.define(
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
 
-          jsonModel.setProperty("/customerFormVisibility", value);
+          jsonModel.setProperty("/formInputValues/customerFormVisibility", value);
         },
         _createTreeDataForOrgTree: function (oData) {
           let jsonModel = this.getView().getModel("jsonModel"),
@@ -136,11 +135,16 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", {
-            requestedCompany: "Şirket kodu buraya gelecek",
+            requestedCompany: "",
             requestedDepartment: "",
             requestedPosition: "",
             requestedCandidateQuantity: Number,
             jobLocation: "",
+            positionRequestType: false,
+            persStatus01: false,
+            persStatus02: true,
+            customerFormVisibility: true,
+            customerFormEnabled: false,
             jobDefinition: "",
             jobDefinitionAttachment: {
               items: [],
@@ -378,19 +382,24 @@ sap.ui.define(
           let oModel = this.getView().getModel(),
             jsonModel = this.getModel("jsonModel"),
             IPernr = this.getModel("userModel").getProperty("/Pernr"),
-            IPlans = this.getModel("jsonModel").getProperty("/formInputValues/requestedPositionKey"),
+            IPlans = this.getModel("jsonModel").getProperty(
+              "/formInputValues/requestedPositionKey"
+            ),
             that = this,
             oData = {
               IPernr: IPernr,
               IPlans: IPlans,
-              IPdurum: jsonModel.getProperty("/persStatus01") ? "01" : "02",
+              IPdurum: jsonModel.getProperty("/formInputValues/persStatus01") ? "01" : "02",
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
           oModel.read(sPath, {
             success: (oData, oResponse) => {
               jsonModel.setProperty("/companyCode", oData.Bukrs);
               jsonModel.setProperty("/companyName", oData.Butxt);
-              jsonModel.setProperty("/formInputValues/requestedCompany", `${oData.Bukrs} ${oData.Butxt}`);
+              jsonModel.setProperty(
+                "/formInputValues/requestedCompany",
+                `${oData.Bukrs} ${oData.Butxt}`
+              );
               jsonModel.setProperty("/oldEmployee", oData.Ename);
             },
           });
