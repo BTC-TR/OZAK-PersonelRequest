@@ -20,3 +20,14 @@ div[role="toolbar"] {
 .sapMITBContent {
     padding: 0 !important;
 }
+.userMenuButtonClass>.sapMBtnInner {
+    background: #C3751A !important;
+    border-color: #C3751A !important;
+    color: white !important;
+}
+.userMenuButtonClass .sapMBtnIcon {
+    color: white !important;
+}
+.padding {
+	padding: 6px;
+}

@@ -30,7 +30,7 @@
 				/>
 				<ToolbarSpacer />
 				<Button
-					type="Critical"
+					class="userMenuButtonClass"
 					icon="sap-icon://person-placeholder"
 					press="onPressUser"
 				/>
@@ -111,6 +111,99 @@
 										/>
 									</f:layout>
 									<f:formContainers>
+										<f:FormContainer ariaLabelledBy="Title5">
+											<f:toolbar>
+												<Toolbar>
+													<Title
+														id="Title5"
+														text="Talep Nedeni"
+													/>
+													<ToolbarSpacer />
+													<!-- <Button icon="sap-icon://settings" /> -->
+												</Toolbar>
+											</f:toolbar>
+											<f:formElements>
+												<f:FormElement label="Pozisyon talebi ayrılan veya ayrılacak olan bir çalışan yerine mi?">
+													<f:fields>
+														<RadioButtonGroup
+															columns="5"
+															select=".onCustomerRadioButtonsChange"
+														>
+															<RadioButton text="Evet" />
+															<RadioButton text="Hayır" />
+														</RadioButtonGroup>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement
+													visible="{= !${jsonModel>/customerFormVisibility} }"
+													label="Yeni bir pozisyon yaratmak istiyorum"
+												>
+													<VBox>
+														<FlexBox
+															justifyContent="SpaceBetween"
+															alignItems="Center"
+														>
+															<Label
+																class="padding"
+																text="Organizasyonda varolamayan yeni bir pozisyon talebi yapmak istiyorum."
+																wrapping="true"
+															/>
+															<CheckBox
+																fieldGroupIds="01-00-001"
+																selected="false"
+																valueState="Information"
+																select="_onApprovalSelected($event, '01', '001', '00', 'X')"
+															/>
+														</FlexBox>
+														<FlexBox
+															justifyContent="SpaceBetween"
+															alignItems="Center"
+														>
+															<Label
+																class="padding"
+																text="Organizasyondan varolan pozisyonlardan biri ile aynı yeni bir  pozisyon talebi yapmak istiyorum."
+																wrapping="true"
+															/>
+															<CheckBox
+																fieldGroupIds="01-00-001"
+																selected="false"
+																valueState="Information"
+																select="_onApprovalSelected($event, '01', '001', '00', 'X')"
+															/>
+														</FlexBox>
+													</VBox>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer>
+										<!-- <f:FormContainer>
+											<f:toolbar>
+												<Toolbar>
+													<Title text="Seçim Ekranı" />
+													<ToolbarSpacer />
+												</Toolbar>
+											</f:toolbar>
+											<f:formElements>
+												<f:FormElement label="İlgili Pozisyonu Seçiniz">
+													<f:fields>
+														<Input
+															id="formInputValues11"
+															value="{
+																path: 'jsonModel>/formInputValues/requestedPosition',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
+															showSuggestion="true"
+															valueHelpOnly="true"
+															valueHelpIconSrc="sap-icon://company-view"
+															showValueHelp="true"
+															valueHelpRequest="_positionValueHelp"
+														/>
+													</f:fields>
+												</f:FormElement>
+											</f:formElements>
+										</f:FormContainer> -->
 										<f:FormContainer ariaLabelledBy="Title2">
 											<f:toolbar>
 												<Toolbar>
@@ -123,29 +216,11 @@
 												</Toolbar>
 											</f:toolbar>
 											<f:formElements>
-												<!-- <f:FormElement label="Müşterisi sistemde daha önceden mevcut mu?">
-												<f:fields>
-													<RadioButtonGroup
-														id="rbg3"
-														columns="5"
-														select=".onCustomerRadioButtonsChange"
-													>
-														<RadioButton text="Evet" />
-														<RadioButton
-															text="Hayır"
-															selected="true"
-														/>
-													</RadioButtonGroup>
-												</f:fields>
-											</f:FormElement> -->
-												<f:FormElement
-													visible="{= !${jsonModel>/customerFormVisibility} }"
-													label="Talep Yapılan Şirket"
-												>
+												<f:FormElement label="Talep Yapılan Şirket">
 													<f:fields>
 														<Input
 															id="formInputValues1"
-															enabled="false"
+															enabled="{jsonModel>/customerFormEnabled}"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedCompany',
 																type: 'sap.ui.model.type.String',
@@ -156,14 +231,11 @@
 														/>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement
-													visible="{= !${jsonModel>/customerFormVisibility} }"
-													label="Talep Yapılan Departman"
-												>
+												<f:FormElement label="Talep Yapılan Departman">
 													<f:fields>
 														<Input
 															id="formInputValues2"
-															enabled="false"
+															enabled="{jsonModel>/customerFormEnabled}"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedDepartment',
 																type: 'sap.ui.model.type.String',
@@ -174,10 +246,7 @@
 														/>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement
-													visible="{= !${jsonModel>/customerFormVisibility} }"
-													label="Talep Yapılan Pozisyon"
-												>
+												<f:FormElement label="Talep Yapılan Pozisyon">
 													<f:fields>
 														<Input
 															id="formInputValues3"
@@ -197,9 +266,27 @@
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
-													visible="{= !${jsonModel>/customerFormVisibility} }"
-													label="Talep Edilen Çalışan Sayısı"
+													label="Ayrılan Çalışan Adı Soyadı"
+													visible="{= ${jsonModel>/customerFormVisibility} }"
 												>
+													<f:fields>
+														<Input
+															id="formInputValues10"
+															type="Number"
+															liveChange="_onlyNumberInput"
+															enabled="false"
+															maxLength="3"
+															value="{
+																path: 'jsonModel>/formInputValues/oldEmployeeName',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
+														/>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Talep Edilen Çalışan Sayısı">
 													<f:fields>
 														<Input
 															id="formInputValues4"
@@ -216,10 +303,7 @@
 														/>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement
-													visible="{= !${jsonModel>/customerFormVisibility} }"
-													label="Çalışacağı Lokasyon"
-												>
+												<f:FormElement label="Çalışacağı Lokasyon">
 													<f:fields>
 														<ComboBox
 															id="formInputValues5"
@@ -264,6 +348,21 @@
 																	minLength: 1
 																}
 															}"
+														/>
+													</f:fields>
+												</f:FormElement>
+												<f:FormElement label="Talep Edilen Başlangıç Tarihi">
+													<f:fields>
+														<DatePicker
+															id="initialPageCountingYearInput"
+															class="sapUiTinyMarginBottom"
+															showCurrentDateButton="true"
+															width="100%"
+															value="{
+																path: 'jsonModel>/initialScreenInputValues/countingYear',
+																type: 'sap.ui.model.type.Date'
+															}"
+															minDate="{jsonModel>/today}"
 														/>
 													</f:fields>
 												</f:FormElement>

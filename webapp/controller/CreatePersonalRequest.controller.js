@@ -37,7 +37,13 @@ sap.ui.define(
             sPath = "/SHelp_OrgTreeHeaderSet",
             that = this;
           let oFilter = new Filter(
-            [new Filter("IPernr", FilterOperator.EQ, this.getModel("userModel").getProperty("/Pernr"))],
+            [
+              new Filter(
+                "IPernr",
+                FilterOperator.EQ,
+                this.getModel("userModel").getProperty("/Pernr")
+              ),
+            ],
             false
           );
           oModel.read(sPath, {
@@ -50,6 +56,17 @@ sap.ui.define(
               this._createTreeDataForOrgTree(oData);
             },
           });
+        },
+        onCustomerRadioButtonsChange: function (oEvent) {
+          const selectedItemIndex = oEvent.getSource().getSelectedIndex();
+          this.setCustomerCredentialsFormVisibility(
+            selectedItemIndex === 1 ? false : true
+          );
+        },
+        setCustomerCredentialsFormVisibility: function (value) {
+          const jsonModel = this.getModel("jsonModel");
+  
+          jsonModel.setProperty("/customerFormVisibility", value);
         },
         _createTreeDataForOrgTree: function (oData) {
           let jsonModel = this.getView().getModel("jsonModel"),
@@ -293,7 +310,7 @@ sap.ui.define(
           };
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);
-          
+
           oModel.read(sPath, {
             success: (oData, oResponse) => {
               if (oData.Type === "S") {
@@ -326,90 +343,102 @@ sap.ui.define(
             })
           );
         },
-        onSendDocuments: async function() {
+        onSendDocuments: async function () {
           // var oDocumentUS = sap.ui.core.Fragment.byId(this.getView().getId(), "DocumentUS");
           var oDocumentUS = this.getView().byId("idUploadCollection");
           var oViewModel = this.getModel("attachmentModel");
           var aDevaredDocuments = oViewModel.getProperty("/");
           var oData = {};
-    
+
           if (oDocumentUS) {
             this.addDevaredDocuments();
           }
-    
+
           oData.Documents = aDevaredDocuments.length ? aDevaredDocuments : [];
-    
+
           await this.uploadDocument();
-    
+
           // if (oUploadCollection) {
           // 	this.oDocument.destroy();
           // 	this.oDocument = null;
           // 	oViewModel.setProperty("/Documents", []);
           // }
         },
-        addDevaredDocuments: function() {
+        addDevaredDocuments: function () {
           var oDocumentUS = this.byId("idUploadCollection");
           var oViewModel = this.getModel("attachmentModel");
           var aDevaredDocuments = oViewModel.getProperty("/");
-          var aOriginDocuments = oDocumentUS.getBinding("items").getCurrentContexts();
+          var aOriginDocuments = oDocumentUS
+            .getBinding("items")
+            .getCurrentContexts();
           var aNewDocuments = oDocumentUS.getItems();
           var sID = oViewModel.getProperty("/ID");
           var aOriginDocumentID = [];
           var aNewDocumentID = [];
-    
-          aOriginDocumentID = aOriginDocuments.map(oOriginDocument => {
+
+          aOriginDocumentID = aOriginDocuments.map((oOriginDocument) => {
             return {
-              DocumentID: oOriginDocument.getObject("DocumentID")
+              DocumentID: oOriginDocument.getObject("DocumentID"),
             };
           });
-    
-          aNewDocumentID = aNewDocuments.map(oNewDocument => {
+
+          aNewDocumentID = aNewDocuments.map((oNewDocument) => {
             return {
-              DocumentID: oViewModel.getProperty(oNewDocument.getBindingContext("model").getPath() + "/DocumentID")
+              DocumentID: oViewModel.getProperty(
+                oNewDocument.getBindingContext("model").getPath() +
+                  "/DocumentID"
+              ),
             };
           });
-    
+
           aOriginDocumentID.forEach((oOriginDocumentID) => {
-            if (aNewDocumentID.findIndex(oNewDocumentID => oNewDocumentID.DocumentID === oOriginDocumentID.DocumentID) === -1) {
+            if (
+              aNewDocumentID.findIndex(
+                (oNewDocumentID) =>
+                  oNewDocumentID.DocumentID === oOriginDocumentID.DocumentID
+              ) === -1
+            ) {
               aDevaredDocuments.push({
                 ID: sID,
-                DocumentID: oOriginDocumentID.DocumentID
+                DocumentID: oOriginDocumentID.DocumentID,
               });
             }
           });
-    
+
           oViewModel.setProperty("/DevaredDocuments", aDevaredDocuments);
         },
-        uploadDocument: async function() {
+        uploadDocument: async function () {
           var oDocumentUS = this.byId("idUploadCollection");
           var iDocumentItemsCount = 0;
           var sServiceUrl = "";
-    
+
           if (!oDocumentUS) {
             return;
           }
-    
+
           iDocumentItemsCount = oDocumentUS.getIncompleteItems().length;
           sServiceUrl = this.getUploadUrl();
-    
-          oDocumentUS.getIncompleteItems().forEach(oItem => {
+
+          oDocumentUS.getIncompleteItems().forEach((oItem) => {
             oItem.setUploadUrl(sServiceUrl);
           });
-    
+
           if (iDocumentItemsCount > 0) {
             await oDocumentUS.upload();
           }
         },
-        getUploadUrl: function() {
+        getUploadUrl: function () {
           var oModel = this.getModel();
           var sPath = oModel.createKey("/CreateAttachmentSet", {
-            Guid:  localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
-            IType: "1"
+            Guid: localStorage.getItem("Guid")
+              ? localStorage.getItem("Guid")
+              : this.getModel("userModel").getProperty("/guid"),
+            IType: "1",
           });
           var sDocumentPath = "";
-    
+
           sDocumentPath = oModel.sServiceUrl + sPath + "/ToAttachment";
-    
+
           return sDocumentPath;
         },
         onUploadSetUploadCompleted: function (oEvent) {
@@ -433,7 +462,9 @@ sap.ui.define(
                 new Filter(
                   "IGuid",
                   FilterOperator.EQ,
-                  localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid")
+                  localStorage.getItem("Guid")
+                    ? localStorage.getItem("Guid")
+                    : this.getModel("userModel").getProperty("/guid")
                 ),
               ],
               success: function (oData) {

@@ -30,7 +30,7 @@
                 />
                 <ToolbarSpacer />
                 <Button
-                    type="Critical"
+                    class="userMenuButtonClass"
                     icon="sap-icon://person-placeholder"
                     press="onPressUser"
                 />
@@ -60,7 +60,7 @@
                 <IconTabFilter
                     icon="sap-icon://pending"
                     iconColor="Critical"
-                    count="999"
+                    count="{jsonModel>/waitingDataCount}"
                     text="Onayda Bekleyen(ler)"
                     design="Horizontal"
                     key="bekleyen"
@@ -76,7 +76,7 @@
                 <IconTabFilter
                     icon="sap-icon://decline"
                     iconColor="Negative"
-                    count="999"
+                    count="{jsonModel>/declinedDataCount}"
                     text="Reddedilen(ler)"
                     design="Horizontal"
                     key="red"
@@ -92,7 +92,7 @@
                 <IconTabFilter
                     icon="sap-icon://approvals"
                     iconColor="Positive"
-                    count="999"
+                    count="{jsonModel>/approvedDataCount}"
                     text="Onaylanan(lar)"
                     design="Horizontal"
                     key="onay"
@@ -108,7 +108,7 @@
                 <IconTabFilter
                     icon="sap-icon://sys-enter"
                     iconColor="Positive"
-                    count="999"
+                    count="{jsonModel>/transferedDataCount}"
                     text="Sisteme Aktarılan(lar)"
                     design="Horizontal"
                     key="system"
