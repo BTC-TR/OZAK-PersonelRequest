@@ -23,6 +23,7 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
           this._clearFormInputs();
           this._fetchSHelpPositionTreeData();
+          this._fetchLocations();
           jsonModel.setProperty(
             "/guid",
             oEvent.getParameter("arguments").guid
@@ -30,6 +31,7 @@ sap.ui.define(
               : "00000000-0000-0000-0000-000000000000"
           );
           this._getAttachment(oEvent);
+
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
@@ -62,6 +64,11 @@ sap.ui.define(
           this.setCustomerCredentialsFormVisibility(
             selectedItemIndex === 1 ? false : true
           );
+        },
+        _onPersStatusClicked: function (oEvent, unselectCheckBox) {
+          this._unselectCheckBox(oEvent, unselectCheckBox);
+          if (unselectCheckBox === "persStatus02") {
+          }
         },
         _unselectCheckBox: function (oEvent, unselectCheckBox) {
           let oSource = oEvent.getSource(),
@@ -350,6 +357,44 @@ sap.ui.define(
             })
           );
         },
+        _fetchLocations: function () {
+          var that = this;
+          return new Promise((resolve, reject) => {
+            let oModel = this.getView().getModel(),
+              jsonModel = this.getModel("jsonModel"),
+              IPernr = this.getModel("userModel").getProperty("/Pernr"),
+              that = this,
+              sPath = "/SHelp_LocationsSet";
+            oModel.read(sPath, {
+              filters: [new Filter("IPernr", FilterOperator.EQ, IPernr)],
+              success: (oData, oResponse) => {
+                jsonModel.setProperty("/SHelp_LocationsSet", oData.results);
+                resolve();
+              },
+            });
+          });
+        },
+        _getCompanyCode: function () {
+          let oModel = this.getView().getModel(),
+            jsonModel = this.getModel("jsonModel"),
+            IPernr = this.getModel("userModel").getProperty("/Pernr"),
+            IPlans = this.getModel("jsonModel").getProperty("/formInputValues/requestedPositionKey"),
+            that = this,
+            oData = {
+              IPernr: IPernr,
+              IPlans: IPlans,
+              IPdurum: jsonModel.getProperty("/persStatus01") ? "01" : "02",
+            },
+            sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
+          oModel.read(sPath, {
+            success: (oData, oResponse) => {
+              jsonModel.setProperty("/companyCode", oData.Bukrs);
+              jsonModel.setProperty("/companyName", oData.Butxt);
+              jsonModel.setProperty("/formInputValues/requestedCompany", `${oData.Bukrs} ${oData.Butxt}`);
+              jsonModel.setProperty("/oldEmployee", oData.Ename);
+            },
+          });
+        },
         onSendDocuments: async function () {
           // var oDocumentUS = sap.ui.core.Fragment.byId(this.getView().getId(), "DocumentUS");
           var oDocumentUS = this.getView().byId("idUploadCollection");
@@ -513,6 +558,7 @@ sap.ui.define(
               ancestors[0].key
             );
             this._closeDialog();
+            this._getCompanyCode();
           }
         },
         findNodeAndAncestors: function (nodes, searchText, ancestors = []) {

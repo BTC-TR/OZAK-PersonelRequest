@@ -45,14 +45,32 @@ sap.ui.define(
           let oView = this.getView(),
             jsonModel = this.getModel("jsonModel");
           this._oTableWaiting = oView.byId("idPersonalFormListSetTableWaiting");
-          this._oTableApproved = oView.byId("idPersonalFormListSetTableApproved");
-          this._oTableDeclined = oView.byId("idPersonalFormListSetTableDeclined");
-          this._oTableTransfered = oView.byId("idPersonalFormListSetTableTransfered");
+          this._oTableApproved = oView.byId(
+            "idPersonalFormListSetTableApproved"
+          );
+          this._oTableDeclined = oView.byId(
+            "idPersonalFormListSetTableDeclined"
+          );
+          this._oTableTransfered = oView.byId(
+            "idPersonalFormListSetTableTransfered"
+          );
 
-          jsonModel.setProperty("/waitingDataCount", this._oTableWaiting.getBinding("items").getLength())
-          jsonModel.setProperty("/approvedDataCount", this._oTableApproved.getBinding("items").getLength())
-          jsonModel.setProperty("/declinedDataCount", this._oTableDeclined.getBinding("items").getLength())
-          jsonModel.setProperty("/transferedDataCount", this._oTableTransfered.getBinding("items").getLength())
+          jsonModel.setProperty(
+            "/waitingDataCount",
+            this._oTableWaiting.getBinding("items").getLength()
+          );
+          jsonModel.setProperty(
+            "/approvedDataCount",
+            this._oTableApproved.getBinding("items").getLength()
+          );
+          jsonModel.setProperty(
+            "/declinedDataCount",
+            this._oTableDeclined.getBinding("items").getLength()
+          );
+          jsonModel.setProperty(
+            "/transferedDataCount",
+            this._oTableTransfered.getBinding("items").getLength()
+          );
         },
         _fetchAllFormListData: function () {
           var that = this;
@@ -74,6 +92,7 @@ sap.ui.define(
             });
           });
         },
+        
         onIconTabBarSelect: function (oEvent) {
           let oSource = oEvent.getSource(),
             selectedKey = oSource.getSelectedKey(),

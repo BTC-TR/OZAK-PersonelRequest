@@ -31,6 +31,9 @@ sap.ui.define(
           busy: true,
           today: new Date(),
           oneMonthLater: new Date(date.setMonth(date.getMonth() + 1)),
+          positionRequestType: false,
+          persStatus01: false,
+          persStatus02: true,
           customerFormVisibility: true,
           customerFormEnabled: false,
           formInputValues: {
