@@ -7,7 +7,14 @@ sap.ui.define(
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
   ],
-  function (BaseController, formatter, models, JSONModel, Filter, FilterOperator) {
+  function (
+    BaseController,
+    formatter,
+    models,
+    JSONModel,
+    Filter,
+    FilterOperator
+  ) {
     "use strict";
 
     return BaseController.extend(
@@ -85,40 +92,51 @@ sap.ui.define(
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
 
-          jsonModel.setProperty("/formInputValues/customerFormVisibility", value);
+          jsonModel.setProperty(
+            "/formInputValues/customerFormVisibility",
+            value
+          );
         },
         _createTreeDataForOrgTree: function (oData) {
           let jsonModel = this.getView().getModel("jsonModel"),
             result = oData.results[0],
             treeData = [];
           result.OrgTreeHeaderToOrgItem.results.forEach((item, index) => {
-            treeData.push({
-              text: item.OrgehT,
-              key: item.Orgeh,
-              ref: "sap-icon://overview-chart",
-              nodes: [],
-            });
-          });
-          result.OrgTreeHeaderToPositionItem.results.forEach(
-            (item, positionIndex) => {
-              let orgIndex = Number(item.IPernr);
-              treeData[orgIndex - 1].nodes.push({
-                text: item.PlansT,
-                key: item.Plans,
-                ref: "sap-icon://family-care",
+            if (item.Pup === 0) {
+              let text = result.OrgTreeHeaderToPersonItem.results.find(
+                (element) => {
+                  return element["Objid"] === item["Objid"];
+                }
+              )
+              treeData.push({
+                text: text.Stext,
+                key: item.Objid,
+                ref: "sap-icon://overview-chart",
                 nodes: [],
               });
             }
-          );
-          result.OrgTreeHeaderToPersonItem.results.forEach((item, index) => {
-            let positionIndex = Number(item.IPernr);
-            treeData[0].nodes[positionIndex - 1].nodes.push({
-              text: item.Ename,
-              key: item.Pernr,
-              ref: "sap-icon://employee",
-              nodes: [],
-            });
+            
           });
+          // result.OrgTreeHeaderToPositionItem.results.forEach(
+          //   (item, positionIndex) => {
+          //     let orgIndex = Number(item.IPernr);
+          //     treeData[orgIndex - 1].nodes.push({
+          //       text: item.PlansT,
+          //       key: item.Plans,
+          //       ref: "sap-icon://family-care",
+          //       nodes: [],
+          //     });
+          //   }
+          // );
+          // result.OrgTreeHeaderToPersonItem.results.forEach((item, index) => {
+          //   let positionIndex = Number(item.IPernr);
+          //   treeData[0].nodes[positionIndex - 1].nodes.push({
+          //     text: item.Ename,
+          //     key: item.Pernr,
+          //     ref: "sap-icon://employee",
+          //     nodes: [],
+          //   });
+          // });
           jsonModel.setProperty("/sHelpPositionTreeData", treeData);
         },
         _onSaveForm: function () {
@@ -370,7 +388,9 @@ sap.ui.define(
             oData = {
               IPernr: IPernr,
               IPlans: IPlans,
-              IPdurum: jsonModel.getProperty("/formInputValues/persStatus01") ? "01" : "02",
+              IPdurum: jsonModel.getProperty("/formInputValues/persStatus01")
+                ? "01"
+                : "02",
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
           oModel.read(sPath, {

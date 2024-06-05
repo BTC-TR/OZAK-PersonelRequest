@@ -22,7 +22,7 @@ sap.ui.define(
           Ename: "",
           Yonetici: "",
           Werks: "",
-          guid: "00505696-9651-1edf-88e0-9505fa1412ee",
+          guid: "00505696-9651-1edf-88e8-2538c28d32ee",
         });
       },
       createJsonModel: function () {
