@@ -22,13 +22,15 @@ sap.ui.define(
           Ename: "",
           Yonetici: "",
           Werks: "",
-          guid: "00505696-9651-1edf-88e0-9505fa1412ee"
+          guid: "00505696-9651-1edf-88e0-9505fa1412ee",
         });
       },
       createJsonModel: function () {
+        let date = new Date();
         var oModel = new JSONModel({
           busy: true,
           today: new Date(),
+          oneMonthLater: new Date(date.setMonth(date.getMonth() + 1)),
           customerFormVisibility: true,
           customerFormEnabled: false,
           formInputValues: {

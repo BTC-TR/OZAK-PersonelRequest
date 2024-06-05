@@ -63,9 +63,16 @@ sap.ui.define(
             selectedItemIndex === 1 ? false : true
           );
         },
+        _unselectCheckBox: function (oEvent, unselectCheckBox) {
+          let oSource = oEvent.getSource(),
+            oSelected = oSource.getSelected();
+          if (unselectCheckBox && oSelected) {
+            this.getView().byId(unselectCheckBox).setSelected(false);
+          }
+        },
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
-  
+
           jsonModel.setProperty("/customerFormVisibility", value);
         },
         _createTreeDataForOrgTree: function (oData) {

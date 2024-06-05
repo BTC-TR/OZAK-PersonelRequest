@@ -149,10 +149,10 @@
 																wrapping="true"
 															/>
 															<CheckBox
-																fieldGroupIds="01-00-001"
+																id="persStatus01"
 																selected="false"
 																valueState="Information"
-																select="_onApprovalSelected($event, '01', '001', '00', 'X')"
+																select="_unselectCheckBox($event, 'persStatus02')"
 															/>
 														</FlexBox>
 														<FlexBox
@@ -165,10 +165,10 @@
 																wrapping="true"
 															/>
 															<CheckBox
-																fieldGroupIds="01-00-001"
-																selected="false"
+																id="persStatus02"
+																selected="true"
 																valueState="Information"
-																select="_onApprovalSelected($event, '01', '001', '00', 'X')"
+																select="_unselectCheckBox($event, 'persStatus01')"
 															/>
 														</FlexBox>
 													</VBox>
@@ -359,10 +359,11 @@
 															showCurrentDateButton="true"
 															width="100%"
 															value="{
-																path: 'jsonModel>/initialScreenInputValues/countingYear',
+																path: 'jsonModel>/formInputValues/formStartDate',
 																type: 'sap.ui.model.type.Date'
 															}"
 															minDate="{jsonModel>/today}"
+															maxDate="{jsonModel>/oneMonthLater}"
 														/>
 													</f:fields>
 												</f:FormElement>
