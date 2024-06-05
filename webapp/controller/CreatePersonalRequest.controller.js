@@ -163,23 +163,6 @@ sap.ui.define(
             filteredMap
           );
         },
-        _fineNodeInsideNode: function () {},
-        _onSaveForm: function () {
-          if (
-            !this._checkIfFormInputsValidated() &&
-            !this._checkIfFormCheckBoxesValidated() &&
-            !this.sHelcustomerComboBoxIsValid
-          ) {
-            this._saveForm();
-          } else {
-            this._showMessageBox(
-              "Gerekli Alanları Doldurunuz!",
-              "E",
-              true,
-              2000
-            );
-          }
-        },
         _clearFormInputs: function () {
           let jsonModel = this.getView().getModel("jsonModel");
 
