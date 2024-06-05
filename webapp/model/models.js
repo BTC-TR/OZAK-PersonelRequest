@@ -43,6 +43,8 @@ sap.ui.define(
             persStatus02: true,
             customerFormVisibility: true,
             customerFormEnabled: false,
+            formYes: true,
+            formNo: false,
             requestedCandidateQuantity: Number,
             jobLocation: "",
             jobDefinition: "",

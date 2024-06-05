@@ -129,8 +129,8 @@
 															columns="5"
 															select=".onCustomerRadioButtonsChange"
 														>
-															<RadioButton text="Evet" />
-															<RadioButton text="Hayır" />
+															<RadioButton text="Evet" selected="{jsonModel>/formInputValues/formYes}"/>
+															<RadioButton text="Hayır" selected="{jsonModel>/formInputValues/formNo}"/>
 														</RadioButtonGroup>
 													</f:fields>
 												</f:FormElement>
