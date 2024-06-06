@@ -82,7 +82,11 @@
             "": {
                 "dataSource": "mainService",
                 "preload": true,
-                "settings": {}
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+					"defaultOperationMode": "Server",
+					"defaultCountMode": "Request"
+                }
             },
             "loginModel": {
                 "dataSource": "loginModel",

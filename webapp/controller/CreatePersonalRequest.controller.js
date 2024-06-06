@@ -6,16 +6,16 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-	"sap/m/MessageToast",
+    "sap/m/MessageToast",
   ],
   function (
     BaseController,
-	formatter,
-	models,
-	JSONModel,
-	Filter,
-	FilterOperator,
-	MessageToast
+    formatter,
+    models,
+    JSONModel,
+    Filter,
+    FilterOperator,
+    MessageToast
   ) {
     "use strict";
 
@@ -298,7 +298,7 @@ sap.ui.define(
           if (!boxValidation && !formValidation) {
             this._saveForm();
           } else {
-            MessageToast.show("Gerekli Alanları Doldurunuz !")
+            MessageToast.show("Gerekli Alanları Doldurunuz !");
           }
         },
         _saveForm: function () {
@@ -363,7 +363,34 @@ sap.ui.define(
             },
           });
         },
+
+        onUCDocument: function (oEvent) {
+          var oUploadCollection = this.getView().byId("idUCDocument");
+          let oModel = this.getView().getModel(),
+            sCSRF;
+          sap.ui.getCore().getModel().refreshSecurityToken();
+          sCSRF = this.getOwnerComponent().getModel().getSecurityToken();
+          this._addParameter(oUploadCollection, "x-csrf-token", sCSRF);
+        },
+
+        _addParameter: function (oCollection, sName, sValue) {
+          var oUploadParameter = new sap.m.UploadCollectionParameter({
+            name: sName,
+            value: sValue,
+          });
+          oCollection.addHeaderParameter(oUploadParameter);
+        },
+
+        onBUSDocument: function (oEvent) {
+          var oUploadParameter = new sap.m.UploadCollectionParameter({
+            name: "slug",
+            value: encodeURIComponent(oEvent.getParameter("fileName")),
+          });
+          oEvent.getParameters().addHeaderParameter(oUploadParameter);
+        },
+
         onUploadSetBeforeUploadStarts: function (oEvent) {
+          // this.getView().getModel().bUseBatch = false;
           var oHeaderItem = oEvent.getParameter("item"),
             slugVal = oHeaderItem.getFileName();
           oHeaderItem.removeAllStatuses();
@@ -493,22 +520,49 @@ sap.ui.define(
           var oDocumentUS = this.byId("idUploadCollection");
           var iDocumentItemsCount = 0;
           var sServiceUrl = "";
-
           if (!oDocumentUS) {
             return;
           }
-
           iDocumentItemsCount = oDocumentUS.getIncompleteItems().length;
           sServiceUrl = this.getUploadUrl();
-
           oDocumentUS.getIncompleteItems().forEach((oItem) => {
             oItem.setUploadUrl(sServiceUrl);
           });
-
+          oDocumentUS.setUploadUrl(sServiceUrl);
           if (iDocumentItemsCount > 0) {
             await oDocumentUS.upload();
           }
         },
+
+        _uploadDocument: function () {
+          var oUploadCollection = this.getView().byId("idUCDocument");
+          if (
+            oUploadCollection &&
+            oUploadCollection._aFileUploadersForPendingUpload.length > 0
+          ) {
+            this._updateUploadUrl();
+            oUploadCollection.upload();
+          }
+        },
+
+        _updateUploadUrl: function () {
+          var sDocumentPath = "",
+            sPath = this.getModel().createKey("/CreateAttachmentSet", {
+              Guid: localStorage.getItem("Guid")
+                ? localStorage.getItem("Guid")
+                : this.getModel("userModel").getProperty("/guid"),
+              IType: "I",
+            });
+          sDocumentPath = this.getModel().sServiceUrl + sPath + "/ToAttachment";
+          this.getView()
+            .byId("idUCDocument")
+            ._aFileUploadersForPendingUpload.forEach(function (
+              oPendingUploads
+            ) {
+              oPendingUploads.setUploadUrl(sDocumentPath);
+            });
+        },
+
         getUploadUrl: function () {
           var oModel = this.getModel();
           var sPath = oModel.createKey("/CreateAttachmentSet", {
@@ -523,6 +577,7 @@ sap.ui.define(
 
           return sDocumentPath;
         },
+
         onUploadSetUploadCompleted: function (oEvent) {
           var oStatus = oEvent.getParameter("status"),
             oItem = oEvent.getParameter("item"),

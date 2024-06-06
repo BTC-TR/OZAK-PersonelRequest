@@ -92,7 +92,7 @@ sap.ui.define(
             });
           });
         },
-        
+
         onIconTabBarSelect: function (oEvent) {
           let oSource = oEvent.getSource(),
             selectedKey = oSource.getSelectedKey(),
@@ -205,6 +205,24 @@ sap.ui.define(
           bDescending = mParams.sortDescending;
           aSorters.push(new Sorter(sPath, bDescending));
           this._oTable.getBinding("items").sort(aSorters);
+        },
+        onPersonalFormListSetTableItemPress: function (oEvent) {
+          let oSource = oEvent.getSource();
+          let selectedRows = oSource.getSelectedItems();
+          debugger;
+        },
+        onPersonalFormListSetTableSelectionChange: function () {
+          let oSource = this.getView().byId("idPersonalFormListSetTableTransfered"),
+            selectedRows = oSource.getSelectedItems(),
+            jsonModel = this.getModel("jsonModel");
+          this.sendToApproveSPaths = [];
+          selectedRows.forEach((element) => {
+            let context = jsonModel.getProperty(element.getBindingContextPath());
+            delete context.__metadata;
+            this.sendToApproveSPaths.push(context);
+          })
+          jsonModel.setProperty("/sendToApproveSPaths", this.sendToApproveSPaths)
+
         },
       }
     );

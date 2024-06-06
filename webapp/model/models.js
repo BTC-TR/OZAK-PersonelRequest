@@ -22,7 +22,7 @@ sap.ui.define(
           Ename: "",
           Yonetici: "",
           Werks: "",
-          guid: "00505696-9651-1edf-88e9-554a509092ee",
+          guid: "00505696-9651-1edf-88fe-a5da247352ee",
         });
       },
       createJsonModel: function () {
@@ -30,6 +30,7 @@ sap.ui.define(
         var oModel = new JSONModel({
           busy: true,
           today: new Date(),
+          sendToApproveSPaths: [],
           oneMonthLater: new Date(date.setMonth(date.getMonth() + 1)),
           formInputValues: this._formInputValues(),
           sHelpPositionTreeData: [],

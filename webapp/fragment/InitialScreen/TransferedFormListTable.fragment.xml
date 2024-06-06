@@ -6,12 +6,16 @@
         id="idPersonalFormListSetTableTransfered"
         items="{
             path: 'jsonModel>/PersonalFormListSet',
-            filters:[{
+            filters: [{
                 path: 'Statu',
                 operator: 'EQ',
-                value1: '04'
+                value1: '05'
             }]
         }"
+        mode="MultiSelect"
+        selectionChange="onPersonalFormListSetTableSelectionChange"
+        itemPress="onPersonalFormListSetTableItemPress"
+        
         fixedLayout="false"
         growing="true"
         growingThreshold="15"
@@ -61,6 +65,9 @@
             <Column>
                 <Text text="Onay Durumu" />
             </Column>
+            <!-- <Column>
+                <Text text="" />
+            </Column> -->
         </columns>
         <items>
             <ColumnListItem>
@@ -89,6 +96,39 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <!-- <MenuButton
+                    text="İşlemler"
+                    enabled="{model>/menuStatu}"
+                >
+                    <menu>
+                        <Menu>
+                            <MenuItem
+                                text="Ek Görüntüle"
+                                icon="sap-icon://attachment"
+                                press="onPressAttachments"
+                            />
+                            <MenuItem
+                                icon="sap-icon://user-edit"
+                                visible="{= ${leaveRequestListModel>Statu} === '01' ? true : false}"
+                                press="onPressEdit"
+                                text="Düzenle"
+                            />
+                            <MenuItem
+                                text="Sil"
+                                class="deleteButtonClass"
+                                icon="sap-icon://delete"
+                                visible="{= ${leaveRequestListModel>Statu} === '01' ? true : false}"
+                                press="onPressDelete"
+                            />
+                            <MenuItem
+                                text="Formu Görüntüle"
+                                icon="sap-icon://pdf-attachment"
+                                visible="{= ${leaveRequestListModel>Statu} === '02' ? true : false}"
+                                press="onPressPDF"
+                            />
+                        </Menu>
+                    </menu>
+                </MenuButton> -->
                 <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
             </ColumnListItem>
         </items>

@@ -129,8 +129,14 @@
 															columns="5"
 															select=".onCustomerRadioButtonsChange"
 														>
-															<RadioButton text="Evet" selected="{jsonModel>/formInputValues/formYes}"/>
-															<RadioButton text="Hayır" selected="{jsonModel>/formInputValues/formNo}"/>
+															<RadioButton
+																text="Evet"
+																selected="{jsonModel>/formInputValues/formYes}"
+															/>
+															<RadioButton
+																text="Hayır"
+																selected="{jsonModel>/formInputValues/formNo}"
+															/>
 														</RadioButtonGroup>
 													</f:fields>
 												</f:FormElement>
@@ -408,7 +414,9 @@
 															id="idUploadCollection"
 															items="{attachmentModel>/}"
 															beforeUploadStarts="onUploadSetBeforeUploadStarts"
+															uploadCompleted="onUploadSetUploadCompleted"
 															instantUpload="false"
+															fileTypes="txt,pdf,jpg,png,jpeg"
 														>
 															<upload:items>
 																<upload:UploadSetItem
@@ -420,11 +428,18 @@
 															</upload:items>
 														</upload:UploadSet>
 														<!-- <UploadCollection
-															id="idUploadCollection"
+															id="idUCDocument"
 															noDataDescription=" "
 															noDataText="Ek yok"
-															uploadButtonInvisible="true"
+															uploadButtonInvisible="false"
+															multiple="false"
+															instantUpload="false"
+															visible="true"
+															change="onUCDocument"
+															fileType="jpg,png,pdf,jpeg"
+															beforeUploadStarts="onBUSDocument"
 															items="{attachmentModel>/}"
+
 														>
 															<items>
 																<UploadCollectionItem
@@ -613,8 +628,9 @@
 					type="Accept"
 					icon="sap-icon://save"
 					text="Kaydet"
-					press="_onSaveForm"
+					press="uploadDocument"
 				/>
+				<!-- press="_onSaveForm" -->
 			</OverflowToolbar>
 		</footer>
 	</Page>

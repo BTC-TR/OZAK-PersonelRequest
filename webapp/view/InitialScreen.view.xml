@@ -106,10 +106,10 @@
                     </customData>
                 </IconTabFilter>
                 <IconTabFilter
-                    icon="sap-icon://sys-enter"
+                    icon="sap-icon://timesheet"
                     iconColor="Positive"
                     count="{jsonModel>/transferedDataCount}"
-                    text="Sisteme Aktarılan(lar)"
+                    text="Taslak(lar)"
                     design="Horizontal"
                     key="system"
                 >
@@ -127,7 +127,15 @@
             <OverflowToolbar>
                 <ToolbarSpacer />
                 <Button
-                    text="{i18n>PersonalCreation}"
+                    text="Onaya Gönder"
+                    visible="{= ${jsonModel>/sendToApproveSPaths}.length > 0 ? true : false}"
+                    press="onOnayaGnderButtonPress"
+                    type="Accept"
+                    icon="sap-icon://create-form"
+                />
+                <ToolbarSpacer />
+                <Button
+                    text="Personel Talebi Oluştur"
                     press="navigateToCreatePersonalRequest"
                     type="Emphasized"
                     icon="sap-icon://create-form"
