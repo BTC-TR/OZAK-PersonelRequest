@@ -296,13 +296,13 @@ sap.ui.define(
           let boxValidation = this._checkIfFormCheckBoxesValidated();
           let formValidation = this._checkIfFormInputsValidated();
           if (!boxValidation && !formValidation) {
-            this._saveForm('01');
+            this._saveForm("01");
           } else {
             MessageToast.show("Gerekli Alanları Doldurunuz !");
           }
         },
         _onDraftSave: function () {
-          this._saveForm('05');
+          this._saveForm("05");
         },
         _saveForm: function (statu) {
           const jsonModel = this.getModel("jsonModel"),
@@ -319,16 +319,31 @@ sap.ui.define(
             Tbukrs: "",
             Torgeh: jsonModel.getProperty(
               "/formInputValues/requestedDepartmentKey"
-            ),
+            )
+              ? jsonModel.getProperty("/formInputValues/requestedDepartmentKey")
+              : "",
             Tplans: jsonModel.getProperty(
               "/formInputValues/requestedPositionKey"
-            ),
-            Tcsayi: jsonModel.getProperty(
-              "/formInputValues/requestedCandidateQuantity"
-            ),
-            Werks: jsonModel.getProperty("/formInputValues/jobWerks"),
-            Btrtl: jsonModel.getProperty("/formInputValues/jobBtrtl"),
-            Istnm: jsonModel.getProperty("/formInputValues/jobDefinition"),
+            )
+              ? jsonModel.getProperty("/formInputValues/requestedPositionKey")
+              : "",
+            Tcsayi:
+              typeof jsonModel.getProperty(
+                "/formInputValues/requestedCandidateQuantity"
+              ) === typeof 1
+                ? jsonModel.getProperty(
+                    "/formInputValues/requestedCandidateQuantity"
+                  )
+                : "",
+            Werks: jsonModel.getProperty("/formInputValues/jobWerks")
+              ? jsonModel.getProperty("/formInputValues/jobWerks")
+              : "",
+            Btrtl: jsonModel.getProperty("/formInputValues/jobBtrtl")
+              ? jsonModel.getProperty("/formInputValues/jobBtrtl")
+              : "",
+            Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
+              ? jsonModel.getProperty("/formInputValues/jobDefinition")
+              : "",
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
@@ -344,6 +359,9 @@ sap.ui.define(
             Yas3: oView.byId("ageCheckBox3").getSelected() ? "X" : "",
             Yas4: oView.byId("ageCheckBox4").getSelected() ? "X" : "",
             Yas5: oView.byId("ageCheckBox5").getSelected() ? "X" : "",
+            PAltDu: "",
+            Pozisy: "",
+            Pdurum: "",
             Diger: jsonModel.getProperty(
               "/formInputValues/otherCandidateFeatures"
             ),
@@ -352,20 +370,42 @@ sap.ui.define(
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);
 
-          oModel.read(sPath, {
-            success: (oData, oResponse) => {
-              if (oData.Type === "S") {
-                that._showMessageBoxWithRoute(
-                  "Kayıt Başarılı",
-                  oData.Type,
-                  "initialScreen"
-                );
-                that.onSendDocuments();
-              } else {
-                that._showMessageBox(oData.Message, oData.Type, true, 0);
-              }
-            },
-          });
+          // oModel.read(sPath, {
+          //   success: (oData, oResponse) => {
+          //     if (oData.Type === "S") {
+          //       that._showMessageBoxWithRoute(
+          //         "Kayıt Başarılı",
+          //         oData.Type,
+          //         "initialScreen"
+          //       );
+          //       that.onSendDocuments();
+          //     } else {
+          //       that._showMessageBox(oData.Message, oData.Type, true, 0);
+          //     }
+          //   },
+          // });
+          this.getView()
+            .getModel()
+            .callFunction("/CreateForm_Func_Imp", {
+              method: "POST",
+              urlParameters: oData,
+              success: function (oData) {
+                if (oData.CreateForm_Func_Imp.Type === "S") {
+                  that._showMessageBoxWithRoute(
+                    "Kayıt Başarılı",
+                    oData.Type,
+                    "initialScreen"
+                  );
+                  that.onSendDocuments();
+                } else {
+                  that._showMessageBox(oData.Message, oData.Type, true, 0);
+                }
+              },
+              error: function (oResponse) {
+                console.log(oResponse);
+                that.getView().setBusy(false);
+              },
+            });
         },
 
         onUCDocument: function (oEvent) {

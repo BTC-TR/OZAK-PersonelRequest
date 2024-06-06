@@ -42,7 +42,7 @@
                     suggestionItems="{
                         path: '/PersonalFormListSet'
                     }"
-                    search="_onSearchcidMyPYPListTableAll($event, 'idPersonalFormListSetTableTransfered', '04')"
+                    search="_onSearchcidMyPYPListTableAll($event, 'idPersonalFormListSetTableTransfered', '05')"
                     width="auto"
                 >
                     <SuggestionItem
@@ -86,7 +86,7 @@
             </Column>
         </columns>
         <items>
-            <ColumnListItem type="Navigation">
+            <ColumnListItem>
                 <ObjectIdentifier text="" />
                 <ObjectIdentifier text="{jsonModel>TplansT}" />
                 <ObjectIdentifier text="{
@@ -112,7 +112,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
-                <Button icon="sap-icon://edit"/>
+                <Button icon="sap-icon://edit" press="onEditDraftButton"/>
                 <!-- <MenuButton
                     text="İşlemler"
                     enabled="{model>/menuStatu}"

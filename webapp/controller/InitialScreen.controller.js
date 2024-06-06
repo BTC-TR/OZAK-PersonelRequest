@@ -228,37 +228,57 @@ sap.ui.define(
             };
             delete context.__metadata;
             context.Statu = "01";
-            context = oModel.createKey("/PersonalCreateFormSet", context);
             this.sendToApproveSPaths.push(context);
           });
           jsonModel.setProperty(
             "/sendToApproveSPaths",
             this.sendToApproveSPaths
           );
-          jsonModel
+          jsonModel;
         },
         onOnayaGnderButtonPress: function () {
           let oModel = this.getModel(),
             that = this;
           this.sendToApproveSPaths.forEach((element) => {
-            oModel.read(element, {
-              success: (oData, oResponse) => {
-                if (oData.Type === "S") {
+            // oModel.read(element, {
+            //   success: (oData, oResponse) => {
+            //     if (oData.Type === "S") {
+            //       that._showMessageBox(oData.Message, oData.Type, true, 1000);
+            //       that.refreshTransferedTable("", "idPersonalFormListSetTableTransfered");
+            //     } else {
+            //       that._showMessageBox(oData.Message, oData.Type, true, 1000);
+            //       that.refreshTransferedTable("", "idPersonalFormListSetTableTransfered");
+            //     }
+            //   },
+            // });
+            element.Guid = element.Guid.replace(/-/g, '').toUpperCase();
+            oModel.callFunction("/CreateForm_Func_Imp", {
+              method: "POST",
+              urlParameters: element,
+              success: function (oData) {
+                if (oData.CreateForm_Func_Imp.Type === "S") {
                   that._showMessageBox(oData.Message, oData.Type, true, 1000);
-                  that.refreshTransferedTable("", "idPersonalFormListSetTableTransfered");
+                  that.refreshTransferedTable(
+                    "",
+                    "idPersonalFormListSetTableTransfered"
+                  );
                 } else {
                   that._showMessageBox(oData.Message, oData.Type, true, 1000);
-                  that.refreshTransferedTable("", "idPersonalFormListSetTableTransfered");
+                  that.refreshTransferedTable(
+                    "",
+                    "idPersonalFormListSetTableTransfered"
+                  );
                 }
+              },
+              error: function (oResponse) {
+                console.log(oResponse);
+                that.getView().setBusy(false);
               },
             });
           });
         },
         refreshTransferedTable: function () {
-          this.getView()
-            .byId("idPersonalFormListSetTableTransfered")
-            .getModel("jsonModel")
-            .refresh(true);
+          this._fetchAllFormListData();
           this.resetSelections("", "idPersonalFormListSetTableTransfered");
         },
         resetSelections: function (oEvent, tableName) {
@@ -266,6 +286,9 @@ sap.ui.define(
           this.getView().byId(tableName).removeSelections();
           jsonModel.setProperty("/sendToApproveSPaths", []);
         },
+        onEditDraftButton: function(oEvent) {
+
+        }
       }
     );
   }
