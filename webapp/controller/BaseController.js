@@ -66,9 +66,13 @@ sap.ui.define(
           router.navTo("initialScreen");
         },
         navigateToDraftEdit: function (oEvent) {
-          let router = this.getRouter();
+          let router = this.getRouter(),
+          oContext = oEvent.getSource().getParent().getBindingContext("jsonModel"),
+          oObject = oContext.getObject();
+          delete oObject.__metadata;
+          this.getModel("jsonModel").setProperty("/draftData", oObject);
           router.navTo("draftEdit", {
-            objectId: oItem.getBindingContext().getProperty("PersId"),
+            guid: oContext.getProperty("Guid"),
           });
         },
         onPressHome: function () {

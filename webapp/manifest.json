@@ -138,11 +138,11 @@
                     ]
                 },
                 {
-                    "pattern": "draftEdit/{objectId}",
+                    "pattern": "draftEdit/{guid}",
                     "name": "draftEdit",
                     "target": [
                       "initialScreen",
-                      "createPersonalRequest"
+                      "draftEdit"
                     ]
                   }
             ],
@@ -159,7 +159,7 @@
                     "viewId": "CreatePersonalRequest"
                 },
                 "draftEdit": {
-                    "viewName": "CreatePersonalRequest",
+                    "viewName": "DraftScreen",
                     "viewId": "draftEdit",
                     "viewLevel": 1
                 },

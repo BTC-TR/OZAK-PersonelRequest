@@ -30,19 +30,62 @@ sap.ui.define(
           oRouter
             .getRoute("createPersonalRequest")
             .attachMatched(this._onRouteMatched, this);
+          oRouter
+            .getRoute("draftEdit")
+            .attachMatched(this._onDraftMatched, this);
         },
-        _onRouteMatched: function (oEvent) {
+        _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
           this._clearFormInputs();
           this._fetchSHelpPositionTreeData();
           this._fetchLocations();
-          jsonModel.setProperty(
-            "/guid",
-            oEvent.getParameter("arguments").guid
-              ? oEvent.getParameter("arguments").guid
-              : "00000000-0000-0000-0000-000000000000"
-          );
-          this._getAttachment(oEvent);
+          this._getAttachment();
+        },
+        _onDraftMatched: function () {
+          this._onRouteMatched();
+          this._setDraftedInputs();
+        },
+        _setDraftedInputs: function () {
+          let jsonModel = this.getModel("jsonModel"),
+          oView = this.getView(),
+            draftData = jsonModel.getProperty("/draftData");
+
+          jsonModel.setProperty("/formInputValues/requestedCompany", `${draftData.Tbukrs} ${draftData.Abukrs}`);
+          jsonModel.setProperty("/formInputValues/requestedDepartment", draftData.Pozisy);
+          jsonModel.setProperty("/formInputValues/requestedDepartmentKey", draftData.Torgeh);
+          jsonModel.setProperty("/formInputValues/requestedPosition", draftData.TplansT);
+          jsonModel.setProperty("/formInputValues/requestedPositionKey", draftData.Tplans);
+          jsonModel.setProperty("/formInputValues/requestedCandidateQuantity", draftData.Tcsayi);
+          jsonModel.setProperty("/formInputValues/jobWerks", draftData.Werks);
+          jsonModel.setProperty("/formInputValues/jobBtrtl", draftData.Btrtl);
+          jsonModel.setProperty("/formInputValues/jobDefinition", draftData.Istnm);
+
+          oView.byId("experienceCheckBox1").setSelected(draftData.Tcrb1 === 'X' ? true : false);
+          oView.byId("experienceCheckBox2").setSelected(draftData.Tcrb2 === 'X' ? true : false);
+          oView.byId("experienceCheckBox3").setSelected(draftData.Tcrb3 === 'X' ? true : false);
+
+          oView.byId("educationCheckBox1").setSelected(draftData.Egtm1 === 'X' ? true : false);
+          oView.byId("educationCheckBox2").setSelected(draftData.Egtm2 === 'X' ? true : false);
+          oView.byId("educationCheckBox3").setSelected(draftData.Egtm3 === 'X' ? true : false);
+          oView.byId("educationCheckBox4").setSelected(draftData.Egtm4 === 'X' ? true : false);
+          oView.byId("educationCheckBox5").setSelected(draftData.Egtm5 === 'X' ? true : false);
+          // oView.byId("educationCheckBox6").setSelected(draftData.Egtm1 === 'X' ? true : false);
+          // oView.byId("educationCheckBox7").setSelected(draftData.Egtm1 === 'X' ? true : false);
+          
+          oView.byId("ageCheckBox1").setSelected(draftData.Yas1 === 'X' ? true : false);
+          oView.byId("ageCheckBox2").setSelected(draftData.Yas2 === 'X' ? true : false);
+          oView.byId("ageCheckBox3").setSelected(draftData.Yas3 === 'X' ? true : false);
+          oView.byId("ageCheckBox4").setSelected(draftData.Yas4 === 'X' ? true : false);
+          oView.byId("ageCheckBox5").setSelected(draftData.Yas5 === 'X' ? true : false);
+          
+          jsonModel.setProperty("/formInputValues/persStatus01", draftData.PAltDu === '01' ? true : false);
+          jsonModel.setProperty("/formInputValues/persStatus02", draftData.PAltDu === '02' ? true : false);
+          jsonModel.setProperty("/formInputValues/requestedPosition", draftData.Pozisy);
+          jsonModel.setProperty("/formInputValues/otherCandidateFeatures", draftData.Diger);
+          jsonModel.setProperty("/formInputValues/formYes", draftData.Pdurum === '01' ? true : false);
+          jsonModel.setProperty("/formInputValues/formNo", draftData.Pdurum === '02' ? true : false);
+
+          jsonModel.setProperty("/formInputValues/customerFormVisibility", draftData.Pdurum === '01' ? true : false);
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
@@ -314,9 +357,13 @@ sap.ui.define(
             Guid: "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Tneden: "01",
-            Abukrs: "",
+            Abukrs: jsonModel.getProperty("/formInputValues/requestedCompany")
+              ? jsonModel
+                  .getProperty("/formInputValues/requestedDepartmentKey")
+                  .split(" ")[0]
+              : "",
             Apernr: "",
-            Tbukrs: "",
+            Tbukrs: jsonModel.getProperty("/formInputValues/requestedCompany"),
             Torgeh: jsonModel.getProperty(
               "/formInputValues/requestedDepartmentKey"
             )
@@ -359,9 +406,17 @@ sap.ui.define(
             Yas3: oView.byId("ageCheckBox3").getSelected() ? "X" : "",
             Yas4: oView.byId("ageCheckBox4").getSelected() ? "X" : "",
             Yas5: oView.byId("ageCheckBox5").getSelected() ? "X" : "",
-            PAltDu: "",
-            Pozisy: "",
-            Pdurum: "",
+            PAltDu:
+              jsonModel.getProperty("/formInputValues/persStatus01") === true
+                ? "01"
+                : "02",
+            Pozisy: jsonModel.getProperty("/formInputValues/requestedPosition")
+              ? jsonModel.getProperty("/formInputValues/requestedPosition")
+              : "",
+            Pdurum:
+              jsonModel.getProperty("/formInputValues/formYes") === true
+                ? "01"
+                : "02",
             Diger: jsonModel.getProperty(
               "/formInputValues/otherCandidateFeatures"
             ),
@@ -634,7 +689,7 @@ sap.ui.define(
             // this.setAttachmentModel();
           }
         },
-        _getAttachment: function (oEvent) {
+        _getAttachment: function () {
           let that = this;
           this.getView()
             .getModel()

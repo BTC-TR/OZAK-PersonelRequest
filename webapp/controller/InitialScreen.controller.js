@@ -257,13 +257,13 @@ sap.ui.define(
               urlParameters: element,
               success: function (oData) {
                 if (oData.CreateForm_Func_Imp.Type === "S") {
-                  that._showMessageBox(oData.Message, oData.Type, true, 1000);
+                  that._showMessageBox(oData.CreateForm_Func_Imp.Message, oData.Type, true, 1000);
                   that.refreshTransferedTable(
                     "",
                     "idPersonalFormListSetTableTransfered"
                   );
                 } else {
-                  that._showMessageBox(oData.Message, oData.Type, true, 1000);
+                  that._showMessageBox(oData.CreateForm_Func_Imp.Message, oData.Type, true, 1000);
                   that.refreshTransferedTable(
                     "",
                     "idPersonalFormListSetTableTransfered"
@@ -287,7 +287,7 @@ sap.ui.define(
           jsonModel.setProperty("/sendToApproveSPaths", []);
         },
         onEditDraftButton: function(oEvent) {
-
+          this.navigateToDraftEdit(oEvent);
         }
       }
     );
