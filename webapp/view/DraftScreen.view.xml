@@ -323,6 +323,7 @@
                                                                     minLength: 1
                                                                 }
                                                             }"
+                                                            selectedKey="{jsonModel>/formInputValues/jobLocationKey}"
                                                         >
                                                             <c:ListItem
                                                                 key="{jsonModel>Btrtl}"
@@ -599,7 +600,7 @@
                     type="Accept"
                     icon="sap-icon://save"
                     text="Kaydet"
-                    press="_onSaveForm"
+                    press="_onDraftUpdate"
                 />
                 <!-- press="uploadDocument" -->
             </OverflowToolbar>

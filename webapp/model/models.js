@@ -44,6 +44,7 @@ sap.ui.define(
           requestedDepartmentKey: "",
           requestedPosition: "",
           requestedPositionKey: "",
+          requestedPositionFreeText: "",
           positionRequestType: false,
           persStatus01: false,
           persStatus02: true,
@@ -53,6 +54,7 @@ sap.ui.define(
           formNo: false,
           requestedCandidateQuantity: Number,
           jobLocation: "",
+          jobLocationKey: "",
           jobDefinition: "",
           jobDefinitionAttachment: {
             items: [],

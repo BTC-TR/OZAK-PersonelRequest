@@ -50,14 +50,23 @@ sap.ui.define(
           oView = this.getView(),
             draftData = jsonModel.getProperty("/draftData");
 
-          jsonModel.setProperty("/formInputValues/requestedCompany", `${draftData.Tbukrs} ${draftData.Abukrs}`);
+
+          draftData.Guid = draftData.Guid.replace(/-/g, '').toUpperCase();
+          
+          jsonModel.setProperty("/draftGuid", `${draftData.Guid}`);
+
+          jsonModel.setProperty("/formInputValues/requestedCompany", `${draftData.Tbukrs}`);
           jsonModel.setProperty("/formInputValues/requestedDepartment", draftData.Pozisy);
           jsonModel.setProperty("/formInputValues/requestedDepartmentKey", draftData.Torgeh);
           jsonModel.setProperty("/formInputValues/requestedPosition", draftData.TplansT);
+          jsonModel.setProperty("/formInputValues/requestedPositionFreeText", draftData.TplansT);
           jsonModel.setProperty("/formInputValues/requestedPositionKey", draftData.Tplans);
-          jsonModel.setProperty("/formInputValues/requestedCandidateQuantity", draftData.Tcsayi);
+          jsonModel.setProperty("/formInputValues/requestedCandidateQuantity", Number(draftData.Tcsayi));
           jsonModel.setProperty("/formInputValues/jobWerks", draftData.Werks);
           jsonModel.setProperty("/formInputValues/jobBtrtl", draftData.Btrtl);
+          
+          jsonModel.setProperty("/formInputValues/jobLocation", jsonModel.getProperty("/SHelp_LocationsSet").find((element) => {return element.Btrtl === draftData.Btrtl}).Btext);
+          jsonModel.setProperty("/formInputValues/jobLocationKey", draftData.Btrtl);
           jsonModel.setProperty("/formInputValues/jobDefinition", draftData.Istnm);
 
           oView.byId("experienceCheckBox1").setSelected(draftData.Tcrb1 === 'X' ? true : false);
@@ -339,25 +348,28 @@ sap.ui.define(
           let boxValidation = this._checkIfFormCheckBoxesValidated();
           let formValidation = this._checkIfFormInputsValidated();
           if (!boxValidation && !formValidation) {
-            this._saveForm("01");
+            this._saveForm("01", false);
           } else {
             MessageToast.show("Gerekli Alanları Doldurunuz !");
           }
         },
         _onDraftSave: function () {
-          this._saveForm("05");
+          this._saveForm("05", false);
         },
-        _saveForm: function (statu) {
+        _onDraftUpdate: function () {
+          this._saveForm("05", true);
+        },
+        _saveForm: function (statu, isUpdate) {
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
             that = this;
 
           let formData = {
-            Guid: "",
+            Guid: isUpdate ? this.getModel("jsonModel").getProperty("/draftGuid") : "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Tneden: "01",
-            Abukrs: jsonModel.getProperty("/formInputValues/requestedCompany")
+            Abukrs: jsonModel.getProperty("/formInputValues/requestedDepartmentKey")
               ? jsonModel
                   .getProperty("/formInputValues/requestedDepartmentKey")
                   .split(" ")[0]
@@ -410,9 +422,9 @@ sap.ui.define(
               jsonModel.getProperty("/formInputValues/persStatus01") === true
                 ? "01"
                 : "02",
-            Pozisy: jsonModel.getProperty("/formInputValues/requestedPosition")
-              ? jsonModel.getProperty("/formInputValues/requestedPosition")
-              : "",
+            Pozisy: jsonModel.getProperty("/formInputValues/persStatus01") === true
+              ? jsonModel.getProperty("/formInputValues/requestedPositionFreeText")
+              : jsonModel.getProperty("/formInputValues/requestedPosition"),
             Pdurum:
               jsonModel.getProperty("/formInputValues/formYes") === true
                 ? "01"
@@ -448,12 +460,12 @@ sap.ui.define(
                 if (oData.CreateForm_Func_Imp.Type === "S") {
                   that._showMessageBoxWithRoute(
                     "Kayıt Başarılı",
-                    oData.Type,
+                    oData.CreateForm_Func_Imp.Type,
                     "initialScreen"
                   );
                   that.onSendDocuments();
                 } else {
-                  that._showMessageBox(oData.Message, oData.Type, true, 0);
+                  that._showMessageBox(oData.CreateForm_Func_Imp.Message, oData.CreateForm_Func_Imp.Type, true, 0);
                 }
               },
               error: function (oResponse) {
