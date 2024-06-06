@@ -15,7 +15,6 @@
         mode="MultiSelect"
         selectionChange="onPersonalFormListSetTableSelectionChange"
         itemPress="onPersonalFormListSetTableItemPress"
-        
         fixedLayout="false"
         growing="true"
         growingThreshold="15"
@@ -25,6 +24,16 @@
             <Toolbar class="sapUiTinyMarginTop">
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
+                <Button
+                    press="resetSelections($event, 'idPersonalFormListSetTableTransfered')"
+                    icon="sap-icon://reset"
+                    type="Emphasized"
+                />
+                <Button
+                    press="refreshTransferedTable($event, 'idPersonalFormListSetTableTransfered')"
+                    icon="sap-icon://refresh"
+                    type="Emphasized"
+                />
                 <SearchField
                     showRefreshButton="false"
                     enableSuggestions="true"
@@ -47,6 +56,13 @@
                     icon="sap-icon://sort"
                     type="Transparent"
                 />
+                <Button
+                    text="Onaya Gönder"
+                    visible="{= ${jsonModel>/sendToApproveSPaths}.length > 0 ? true : false}"
+                    press="onOnayaGnderButtonPress"
+                    type="Accept"
+                    icon="sap-icon://paper-plane"
+                />
             </Toolbar>
         </headerToolbar>
         <columns>
@@ -65,12 +81,12 @@
             <Column>
                 <Text text="Onay Durumu" />
             </Column>
-            <!-- <Column>
+            <Column>
                 <Text text="" />
-            </Column> -->
+            </Column>
         </columns>
         <items>
-            <ColumnListItem>
+            <ColumnListItem type="Navigation">
                 <ObjectIdentifier text="" />
                 <ObjectIdentifier text="{jsonModel>TplansT}" />
                 <ObjectIdentifier text="{
@@ -96,6 +112,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <Button icon="sap-icon://edit"/>
                 <!-- <MenuButton
                     text="İşlemler"
                     enabled="{model>/menuStatu}"

@@ -296,18 +296,22 @@ sap.ui.define(
           let boxValidation = this._checkIfFormCheckBoxesValidated();
           let formValidation = this._checkIfFormInputsValidated();
           if (!boxValidation && !formValidation) {
-            this._saveForm();
+            this._saveForm('01');
           } else {
             MessageToast.show("Gerekli Alanları Doldurunuz !");
           }
         },
-        _saveForm: function () {
+        _onDraftSave: function () {
+          this._saveForm('05');
+        },
+        _saveForm: function (statu) {
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
             that = this;
 
           let formData = {
+            Guid: "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Tneden: "01",
             Abukrs: "",
@@ -343,7 +347,7 @@ sap.ui.define(
             Diger: jsonModel.getProperty(
               "/formInputValues/otherCandidateFeatures"
             ),
-            Statu: "",
+            Statu: statu,
           };
           let oData = formData,
             sPath = oModel.createKey("/PersonalCreateFormSet", oData);

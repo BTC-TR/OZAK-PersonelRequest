@@ -127,14 +127,6 @@
             <OverflowToolbar>
                 <ToolbarSpacer />
                 <Button
-                    text="Onaya Gönder"
-                    visible="{= ${jsonModel>/sendToApproveSPaths}.length > 0 ? true : false}"
-                    press="onOnayaGnderButtonPress"
-                    type="Accept"
-                    icon="sap-icon://create-form"
-                />
-                <ToolbarSpacer />
-                <Button
                     text="Personel Talebi Oluştur"
                     press="navigateToCreatePersonalRequest"
                     type="Emphasized"

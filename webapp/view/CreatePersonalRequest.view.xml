@@ -625,12 +625,19 @@
 				/>
 				<ToolbarSpacer />
 				<Button
+					type="Neutral"
+					icon="sap-icon://timesheet"
+					text="Taslağa Kaydet"
+					press="_onDraftSave"
+				/>
+				<ToolbarSpacer />
+				<Button
 					type="Accept"
 					icon="sap-icon://save"
 					text="Kaydet"
-					press="uploadDocument"
+					press="_onSaveForm"
 				/>
-				<!-- press="_onSaveForm" -->
+				<!-- press="uploadDocument" -->
 			</OverflowToolbar>
 		</footer>
 	</Page>

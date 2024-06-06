@@ -136,7 +136,15 @@
                     "target": [
                         "createPersonalRequest"
                     ]
-                }
+                },
+                {
+                    "pattern": "draftEdit/{objectId}",
+                    "name": "draftEdit",
+                    "target": [
+                      "initialScreen",
+                      "createPersonalRequest"
+                    ]
+                  }
             ],
             "targets": {
                 "initialScreen": {
@@ -149,6 +157,11 @@
                     "viewName": "CreatePersonalRequest",
                     "viewLevel": 1,
                     "viewId": "CreatePersonalRequest"
+                },
+                "draftEdit": {
+                    "viewName": "CreatePersonalRequest",
+                    "viewId": "draftEdit",
+                    "viewLevel": 1
                 },
                 "notFound": {
                     "viewName": "NotFound",

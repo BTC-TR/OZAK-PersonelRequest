@@ -65,6 +65,12 @@ sap.ui.define(
           let router = this.getRouter();
           router.navTo("initialScreen");
         },
+        navigateToDraftEdit: function (oEvent) {
+          let router = this.getRouter();
+          router.navTo("draftEdit", {
+            objectId: oItem.getBindingContext().getProperty("PersId"),
+          });
+        },
         onPressHome: function () {
           window.open(
             "/sap/bc/ui5_ui5/sap/zhr_login/index.html#/home",
@@ -93,7 +99,9 @@ sap.ui.define(
             .callFunction("/DeleteSession", {
               method: "POST",
               urlParameters: {
-                LoginId: localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
+                LoginId: localStorage.getItem("Guid")
+                  ? localStorage.getItem("Guid")
+                  : this.getModel("userModel").getProperty("/guid"),
               },
               success: function (oData) {
                 if (oData.Type === "E") {
@@ -188,7 +196,9 @@ sap.ui.define(
             .callFunction("/DeleteSession", {
               method: "POST",
               urlParameters: {
-                LoginId: localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
+                LoginId: localStorage.getItem("Guid")
+                  ? localStorage.getItem("Guid")
+                  : this.getModel("userModel").getProperty("/guid"),
               },
               success: function (oData) {
                 if (oData.Type === "E") {
@@ -210,7 +220,9 @@ sap.ui.define(
               .getOwnerComponent()
               .getModel("loginModel")
               .createKey("PersonalSet", {
-                IvLoginId: localStorage.getItem("Guid") ? localStorage.getItem("Guid") : this.getModel("userModel").getProperty("/guid"),
+                IvLoginId: localStorage.getItem("Guid")
+                  ? localStorage.getItem("Guid")
+                  : this.getModel("userModel").getProperty("/guid"),
               });
             that
               .getOwnerComponent()

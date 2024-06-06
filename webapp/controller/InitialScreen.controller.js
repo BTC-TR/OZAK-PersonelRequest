@@ -109,6 +109,8 @@ sap.ui.define(
               break;
             case "onay":
               that._oTable = this.byId("idPersonalFormListSetTableApproved");
+            case "system":
+              that._oTable = this.byId("idPersonalFormListSetTableTransfered");
               break;
           }
         },
@@ -207,22 +209,62 @@ sap.ui.define(
           this._oTable.getBinding("items").sort(aSorters);
         },
         onPersonalFormListSetTableItemPress: function (oEvent) {
-          let oSource = oEvent.getSource();
-          let selectedRows = oSource.getSelectedItems();
-          debugger;
+          this.navigateToDraftEdit(oEvent);
         },
         onPersonalFormListSetTableSelectionChange: function () {
-          let oSource = this.getView().byId("idPersonalFormListSetTableTransfered"),
+          let oSource = this.getView().byId(
+              "idPersonalFormListSetTableTransfered"
+            ),
             selectedRows = oSource.getSelectedItems(),
+            oModel = this.getModel(),
             jsonModel = this.getModel("jsonModel");
           this.sendToApproveSPaths = [];
           selectedRows.forEach((element) => {
-            let context = jsonModel.getProperty(element.getBindingContextPath());
+            let context = jsonModel.getProperty(
+              element.getBindingContextPath()
+            );
+            context = {
+              ...context,
+            };
             delete context.__metadata;
+            context.Statu = "01";
+            context = oModel.createKey("/PersonalCreateFormSet", context);
             this.sendToApproveSPaths.push(context);
-          })
-          jsonModel.setProperty("/sendToApproveSPaths", this.sendToApproveSPaths)
-
+          });
+          jsonModel.setProperty(
+            "/sendToApproveSPaths",
+            this.sendToApproveSPaths
+          );
+          jsonModel
+        },
+        onOnayaGnderButtonPress: function () {
+          let oModel = this.getModel(),
+            that = this;
+          this.sendToApproveSPaths.forEach((element) => {
+            oModel.read(element, {
+              success: (oData, oResponse) => {
+                if (oData.Type === "S") {
+                  that._showMessageBox(oData.Message, oData.Type, true, 1000);
+                  that.refreshTransferedTable("", "idPersonalFormListSetTableTransfered");
+                } else {
+                  that._showMessageBox(oData.Message, oData.Type, true, 1000);
+                  that.refreshTransferedTable("", "idPersonalFormListSetTableTransfered");
+                }
+              },
+            });
+          });
+        },
+        refreshTransferedTable: function () {
+          this.getView()
+            .byId("idPersonalFormListSetTableTransfered")
+            .getModel("jsonModel")
+            .refresh(true);
+          this.resetSelections("", "idPersonalFormListSetTableTransfered");
+        },
+        resetSelections: function (oEvent, tableName) {
+          let jsonModel = this.getModel("jsonModel");
+          this.getView().byId(tableName).removeSelections();
+          jsonModel.setProperty("/sendToApproveSPaths", []);
         },
       }
     );
