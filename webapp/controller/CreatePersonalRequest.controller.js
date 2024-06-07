@@ -65,7 +65,9 @@ sap.ui.define(
           jsonModel.setProperty("/formInputValues/jobWerks", draftData.Werks);
           jsonModel.setProperty("/formInputValues/jobBtrtl", draftData.Btrtl);
           
-          jsonModel.setProperty("/formInputValues/jobLocation", jsonModel.getProperty("/SHelp_LocationsSet").find((element) => {return element.Btrtl === draftData.Btrtl}).Btext);
+          if (draftData.Btrtl !== "") {
+            jsonModel.setProperty("/formInputValues/jobLocation", jsonModel.getProperty("/SHelp_LocationsSet").find((element) => {return element.Btrtl === draftData.Btrtl}).Btext);
+          }
           jsonModel.setProperty("/formInputValues/jobLocationKey", draftData.Btrtl);
           jsonModel.setProperty("/formInputValues/jobDefinition", draftData.Istnm);
 
@@ -273,7 +275,7 @@ sap.ui.define(
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
-              oView.byId("formInputValues4"),
+              // oView.byId("formInputValues4"),
               // oView.byId("formInputValues5"),
               oView.byId("formInputValues6"),
               oView.byId("formInputValues7"),
@@ -368,7 +370,7 @@ sap.ui.define(
           let formData = {
             Guid: isUpdate ? this.getModel("jsonModel").getProperty("/draftGuid") : "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
-            Tneden: "01",
+            Tneden: "I",
             Abukrs: jsonModel.getProperty("/formInputValues/requestedDepartmentKey")
               ? jsonModel
                   .getProperty("/formInputValues/requestedDepartmentKey")
