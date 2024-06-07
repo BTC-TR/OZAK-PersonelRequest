@@ -29,11 +29,7 @@
                     icon="sap-icon://reset"
                     type="Emphasized"
                 />
-                <Button
-                    press="refreshTransferedTable($event, 'idPersonalFormListSetTableTransfered')"
-                    icon="sap-icon://refresh"
-                    type="Emphasized"
-                />
+                
                 <SearchField
                     showRefreshButton="false"
                     enableSuggestions="true"
@@ -51,6 +47,11 @@
                         description="{jsonModel>Btext}"
                     />
                 </SearchField>
+                <Button
+                    press="refreshTransferedTable($event, 'idPersonalFormListSetTableTransfered')"
+                    icon="sap-icon://refresh"
+                    type="Emphasized"
+                />
                 <Button
                     press=".onOpenViewSettings"
                     icon="sap-icon://sort"

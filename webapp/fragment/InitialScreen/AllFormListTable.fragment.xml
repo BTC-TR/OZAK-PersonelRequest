@@ -35,6 +35,11 @@
                     />
                 </SearchField>
                 <Button
+                    press="refreshTransferedTable($event, 'idPersonalFormListSetTable')"
+                    icon="sap-icon://refresh"
+                    type="Emphasized"
+                />
+                <Button
                     id="sortButton"
                     press=".onOpenViewSettings"
                     icon="sap-icon://sort"
