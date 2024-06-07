@@ -6,6 +6,8 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
+    "sap/m/UploadCollectionParameter",
+    "sap/m/MessageBox",
     "sap/m/MessageToast",
   ],
   function (
@@ -15,6 +17,8 @@ sap.ui.define(
     JSONModel,
     Filter,
     FilterOperator,
+    UploadCollectionParameter,
+    MessageBox,
     MessageToast
   ) {
     "use strict";
@@ -39,64 +43,144 @@ sap.ui.define(
           this._clearFormInputs();
           this._fetchSHelpPositionTreeData();
           this._fetchLocations();
-          this._getAttachment();
         },
-        _onDraftMatched: function () {
+        _onDraftMatched: function (oEvent) {
+          this.draftGuid = oEvent.getParameter("arguments").guid.replace(/-/g, "").toUpperCase();
+          this.draftGuidWithDash = oEvent.getParameter("arguments");
           this._onRouteMatched();
           this._setDraftedInputs();
+          this._getAttachment();
         },
         _setDraftedInputs: function () {
           let jsonModel = this.getModel("jsonModel"),
-          oView = this.getView(),
+            oView = this.getView(),
             draftData = jsonModel.getProperty("/draftData");
 
+          draftData.Guid = draftData.Guid.replace(/-/g, "").toUpperCase();
 
-          draftData.Guid = draftData.Guid.replace(/-/g, '').toUpperCase();
-          
           jsonModel.setProperty("/draftGuid", `${draftData.Guid}`);
 
-          jsonModel.setProperty("/formInputValues/requestedCompany", `${draftData.Tbukrs}`);
-          jsonModel.setProperty("/formInputValues/requestedDepartment", draftData.Pozisy);
-          jsonModel.setProperty("/formInputValues/requestedDepartmentKey", draftData.Torgeh);
-          jsonModel.setProperty("/formInputValues/requestedPosition", draftData.TplansT);
-          jsonModel.setProperty("/formInputValues/requestedPositionFreeText", draftData.TplansT);
-          jsonModel.setProperty("/formInputValues/requestedPositionKey", draftData.Tplans);
-          jsonModel.setProperty("/formInputValues/requestedCandidateQuantity", Number(draftData.Tcsayi));
+          jsonModel.setProperty(
+            "/formInputValues/requestedCompany",
+            `${draftData.Tbukrs}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedDepartment",
+            draftData.Pozisy
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedDepartmentKey",
+            draftData.Torgeh
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPosition",
+            draftData.TplansT
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPositionFreeText",
+            draftData.TplansT
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPositionKey",
+            draftData.Tplans
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedCandidateQuantity",
+            Number(draftData.Tcsayi)
+          );
           jsonModel.setProperty("/formInputValues/jobWerks", draftData.Werks);
           jsonModel.setProperty("/formInputValues/jobBtrtl", draftData.Btrtl);
-          
+
           if (draftData.Btrtl !== "") {
-            jsonModel.setProperty("/formInputValues/jobLocation", jsonModel.getProperty("/SHelp_LocationsSet").find((element) => {return element.Btrtl === draftData.Btrtl}).Btext);
+            jsonModel.setProperty(
+              "/formInputValues/jobLocation",
+              jsonModel.getProperty("/SHelp_LocationsSet").find((element) => {
+                return element.Btrtl === draftData.Btrtl;
+              }).Btext
+            );
           }
-          jsonModel.setProperty("/formInputValues/jobLocationKey", draftData.Btrtl);
-          jsonModel.setProperty("/formInputValues/jobDefinition", draftData.Istnm);
+          jsonModel.setProperty(
+            "/formInputValues/jobLocationKey",
+            draftData.Btrtl
+          );
+          jsonModel.setProperty(
+            "/formInputValues/jobDefinition",
+            draftData.Istnm
+          );
 
-          oView.byId("experienceCheckBox1").setSelected(draftData.Tcrb1 === 'X' ? true : false);
-          oView.byId("experienceCheckBox2").setSelected(draftData.Tcrb2 === 'X' ? true : false);
-          oView.byId("experienceCheckBox3").setSelected(draftData.Tcrb3 === 'X' ? true : false);
+          oView
+            .byId("experienceCheckBox1")
+            .setSelected(draftData.Tcrb1 === "X" ? true : false);
+          oView
+            .byId("experienceCheckBox2")
+            .setSelected(draftData.Tcrb2 === "X" ? true : false);
+          oView
+            .byId("experienceCheckBox3")
+            .setSelected(draftData.Tcrb3 === "X" ? true : false);
 
-          oView.byId("educationCheckBox1").setSelected(draftData.Egtm1 === 'X' ? true : false);
-          oView.byId("educationCheckBox2").setSelected(draftData.Egtm2 === 'X' ? true : false);
-          oView.byId("educationCheckBox3").setSelected(draftData.Egtm3 === 'X' ? true : false);
-          oView.byId("educationCheckBox4").setSelected(draftData.Egtm4 === 'X' ? true : false);
-          oView.byId("educationCheckBox5").setSelected(draftData.Egtm5 === 'X' ? true : false);
+          oView
+            .byId("educationCheckBox1")
+            .setSelected(draftData.Egtm1 === "X" ? true : false);
+          oView
+            .byId("educationCheckBox2")
+            .setSelected(draftData.Egtm2 === "X" ? true : false);
+          oView
+            .byId("educationCheckBox3")
+            .setSelected(draftData.Egtm3 === "X" ? true : false);
+          oView
+            .byId("educationCheckBox4")
+            .setSelected(draftData.Egtm4 === "X" ? true : false);
+          oView
+            .byId("educationCheckBox5")
+            .setSelected(draftData.Egtm5 === "X" ? true : false);
           // oView.byId("educationCheckBox6").setSelected(draftData.Egtm1 === 'X' ? true : false);
           // oView.byId("educationCheckBox7").setSelected(draftData.Egtm1 === 'X' ? true : false);
-          
-          oView.byId("ageCheckBox1").setSelected(draftData.Yas1 === 'X' ? true : false);
-          oView.byId("ageCheckBox2").setSelected(draftData.Yas2 === 'X' ? true : false);
-          oView.byId("ageCheckBox3").setSelected(draftData.Yas3 === 'X' ? true : false);
-          oView.byId("ageCheckBox4").setSelected(draftData.Yas4 === 'X' ? true : false);
-          oView.byId("ageCheckBox5").setSelected(draftData.Yas5 === 'X' ? true : false);
-          
-          jsonModel.setProperty("/formInputValues/persStatus01", draftData.PAltDu === '01' ? true : false);
-          jsonModel.setProperty("/formInputValues/persStatus02", draftData.PAltDu === '02' ? true : false);
-          jsonModel.setProperty("/formInputValues/requestedPosition", draftData.Pozisy);
-          jsonModel.setProperty("/formInputValues/otherCandidateFeatures", draftData.Diger);
-          jsonModel.setProperty("/formInputValues/formYes", draftData.Pdurum === '01' ? true : false);
-          jsonModel.setProperty("/formInputValues/formNo", draftData.Pdurum === '02' ? true : false);
 
-          jsonModel.setProperty("/formInputValues/customerFormVisibility", draftData.Pdurum === '01' ? true : false);
+          oView
+            .byId("ageCheckBox1")
+            .setSelected(draftData.Yas1 === "X" ? true : false);
+          oView
+            .byId("ageCheckBox2")
+            .setSelected(draftData.Yas2 === "X" ? true : false);
+          oView
+            .byId("ageCheckBox3")
+            .setSelected(draftData.Yas3 === "X" ? true : false);
+          oView
+            .byId("ageCheckBox4")
+            .setSelected(draftData.Yas4 === "X" ? true : false);
+          oView
+            .byId("ageCheckBox5")
+            .setSelected(draftData.Yas5 === "X" ? true : false);
+
+          jsonModel.setProperty(
+            "/formInputValues/persStatus01",
+            draftData.PAltDu === "01" ? true : false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/persStatus02",
+            draftData.PAltDu === "02" ? true : false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPosition",
+            draftData.Pozisy
+          );
+          jsonModel.setProperty(
+            "/formInputValues/otherCandidateFeatures",
+            draftData.Diger
+          );
+          jsonModel.setProperty(
+            "/formInputValues/formYes",
+            draftData.Pdurum === "01" ? true : false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/formNo",
+            draftData.Pdurum === "02" ? true : false
+          );
+
+          jsonModel.setProperty(
+            "/formInputValues/customerFormVisibility",
+            draftData.Pdurum === "01" ? true : false
+          );
         },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
@@ -129,6 +213,7 @@ sap.ui.define(
           this.setCustomerCredentialsFormVisibility(
             selectedItemIndex === 1 ? false : true
           );
+          this._getCompanyCode();
         },
         _onPersStatusClicked: function (oEvent, unselectCheckBox) {
           this._unselectCheckBox(oEvent, unselectCheckBox);
@@ -274,7 +359,7 @@ sap.ui.define(
           let aInputs = [
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
-              oView.byId("formInputValues3"),
+              // oView.byId("formInputValues3"),
               // oView.byId("formInputValues4"),
               // oView.byId("formInputValues5"),
               oView.byId("formInputValues6"),
@@ -368,10 +453,14 @@ sap.ui.define(
             that = this;
 
           let formData = {
-            Guid: isUpdate ? this.getModel("jsonModel").getProperty("/draftGuid") : "",
+            Guid: isUpdate
+              ? this.getModel("jsonModel").getProperty("/draftGuid")
+              : "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Tneden: "I",
-            Abukrs: jsonModel.getProperty("/formInputValues/requestedDepartmentKey")
+            Abukrs: jsonModel.getProperty(
+              "/formInputValues/requestedDepartmentKey"
+            )
               ? jsonModel
                   .getProperty("/formInputValues/requestedDepartmentKey")
                   .split(" ")[0]
@@ -424,9 +513,12 @@ sap.ui.define(
               jsonModel.getProperty("/formInputValues/persStatus01") === true
                 ? "01"
                 : "02",
-            Pozisy: jsonModel.getProperty("/formInputValues/persStatus01") === true
-              ? jsonModel.getProperty("/formInputValues/requestedPositionFreeText")
-              : jsonModel.getProperty("/formInputValues/requestedPosition"),
+            Pozisy:
+              jsonModel.getProperty("/formInputValues/persStatus01") === true
+                ? jsonModel.getProperty(
+                    "/formInputValues/requestedPositionFreeText"
+                  )
+                : jsonModel.getProperty("/formInputValues/requestedPosition"),
             Pdurum:
               jsonModel.getProperty("/formInputValues/formYes") === true
                 ? "01"
@@ -436,23 +528,8 @@ sap.ui.define(
             ),
             Statu: statu,
           };
-          let oData = formData,
-            sPath = oModel.createKey("/PersonalCreateFormSet", oData);
-
-          // oModel.read(sPath, {
-          //   success: (oData, oResponse) => {
-          //     if (oData.Type === "S") {
-          //       that._showMessageBoxWithRoute(
-          //         "Kayıt Başarılı",
-          //         oData.Type,
-          //         "initialScreen"
-          //       );
-          //       that.onSendDocuments();
-          //     } else {
-          //       that._showMessageBox(oData.Message, oData.Type, true, 0);
-          //     }
-          //   },
-          // });
+          let oData = formData;
+          // sPath = oModel.createKey("/PersonalCreateFormSet", oData);
           this.getView()
             .getModel()
             .callFunction("/CreateForm_Func_Imp", {
@@ -465,9 +542,15 @@ sap.ui.define(
                     oData.CreateForm_Func_Imp.Type,
                     "initialScreen"
                   );
-                  that.onSendDocuments();
+                  // that.onSendDocuments();
+                  that._uploadAttachment(oData.CreateForm_Func_Imp.Guid);
                 } else {
-                  that._showMessageBox(oData.CreateForm_Func_Imp.Message, oData.CreateForm_Func_Imp.Type, true, 0);
+                  that._showMessageBox(
+                    oData.CreateForm_Func_Imp.Message,
+                    oData.CreateForm_Func_Imp.Type,
+                    true,
+                    0
+                  );
                 }
               },
               error: function (oResponse) {
@@ -501,6 +584,188 @@ sap.ui.define(
           });
           oEvent.getParameters().addHeaderParameter(oUploadParameter);
         },
+
+        // uploadcollection
+
+        onBeforeUploadStarts: function (oEvent) {
+          String.prototype.toTurkishToEnglish = function () {
+            return this.replace(/Ğ/gm, "G")
+              .replace(/Ü/gm, "U")
+              .replace(/Ş/gm, "S")
+              .replace(/İ/gm, "I")
+              .replace(/Ö/gm, "O")
+              .replace(/Ç/gm, "C")
+              .replace(/ğ/gm, "g")
+              .replace(/ü/gm, "u")
+              .replace(/ş/gm, "s")
+              .replace(/ı/gm, "i")
+              .replace(/ö/gm, "o")
+              .replace(/ç/gm, "c");
+          };
+
+          oEvent.getParameters().addHeaderParameter(
+            new UploadCollectionParameter({
+              name: "slug",
+              value: oEvent.getParameter("fileName").toTurkishToEnglish(),
+            })
+          );
+        },
+        onChangeUploadCollection: function (oEvent) {
+          this.getView().setBusyIndicatorDelay(0);
+          this.getView().setBusy(true);
+
+          var oUploadCollection = oEvent.getSource(),
+            that = this,
+            sSecurityToken;
+
+          if (oEvent.getParameter("mParameters").fromDragDrop) {
+            window.setTimeout(function () {
+              oUploadCollection.removeItem(0);
+              MessageBox.error("Please do not use drag&drop.");
+              that.getView().setBusy(false);
+            }, 2000);
+          } else {
+            this.getView().getModel().refreshSecurityToken(null, null, false);
+            sSecurityToken = this.getView().getModel().getSecurityToken();
+
+            oUploadCollection.addHeaderParameter(
+              new UploadCollectionParameter({
+                name: "X-CSRF-Token",
+                value: sSecurityToken,
+              })
+            );
+
+            oUploadCollection.addHeaderParameter(
+              new UploadCollectionParameter({
+                name: "X-Requested-With",
+                value: "X",
+              })
+            );
+
+            this.getView().setBusy(false);
+          }
+        },
+        onUploadComplete: function (oEvent) {
+          var that = this,
+            bIsCompleted = true;
+
+          if (
+            this.getView().byId("idUploadCollection").getItems().length === 0
+          ) {
+            bIsCompleted = true;
+          } else {
+            for (var i in this.getView()
+              .byId("idUploadCollection")
+              .getItems()) {
+              if (
+                !this.getView()
+                  .byId("idUploadCollection")
+                  .getItems()
+                  [i].getBindingContext("attachmentModel")
+              ) {
+                bIsCompleted = false;
+              }
+            }
+          }
+
+          if (bIsCompleted) {
+            MessageToast.show("İzin talebiniz oluşturulmuştur");
+
+            window.setTimeout(function () {
+              that.getView().setBusy(false);
+              that.onPressBack();
+            }, 1000);
+          }
+        },
+        onDeletePressAttachment: function (oEvent) {
+          var sFilename = oEvent
+              .getSource()
+              .getBindingContext("attachmentModel")
+              .getProperty("FileName"),
+            sPath = this.getView()
+              .getModel()
+              .createKey("DeleteAttachmentSet", {
+                Guid: this.draftGuidWithDash.guid,
+                FileName: sFilename,
+                IType: "D",
+              }),
+            that = this;
+
+          MessageBox.show(
+            "'" +
+              sFilename +
+              "' adlı dosyayı silmek istediğinize emin misiniz?",
+            {
+              title: "Dosya Sil",
+              actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+              onClose: function (sAction) {
+                that.getView().setBusyIndicatorDelay(0);
+                that.getView().setBusy(true);
+
+                if (sAction === "YES") {
+                  that
+                    .getView()
+                    .getModel()
+                    .read("/" + sPath, {
+                      success: function (oData) {
+                        if (oData.Type === "S") {
+                          MessageToast.show(oData.Message);
+                          that._getAttachment(that);
+                        } else {
+                          MessageBox.error(oData.Message);
+                          that.getView().setBusy(false);
+                        }
+                      },
+                      error: function (oResponse) {
+                        console.log(oResponse);
+                        that.getView().setBusy(false);
+                      },
+                    });
+                } else {
+                  that.getView().setBusy(false);
+                }
+              },
+            }
+          );
+        },
+        _uploadAttachment: function (sGuid) {
+          var parts = [];
+
+          parts.push(sGuid.slice(0, 8));
+          parts.push(sGuid.slice(8, 12));
+          parts.push(sGuid.slice(12, 16));
+          parts.push(sGuid.slice(16, 20));
+          parts.push(sGuid.slice(20, 32));
+          sGuid = parts.join("-");
+
+          var sPath = this.getView()
+              .getModel()
+              .createKey("CreateAttachmentSet", {
+                Guid: sGuid,
+                IType: "I",
+              }),
+            sURL =
+              "/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/" +
+              sPath +
+              "/ToAttachment";
+
+          for (
+            var i = 0;
+            i <
+            this.getView().byId("idUploadCollection")
+              ._aFileUploadersForPendingUpload.length;
+            i++
+          ) {
+            this.getView()
+              .byId("idUploadCollection")
+              ._aFileUploadersForPendingUpload[i].setUploadUrl(sURL);
+          }
+
+          this.getView().byId("idUploadCollection").upload();
+        },
+
+        // uploadcollection
+        // **********************
 
         onUploadSetBeforeUploadStarts: function (oEvent) {
           // this.getView().getModel().bUseBatch = false;
@@ -647,41 +912,45 @@ sap.ui.define(
           }
         },
 
-        _uploadDocument: function () {
-          var oUploadCollection = this.getView().byId("idUCDocument");
-          if (
-            oUploadCollection &&
-            oUploadCollection._aFileUploadersForPendingUpload.length > 0
-          ) {
-            this._updateUploadUrl();
-            oUploadCollection.upload();
-          }
-        },
+        // _uploadDocument: function () {
+        //   var oUploadCollection = this.getView().byId("idUCDocument");
+        //   if (
+        //     oUploadCollection &&
+        //     oUploadCollection._aFileUploadersForPendingUpload.length > 0
+        //   ) {
+        //     this._updateUploadUrl();
+        //     oUploadCollection.upload();
+        //   }
+        // },
 
-        _updateUploadUrl: function () {
-          var sDocumentPath = "",
-            sPath = this.getModel().createKey("/CreateAttachmentSet", {
-              Guid: localStorage.getItem("Guid")
-                ? localStorage.getItem("Guid")
-                : this.getModel("userModel").getProperty("/guid"),
-              IType: "I",
-            });
-          sDocumentPath = this.getModel().sServiceUrl + sPath + "/ToAttachment";
-          this.getView()
-            .byId("idUCDocument")
-            ._aFileUploadersForPendingUpload.forEach(function (
-              oPendingUploads
-            ) {
-              oPendingUploads.setUploadUrl(sDocumentPath);
-            });
-        },
+        // _updateUploadUrl: function () {
+        //   var sDocumentPath = "",
+        //     sPath = this.getModel().createKey("/CreateAttachmentSet", {
+        //       Guid: localStorage.getItem("Guid")
+        //         ? localStorage.getItem("Guid")
+        //         : this.getModel("userModel").getProperty("/guid"),
+        //       IType: "I",
+        //     });
+        //   sDocumentPath = this.getModel().sServiceUrl + sPath + "/ToAttachment";
+        //   this.getView()
+        //     .byId("idUCDocument")
+        //     ._aFileUploadersForPendingUpload.forEach(function (
+        //       oPendingUploads
+        //     ) {
+        //       oPendingUploads.setUploadUrl(sDocumentPath);
+        //     });
+        // },
 
         getUploadUrl: function () {
           var oModel = this.getModel();
+          let Guid = localStorage.getItem("Guid")
+            ? localStorage.getItem("Guid").replace(/-/g, "").toUpperCase()
+            : this.getModel("userModel")
+                .getProperty("/guid")
+                .replace(/-/g, "")
+                .toUpperCase();
           var sPath = oModel.createKey("/CreateAttachmentSet", {
-            Guid: localStorage.getItem("Guid")
-              ? localStorage.getItem("Guid")
-              : this.getModel("userModel").getProperty("/guid"),
+            Guid: Guid,
             IType: "I",
           });
           var sDocumentPath = "";
@@ -704,19 +973,12 @@ sap.ui.define(
           }
         },
         _getAttachment: function () {
+          let jsonModel = this.getModel("jsonModel")
           let that = this;
           this.getView()
             .getModel()
             .read("/AttachmentListSet", {
-              filters: [
-                new Filter(
-                  "IGuid",
-                  FilterOperator.EQ,
-                  localStorage.getItem("Guid")
-                    ? localStorage.getItem("Guid")
-                    : this.getModel("userModel").getProperty("/guid")
-                ),
-              ],
+              filters: [new Filter("Guid", FilterOperator.EQ, this.draftGuidWithDash.guid)],
               success: function (oData) {
                 that
                   .getView()

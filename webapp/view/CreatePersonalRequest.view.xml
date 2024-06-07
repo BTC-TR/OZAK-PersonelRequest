@@ -410,7 +410,7 @@
 												</f:FormElement>
 												<f:FormElement label="İş Tanımı Eki">
 													<f:fields>
-														<upload:UploadSet
+														<!-- <upload:UploadSet
 															id="idUploadCollection"
 															items="{attachmentModel>/}"
 															beforeUploadStarts="onUploadSetBeforeUploadStarts"
@@ -426,33 +426,36 @@
 																	mediaType="{attachmentModel>FileType}"
 																/>
 															</upload:items>
-														</upload:UploadSet>
-														<!-- <UploadCollection
-															id="idUCDocument"
-															noDataDescription=" "
-															noDataText="Ek yok"
-															uploadButtonInvisible="false"
-															multiple="false"
+														</upload:UploadSet> -->
+														<UploadCollection
+															id="idUploadCollection"
 															instantUpload="false"
-															visible="true"
-															change="onUCDocument"
-															fileType="jpg,png,pdf,jpeg"
-															beforeUploadStarts="onBUSDocument"
-															items="{attachmentModel>/}"
-
+															mode="Delete"
+															multiple="true"
+															noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
+															noDataText="Ek yok"
+															terminationEnabled="false"
+															items="{
+																path: 'attachmentModel>/',
+																parameters: {
+																	operationMode: 'Client'
+																}
+															}"
+															beforeUploadStarts="onBeforeUploadStarts"
+															change="onChangeUploadCollection"
+															uploadComplete="onUploadComplete"
+															fileType="png,jpeg,pdf"
 														>
-															<items>
-																<UploadCollectionItem
-																	enableDelete="false"
-																	enableEdit="false"
-																	fileName="{attachmentModel>FileName}"
-																	mimeType="{attachmentModel>FileType}"
-																	url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/PersonalAttachmentSaveSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')"
-																	visibleDelete="false"
-																	visibleEdit="false"
-																/>
-															</items>
-														</UploadCollection> -->
+															<UploadCollectionItem
+																enableEdit="false"
+																fileName="{attachmentModel>FileName}"
+																mimeType="{attachmentModel>FileType}"
+																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
+																	/$value"
+																visibleEdit="false"
+																deletePress="onDeletePressAttachment"
+															/>
+														</UploadCollection>
 													</f:fields>
 												</f:FormElement>
 											</f:formElements>
