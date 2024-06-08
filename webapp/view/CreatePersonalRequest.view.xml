@@ -192,6 +192,7 @@
 														<Input
 															id="formInputValues1"
 															enabled="false"
+															required="true"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedCompany',
 																type: 'sap.ui.model.type.String',
@@ -207,6 +208,7 @@
 														<Input
 															id="formInputValues2"
 															enabled="{= ${jsonModel>/formInputValues/formNo02Visibility}}"
+															required="true"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedDepartment',
 																type: 'sap.ui.model.type.String',
@@ -224,6 +226,7 @@
 													<f:fields>
 														<Input
 															id="formInputValues3"
+															required="true"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedPosition',
 																type: 'sap.ui.model.type.String',
@@ -246,6 +249,7 @@
 													<f:fields>
 														<Input
 															id="formInputValues13"
+															required="true"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedPositionFreeText',
 																type: 'sap.ui.model.type.String',
@@ -286,7 +290,9 @@
 															id="formInputValues4"
 															type="Number"
 															liveChange="_onlyNumberInput"
+															required="true"
 															maxLength="3"
+															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedCandidateQuantity',
 																type: 'sap.ui.model.type.Integer',
@@ -333,6 +339,7 @@
 																	minLength: 1
 																}
 															}"
+															required="true"
 															showSuggestion="true"
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://map"
@@ -348,6 +355,8 @@
 													<f:fields>
 														<Input
 															id="formInputValues14"
+															required="true"
+															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															value="{
 																path: 'jsonModel>/formInputValues/requestReason',
 																type: 'sap.ui.model.type.String',
@@ -362,7 +371,7 @@
 													<f:fields>
 														<TextArea
 															id="formInputValues6"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
 															maxLength="255"
 															value="{
@@ -381,8 +390,9 @@
 															id="initialPageCountingYearInput"
 															class="sapUiTinyMarginBottom"
 															showCurrentDateButton="true"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															width="100%"
+															required="true"
 															change="_clearValidationValueState('initialPageCountingYearInput')"
 															value="{
 																path: 'jsonModel>/formInputValues/formStartDate',
@@ -489,7 +499,7 @@
 																text="0-1 Yıl"
 																width="70px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
 															/>
 															<CheckBox
@@ -498,7 +508,7 @@
 																text="1-3 Yıl"
 																width="70px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
 															/>
 															<CheckBox
@@ -507,7 +517,7 @@
 																text="3 Yıl ve üzeri"
 																width="100px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
 															/>
 														</HBox>
@@ -522,7 +532,7 @@
 																text="İlkokul"
 																width="70px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
 															/>
 															<CheckBox
@@ -531,7 +541,7 @@
 																text="Ortaokul"
 																width="70px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
 															/>
 															<CheckBox
@@ -540,7 +550,7 @@
 																text="Düz Lise"
 																width="75px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
 															/>
 															<CheckBox
@@ -549,7 +559,7 @@
 																text="Meslek Lisesi"
 																width="100px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
 															/>
 															<CheckBox
@@ -558,7 +568,7 @@
 																text="Üniversite"
 																width="100px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
 															/>
 														</HBox>
@@ -573,7 +583,7 @@
 																text="18-25"
 																width="70px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/0}"
 															/>
 															<CheckBox
@@ -582,7 +592,7 @@
 																text="25-30"
 																width="70px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/1}"
 															/>
 															<CheckBox
@@ -591,7 +601,7 @@
 																text="30-40"
 																width="75px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/2}"
 															/>
 															<CheckBox
@@ -600,7 +610,7 @@
 																text="40-45"
 																width="100px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/3}"
 															/>
 															<CheckBox
@@ -609,7 +619,7 @@
 																text="45 yaş ve üzeri"
 																width="100px"
 																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/4}"
 															/>
 														</HBox>
@@ -619,7 +629,7 @@
 													<f:fields>
 														<TextArea
 															id="formInputValues7"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
 															maxLength="255"
 															value="{
@@ -648,7 +658,7 @@
 					type="Reject"
 					icon="sap-icon://eraser"
 					text="Alanları Temizle"
-					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 					press="_clearFormInputs"
 				/>
 				<ToolbarSpacer />
@@ -656,14 +666,14 @@
 					type="Neutral"
 					icon="sap-icon://timesheet"
 					text="Taslağa Kaydet"
-					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 					press="_onDraftSave"
 				/>
 				<Button
 					type="Accept"
 					icon="sap-icon://save"
 					text="Kaydet"
-					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 					press="_onSaveForm"
 				/>
 				<!-- press="uploadDocument" -->

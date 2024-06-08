@@ -439,6 +439,18 @@ sap.ui.define(
               oView.byId("initialPageCountingYearInput"),
               // oView.byId("formInputValues7"),
             ];
+          } else if(selectedRequestType === "02") {
+            aInputs = [
+              oView.byId("formInputValues1"),
+              oView.byId("formInputValues2"),
+              oView.byId("formInputValues3"),
+              oView.byId("formInputValues10"),
+              // oView.byId("formInputValues4"),
+              oView.byId("formInputValues5"),
+              oView.byId("formInputValues14"),
+              oView.byId("initialPageCountingYearInput"),
+              // oView.byId("formInputValues7"),
+            ];
           }
 
           aInputs.forEach(function (oInput) {
