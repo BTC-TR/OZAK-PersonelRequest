@@ -358,6 +358,20 @@ sap.ui.define(
             }.bind(this)
           );
         },
+        _locationValueHelp: function () {
+          if (!this.oMPDialog) {
+            this.oMPDialog = this.loadFragment({
+              name: "ozak.com.zhrpersonalrequestform.fragment.vHelpLocation",
+            });
+          }
+          this.oMPDialog.then(
+            function (oDialog) {
+              this.oDialog = oDialog;
+              this.oDialog.open();
+              this.oDialog;
+            }.bind(this)
+          );
+        },
         _closeDialog: function () {
           this.oDialog.close();
         },
@@ -514,7 +528,7 @@ sap.ui.define(
                 ? jsonModel.getProperty(
                     "/formInputValues/requestedCandidateQuantity"
                   )
-                : "",
+                : "1",
             Werks: jsonModel.getProperty("/formInputValues/jobWerks")
               ? jsonModel.getProperty("/formInputValues/jobWerks")
               : "",
@@ -1090,40 +1104,35 @@ sap.ui.define(
             oBinding.filter([oFilter]);
           }
         },
-        onSHelpCustomersSetComboBoxChange: function (oEvent) {
-          if (!this._checkSHelpCustomersSetComboBoxIsValıd(oEvent)) {
-            let oSource = oEvent.getSource().getSelectedItem(),
-              oText = oSource.getProperty("text"),
-              oKey = oSource.getProperty("key"),
-              oAdditionalText = oSource.getProperty("additionalText"),
+        _locationVHelpSearch: function (oEvent) {
+          let oTree = this.getView().byId("idLocationVHelp"),
+            oBinding = oTree.getBinding("items"),
+            oFilter = [],
+            inputValue = oEvent.getSource().getValue();
+          if (inputValue !== "") {
+            oFilter = new Filter(
+              [
+                new Filter("Btext", FilterOperator.Contains, inputValue),
+              ],
+              true
+            );
+            oBinding.filter([oFilter]);
+          } else {
+            oBinding.filter([oFilter]);
+          }
+        },
+        onSHelpCustomersSetVHelpChange: function (oEvent) {
+          let oSource = oEvent.getSource().getSelectedItem(),
+              oText = oSource.getProperty("title"),
+              oKey = oSource.getProperty("info"),
+              oAdditionalText = oSource.getProperty("description"),
               jsonModel = this.getView().getModel("jsonModel");
             jsonModel.setProperty("/formInputValues/jobLocation", oText);
             jsonModel.setProperty("/formInputValues/jobWerks", oAdditionalText);
             jsonModel.setProperty("/formInputValues/jobBtrtl", oKey);
-          }
-        },
-        _checkSHelpCustomersSetComboBoxIsValıd: function (oEvent) {
-          const oSource = oEvent.getSource(),
-            oComboBox = this.getView().byId("formInputValues5"),
-            oSourceValue = oSource.getValue(),
-            oItems = oComboBox.getItems();
-          let bValidationError = false;
-          let isContains = false;
-          oItems.forEach((item) => {
-            if (item.getText() === oSourceValue) {
-              isContains = true;
-            }
-          });
-          if (!isContains) {
-            oComboBox.setValueState("Error");
-            oComboBox.setValueStateText("Listede bulunan bir değer giriniz!");
-            bValidationError = true;
-          } else {
-            oComboBox.setValueState("None");
-          }
-          this.sHelcustomerComboBoxIsValid = bValidationError;
-          return bValidationError;
-        },
+            oEvent.getSource().getSelectedItem().setSelected(false);
+            this._closeDialog();
+        }
       }
     );
   }

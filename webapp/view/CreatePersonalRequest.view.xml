@@ -285,7 +285,7 @@
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Edilen Çalışan Sayısı"
-													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
+													visible="{= ${jsonModel>/formInputValues/formNo} }"
 												>
 													<f:fields>
 														<Input
@@ -308,7 +308,7 @@
 													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} || ${jsonModel>/formInputValues/persStatus01}}"
 												>
 													<f:fields>
-														<ComboBox
+														<!-- <ComboBox
 															id="formInputValues5"
 															showSecondaryValues="true"
 															filterSecondaryValues="true"
@@ -329,12 +329,27 @@
 																text="{jsonModel>Btext}"
 																additionalText="{jsonModel>Werks}"
 															/>
-														</ComboBox>
+														</ComboBox> -->
+														<Input
+															id="formInputValues5"
+															value="{
+																path: 'jsonModel>/formInputValues/jobLocation',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
+															showSuggestion="true"
+															valueHelpOnly="true"
+															valueHelpIconSrc="sap-icon://map"
+															showValueHelp="true"
+															valueHelpRequest="_locationValueHelp"
+														/>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
 													label="Talep Gerekçesi"
-													visible="{= ${jsonModel>/formInputValues/customerFormVisibility}}"
+													visible="{= ${jsonModel>/formInputValues/formNo}}"
 												>
 													<f:fields>
 														<Input
@@ -354,6 +369,8 @@
 														<TextArea
 															id="formInputValues6"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+															rows="5"
+															maxLength="255"
 															value="{
 																path: 'jsonModel>/formInputValues/jobDefinition',
 																type: 'sap.ui.model.type.String',
@@ -405,7 +422,6 @@
 															instantUpload="false"
 															mode="Delete"
 															multiple="true"
-															uploadEnabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
 															noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
 															noDataText="Ek yok"
 															terminationEnabled="false"
