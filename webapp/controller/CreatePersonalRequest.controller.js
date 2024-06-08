@@ -716,19 +716,17 @@ sap.ui.define(
               : "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Abukrs: jsonModel.getProperty("/formInputValues/companyCode"),
-            // AbukrsText: jsonModel.getProperty("/formInputValues/companyName"),
+            AbukrsText: jsonModel.getProperty("/formInputValues/companyName"),
             Apernr: "00000000",
-            // ApernrText: jsonModel.getProperty("/formInputValues/oldEmployee"),
+            ApernrText: jsonModel.getProperty("/formInputValues/oldEmployee"),
             Tbukrs: jsonModel.getProperty("/formInputValues/requestedCompanyKey"),
-            // TbukrsText: jsonModel.getProperty("/formInputValues/requestedCompany"),
+            TbukrsText: jsonModel.getProperty("/formInputValues/requestedCompany"),
             Torgeh: jsonModel.getProperty("/formInputValues/requestedDepartmentKey"),
-            // TorgehText: jsonModel.getProperty(
-            //   "/formInputValues/requestedDepartment"
-            // ),
+            TorgehText: jsonModel.getProperty("/formInputValues/requestedDepartment"),
             Tdate: jsonModel.getProperty("/today"),
             Tplans: jsonModel.getProperty("/formInputValues/requestedPositionKey"),
-            // TnedenText: jsonModel.getProperty("/formInputValues/requestReason"),
             Tneden: Tneden,
+            TnedenText: jsonModel.getProperty("/formInputValues/requestReason"),
             Tcsayi:
               typeof jsonModel.getProperty(
                 "/formInputValues/requestedCandidateQuantity"
