@@ -31,3 +31,9 @@ div[role="toolbar"] {
 .padding {
 	padding: 6px;
 }
+*[data-otype="O"] .sapMLIBSelectS{
+    display: none !important;
+}
+*[data-otype="P"] .sapMLIBSelectS{
+    display: none !important;
+}

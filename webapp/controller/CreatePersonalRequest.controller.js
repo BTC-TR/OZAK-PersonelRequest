@@ -35,6 +35,9 @@ sap.ui.define(
             .getRoute("createPersonalRequest")
             .attachMatched(this._onRouteMatched, this);
           oRouter
+            .getRoute("createPersonalRequest")
+            .attachMatched(this._onBeforeRouteMatched, this);
+          oRouter
             .getRoute("draftEdit")
             .attachMatched(this._onDraftMatched, this);
             oRouter
@@ -49,7 +52,7 @@ sap.ui.define(
         },
         _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
-          
+          this._getUserInfo();
           this._fetchLocations();
         },
         _onBeforeRouteMatched: function () {
@@ -230,7 +233,15 @@ sap.ui.define(
           this.setCustomerCredentialsFormVisibility(
             selectedItemIndex === 1 ? false : true
           );
+          this.getModel("jsonModel").setProperty("/formInputValues/selectedRequestType",  "0" + String(selectedItemIndex + 1))
           this._getCompanyCode();
+          this.setYesNoVisibility(selectedItemIndex)
+        },
+        setYesNoVisibility: function (selectedItemIndex) {
+          let jsonModel = this.getModel("jsonModel");
+          
+          jsonModel.setProperty("/formInputValues/formYesVisibility", selectedItemIndex === 1 ? false : true)
+          jsonModel.setProperty("/formInputValues/formNoVisibility", selectedItemIndex === 1 ? true : false)
         },
         _onPersStatusClicked: function (oEvent, unselectCheckBox) {
           this._unselectCheckBox(oEvent, unselectCheckBox);
@@ -832,12 +843,13 @@ sap.ui.define(
             oData = {
               IPernr: IPernr,
               IPlans: IPlans,
-              IPdurum: jsonModel.getProperty("/formInputValues/persStatus01")
-                ? "01"
-                : "02",
+              IPdurum: jsonModel.getProperty("/formInputValues/selectedRequestType")
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
-          oModel.read(sPath, {
+            if (IPlans === "") {
+              return;
+            } 
+            oModel.read(sPath, {
             success: (oData, oResponse) => {
               jsonModel.setProperty("/companyCode", oData.Bukrs);
               jsonModel.setProperty("/companyName", oData.Butxt);
@@ -1039,6 +1051,7 @@ sap.ui.define(
               "/formInputValues/requestedDepartmentKey",
               ancestors[0].Objid
             );
+            oEvent.getSource().getSelectedItem().setSelected(false);
             this._closeDialog();
             this._getCompanyCode();
           }

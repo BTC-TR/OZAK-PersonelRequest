@@ -20,13 +20,17 @@
                 id="idSHelpPositionTreeDataTree"
                 selectionChange="onSHelpPositionTreeDataTreeSelectionChange"
                 items="{jsonModel>/sHelpPositionTreeData}"
-                mode="SingleSelectMaster"
+                mode="SingleSelect"
             >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
                     title="{jsonModel>text}"
                     highlightText="{jsonModel>Objid}"
-                />
+                >
+                    <customData>
+                    <core:CustomData key="Otype" value="{jsonModel>Otype}" writeToDom="true"></core:CustomData>
+                    </customData>
+                </StandardTreeItem>
             </Tree>
         </content>
         <buttons>
