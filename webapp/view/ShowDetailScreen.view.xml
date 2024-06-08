@@ -55,12 +55,12 @@
                             <VBox class="sapUiLargeMarginEnd sapUiSmallMarginTopBottom">
                                 <HBox>
                                     <Title
-                                        text="Personel Talep Formu"
+                                        text="Personel Talep Form Detayı"
                                         level="H1"
                                     />
                                 </HBox>
                                 <HBox>
-                                    <Text text="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!" />
+                                    <Text text="İlettiğiniz Bilgiler Aşşağıda Görüntülenmektedir." />
                                 </HBox>
                             </VBox>
                             <VBox />
@@ -68,7 +68,7 @@
                     </uxap:heading>
                     <uxap:actions>
                         <ObjectNumber
-                            number="Güncelleme Tarihi:"
+                            number="Kayıt Tarihi:"
                             unit="{
                                 path: 'jsonModel>/today',
                                 type: 'sap.ui.model.type.DateTime',
@@ -128,6 +128,7 @@
                                                         <RadioButtonGroup
                                                             columns="5"
                                                             select=".onCustomerRadioButtonsChange"
+                                                            enabled="false"
                                                         >
                                                             <RadioButton
                                                                 text="Evet"
@@ -158,6 +159,7 @@
                                                                 id="persStatus01"
                                                                 selected="{jsonModel>/formInputValues/persStatus01}"
                                                                 valueState="Information"
+                                                                enabled="false"
                                                                 select="_unselectCheckBox($event, 'persStatus02')"
                                                             />
                                                         </FlexBox>
@@ -174,6 +176,7 @@
                                                                 id="persStatus02"
                                                                 selected="{jsonModel>/formInputValues/persStatus02}"
                                                                 valueState="Information"
+                                                                enabled="false"
                                                                 select="_unselectCheckBox($event, 'persStatus01')"
                                                             />
                                                         </FlexBox>
@@ -212,7 +215,7 @@
                                                     <f:fields>
                                                         <Input
                                                             id="formInputValues2"
-                                                            enabled="{= ${jsonModel>/formInputValues/customerFormEnabled} || ${jsonModel>/formInputValues/persStatus01}}"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedDepartment',
                                                                 type: 'sap.ui.model.type.String',
@@ -237,6 +240,7 @@
                                                                     minLength: 1
                                                                 }
                                                             }"
+                                                            enabled="false"
                                                             showSuggestion="true"
                                                             valueHelpOnly="true"
                                                             valueHelpIconSrc="sap-icon://company-view"
@@ -252,6 +256,7 @@
                                                     <f:fields>
                                                         <Input
                                                             id="formInputValues13"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedPositionFreeText',
                                                                 type: 'sap.ui.model.type.String',
@@ -293,6 +298,7 @@
                                                             type="Number"
                                                             liveChange="_onlyNumberInput"
                                                             maxLength="3"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedCandidateQuantity',
                                                                 type: 'sap.ui.model.type.Integer',
@@ -313,6 +319,7 @@
                                                             showSecondaryValues="true"
                                                             filterSecondaryValues="true"
                                                             change="onSHelpCustomersSetComboBoxChange"
+                                                            enabled="false"
                                                             items="{
                                                                 path: 'jsonModel>/SHelp_LocationsSet'
                                                             }"
@@ -340,6 +347,7 @@
                                                     <f:fields>
                                                         <Input
                                                             id="formInputValues14"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestReason',
                                                                 type: 'sap.ui.model.type.String',
@@ -354,6 +362,7 @@
                                                     <f:fields>
                                                         <TextArea
                                                             id="formInputValues6"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/jobDefinition',
                                                                 type: 'sap.ui.model.type.String',
@@ -371,6 +380,7 @@
                                                             class="sapUiTinyMarginBottom"
                                                             showCurrentDateButton="true"
                                                             width="100%"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/formStartDate',
                                                                 type: 'sap.ui.model.type.Date'
@@ -385,7 +395,8 @@
                                                         <UploadCollection
 															id="idUploadCollection"
 															instantUpload="false"
-															mode="Delete"
+															mode="None"
+                                                            uploadEnabled="false"
 															multiple="true"
 															noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
 															noDataText="Ek yok"
@@ -400,14 +411,15 @@
 															change="onChangeUploadCollection"
 															uploadComplete="onUploadComplete"
 															fileType="png,jpeg,pdf"
+                                                            
 														>
 															<UploadCollectionItem
 																enableEdit="false"
 																fileName="{attachmentModel>FileName}"
 																mimeType="{attachmentModel>FileType}"
-																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
-																	/$value"
+																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
 																visibleEdit="false"
+                                                                visibleDelete="false"
 																deletePress="onDeletePressAttachment"
 															/>
 														</UploadCollection>
@@ -436,6 +448,7 @@
                                                                 text="0-1 Yıl"
                                                                 width="70px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
                                                             />
                                                             <CheckBox
@@ -444,6 +457,7 @@
                                                                 text="1-3 Yıl"
                                                                 width="70px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
                                                             />
                                                             <CheckBox
@@ -452,6 +466,7 @@
                                                                 text="3 Yıl ve üzeri"
                                                                 width="100px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
                                                             />
                                                         </HBox>
@@ -466,6 +481,7 @@
                                                                 text="İlkokul"
                                                                 width="70px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
                                                             />
                                                             <CheckBox
@@ -474,6 +490,7 @@
                                                                 text="Ortaokul"
                                                                 width="70px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
                                                             />
                                                             <CheckBox
@@ -481,6 +498,7 @@
                                                                 select="_resetEducationCheckBoxesValueStates"
                                                                 text="Düz Lise"
                                                                 width="75px"
+                                                                enabled="false"
                                                                 wrapping="true"
                                                                 selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
                                                             />
@@ -490,6 +508,7 @@
                                                                 text="Meslek Lisesi"
                                                                 width="100px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
                                                             />
                                                             <CheckBox
@@ -498,6 +517,7 @@
                                                                 text="Üniversite"
                                                                 width="100px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
                                                             />
                                                         </HBox>
@@ -512,6 +532,7 @@
                                                                 text="18-25"
                                                                 width="70px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/0}"
                                                             />
                                                             <CheckBox
@@ -520,6 +541,7 @@
                                                                 text="25-30"
                                                                 width="70px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/1}"
                                                             />
                                                             <CheckBox
@@ -528,6 +550,7 @@
                                                                 text="30-40"
                                                                 width="75px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/2}"
                                                             />
                                                             <CheckBox
@@ -536,6 +559,7 @@
                                                                 text="40-45"
                                                                 width="100px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/3}"
                                                             />
                                                             <CheckBox
@@ -544,6 +568,7 @@
                                                                 text="45 yaş ve üzeri"
                                                                 width="100px"
                                                                 wrapping="true"
+                                                                enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/4}"
                                                             />
                                                         </HBox>
@@ -553,6 +578,7 @@
                                                     <f:fields>
                                                         <TextArea
                                                             id="formInputValues7"
+                                                            enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/otherCandidateFeatures',
                                                                 type: 'sap.ui.model.type.String',
@@ -573,23 +599,5 @@
                 </uxap:ObjectPageSection>
             </uxap:sections>
         </uxap:ObjectPageLayout>
-        <footer>
-            <OverflowToolbar>
-                <Button
-                    type="Reject"
-                    icon="sap-icon://eraser"
-                    text="Alanları Temizle"
-                    press="_clearFormInputs"
-                />
-                <ToolbarSpacer />
-                <Button
-                    type="Accept"
-                    icon="sap-icon://paper-plane"
-                    text="Onaya Gönder"
-                    press="_onDraftUpdate"
-                />
-                <!-- press="uploadDocument" -->
-            </OverflowToolbar>
-        </footer>
     </Page>
 </mvc:View>

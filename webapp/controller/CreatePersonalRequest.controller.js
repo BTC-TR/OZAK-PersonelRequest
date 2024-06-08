@@ -37,11 +37,14 @@ sap.ui.define(
           oRouter
             .getRoute("draftEdit")
             .attachMatched(this._onDraftMatched, this);
+          oRouter
+            .getRoute("showDetail")
+            .attachMatched(this._onDraftMatched, this);
         },
         _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
           this._clearFormInputs();
-          this._fetchLocations();_positionValueHelp
+          this._fetchLocations();
         },
         _onDraftMatched: function (oEvent) {
           this.draftGuid = oEvent.getParameter("arguments").guid.replace(/-/g, "").toUpperCase();
@@ -184,7 +187,7 @@ sap.ui.define(
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
             jsonModel = this.getModel("jsonModel"),
-            oElement = this.getView().byId("idSHelpPositionTreeDataTree")
+            oElement = this.getView().byId("idSHelpPositionTreeDataTree"),
             sPath = "/SHelp_OrgTreeHeaderSet",
             that = this;
           oElement.setBusy(true);
@@ -979,8 +982,10 @@ sap.ui.define(
           }
         },
         _getAttachment: function () {
-          let jsonModel = this.getModel("jsonModel")
+          let jsonModel = this.getModel("jsonModel");
+          let uploadcollection = this.getView().byId("idUploadCollection");
           let that = this;
+          uploadcollection.setBusy(true)
           this.getView()
             .getModel()
             .read("/AttachmentListSet", {
@@ -989,11 +994,12 @@ sap.ui.define(
                 that
                   .getView()
                   .setModel(new JSONModel(oData.results), "attachmentModel");
-                that.getView().setBusy(false);
+                uploadcollection.setBusy(false)
               },
               error: function (oResponse) {
                 console.log(oResponse);
                 that.getView().setBusy(false);
+                uploadcollection.setBusy(false);
               },
             });
         },
