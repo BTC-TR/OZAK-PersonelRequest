@@ -54,8 +54,12 @@ sap.ui.define(
             .byId("initialPageCountingYearInput")
             .getBindingInfo("value")
             .parts[0].type.setConstraints({
-              minimum: this.getOwnerComponent().getModel("jsonModel").getProperty("/today"),
-              maximum: this.getOwnerComponent().getModel("jsonModel").getProperty("/oneMonthLater"),
+              minimum: this.getOwnerComponent()
+                .getModel("jsonModel")
+                .getProperty("/today"),
+              maximum: this.getOwnerComponent()
+                .getModel("jsonModel")
+                .getProperty("/oneMonthLater"),
             });
         },
         _onRouteMatched: function () {
@@ -239,6 +243,10 @@ sap.ui.define(
             },
           });
         },
+        _candidateQuantityInputLiveChange: function (oEvent) {
+          this._onlyNumberInput(oEvent);
+          this._clearValidationValueState("formInputValues4");
+        },
         onCustomerRadioButtonsChange: function (oEvent) {
           const selectedItemIndex = oEvent.getSource().getSelectedIndex();
           this.setCustomerCredentialsFormVisibility(
@@ -248,7 +256,7 @@ sap.ui.define(
             "/formInputValues/selectedRequestType",
             "0" + String(selectedItemIndex + 1)
           );
-          this._getCompanyCode();
+          this._resetSomeCurtainInputs();
           this._resetAllFormInputsValueState();
           this.setYesNoVisibility(selectedItemIndex);
         },
@@ -262,6 +270,14 @@ sap.ui.define(
           jsonModel.setProperty(
             "/formInputValues/formNoVisibility",
             selectedItemIndex === 1 ? true : false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/persStatus01",
+            false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/persStatus02",
+            false
           );
         },
         _onPersStatusClicked: function (oEvent, unselectCheckBox) {
@@ -280,6 +296,36 @@ sap.ui.define(
             this.getView().byId(unselectCheckBox).setSelected(false);
             this._resetAllFormInputsValueState();
           }
+          this._resetSomeCurtainInputs();
+          if (unselectCheckBox === "persStatus02") {
+            this._getCompanyCode();
+          }
+        },
+        _resetSomeCurtainInputs: function () {
+          this.getModel("jsonModel").setProperty("/formInputValues/requestedCompany", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/requestedDepartment", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/requestedPosition", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/requestedPositionFreeText", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/requestedCandidateQuantity", undefined)
+          this.getModel("jsonModel").setProperty("/formInputValues/formStartDate", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/requestReason", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/oldEmployee", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/jobLocation", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/jobDefinition", "")
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateExperienceLevel/checkboxValues/0", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateExperienceLevel/checkboxValues/1", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateExperienceLevel/checkboxValues/2", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/0", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/1", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/2", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/3", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/4", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/0", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/1", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/2", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/3", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/4", false)
+          this.getModel("jsonModel").setProperty("/formInputValues/otherCandidateFeatures", "")
         },
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
@@ -430,12 +476,9 @@ sap.ui.define(
           let oView = this.getView(),
             jsonModel = this.getModel("jsonModel"),
             aInputs = [],
-            bValidationError = false,
-            selectedRequestType = jsonModel.getProperty(
-              "/formInputValues/selectedRequestType"
-            );
+            bValidationError = false;
 
-          if (selectedRequestType === "01") {
+          if (jsonModel.getProperty("/formInputValues/formYes")) {
             aInputs = [
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
@@ -444,7 +487,7 @@ sap.ui.define(
               oView.byId("initialPageCountingYearInput"),
             ];
           }
-          if(jsonModel.getProperty("/formInputValues/persStatus01")) {
+          if (jsonModel.getProperty("/formInputValues/persStatus01")) {
             aInputs = [
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
@@ -455,7 +498,7 @@ sap.ui.define(
               oView.byId("initialPageCountingYearInput"),
             ];
           }
-          if(jsonModel.getProperty("/formInputValues/persStatus02")) {
+          if (jsonModel.getProperty("/formInputValues/persStatus02")) {
             aInputs = [
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
@@ -925,9 +968,9 @@ sap.ui.define(
               ),
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
-          if (IPlans === "") {
-            return;
-          }
+          // if (IPlans === "") {
+          //   return;
+          // }
           oModel.read(sPath, {
             success: (oData, oResponse) => {
               jsonModel.setProperty("/companyCode", oData.Bukrs);
