@@ -821,7 +821,7 @@ sap.ui.define(
           }
 
           if (bIsCompleted) {
-            MessageToast.show("İzin talebiniz oluşturulmuştur");
+            MessageToast.show("Personel talebiniz oluşturulmuştur");
 
             window.setTimeout(function () {
               that.getView().setBusy(false);
