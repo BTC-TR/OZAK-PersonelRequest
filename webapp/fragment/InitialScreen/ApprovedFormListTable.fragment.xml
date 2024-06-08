@@ -66,6 +66,9 @@
             <Column>
                 <Text text="Onay Durumu" />
             </Column>
+            <Column>
+                <Text text="" />
+            </Column>
         </columns>
         <items>
             <ColumnListItem>
@@ -94,6 +97,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <Button icon="sap-icon://show" press="navigateToShowDetail"/>
                 <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
             </ColumnListItem>
         </items>

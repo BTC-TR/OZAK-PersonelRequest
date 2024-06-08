@@ -94,6 +94,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <Button icon="sap-icon://show" press="navigateToShowDetail"/>
                 <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
             </ColumnListItem>
         </items>

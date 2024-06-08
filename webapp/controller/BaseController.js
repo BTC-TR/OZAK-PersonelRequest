@@ -75,6 +75,16 @@ sap.ui.define(
             guid: oContext.getProperty("Guid"),
           });
         },
+        navigateToShowDetail: function (oEvent) {
+          let router = this.getRouter(),
+          oContext = oEvent.getSource().getParent().getBindingContext("jsonModel"),
+          oObject = oContext.getObject();
+          delete oObject.__metadata;
+          this.getModel("jsonModel").setProperty("/draftData", oObject);
+          router.navTo("showDetail", {
+            guid: oContext.getProperty("Guid"),
+          });
+        },
         onPressHome: function () {
           window.open(
             "/sap/bc/ui5_ui5/sap/zhr_login/index.html#/home",

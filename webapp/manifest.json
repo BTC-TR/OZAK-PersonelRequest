@@ -144,6 +144,14 @@
                       "initialScreen",
                       "draftEdit"
                     ]
+                  },
+                {
+                    "pattern": "showDetail/{guid}",
+                    "name": "showDetail",
+                    "target": [
+                      "initialScreen",
+                      "showDetail"
+                    ]
                   }
             ],
             "targets": {
@@ -161,6 +169,11 @@
                 "draftEdit": {
                     "viewName": "DraftScreen",
                     "viewId": "draftEdit",
+                    "viewLevel": 1
+                },
+                "showDetail": {
+                    "viewName": "ShowDetailScreen",
+                    "viewId": "showDetail",
                     "viewLevel": 1
                 },
                 "notFound": {

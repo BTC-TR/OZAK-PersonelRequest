@@ -63,6 +63,9 @@
             <Column>
                 <Text text="Onay Durumu" />
             </Column>
+            <Column>
+                <Text text="" />
+            </Column>
         </columns>
         <items>
             <ColumnListItem>
@@ -91,6 +94,10 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <FlexBox >
+                    <Button visible="{= ${jsonModel>Statu} === '01'  }" icon="sap-icon://show" press="navigateToShowDetail"/>
+                    <Button visible="{= ${jsonModel>Statu} === '05' }" icon="sap-icon://edit" press="onEditDraftButton"/>
+                </FlexBox>
                 <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
             </ColumnListItem>
         </items>
