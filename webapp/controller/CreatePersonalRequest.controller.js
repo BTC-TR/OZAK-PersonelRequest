@@ -37,14 +37,23 @@ sap.ui.define(
           oRouter
             .getRoute("draftEdit")
             .attachMatched(this._onDraftMatched, this);
+            oRouter
+            .getRoute("draftEdit")
+            .attachBeforeMatched(this._onBeforeRouteMatched, this);
           oRouter
             .getRoute("showDetail")
             .attachMatched(this._onDraftMatched, this);
+          oRouter
+            .getRoute("showDetail")
+            .attachBeforeMatched(this._onBeforeRouteMatched, this);
         },
         _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
-          this._clearFormInputs();
+          
           this._fetchLocations();
+        },
+        _onBeforeRouteMatched: function () {
+          this._clearFormInputs();
         },
         _onDraftMatched: function (oEvent) {
           this.draftGuid = oEvent.getParameter("arguments").guid.replace(/-/g, "").toUpperCase();
@@ -316,6 +325,7 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", models._formInputValues());
+          this.getView().byId("idUploadCollection").destroyItems();
           this.treeData = [];
           this._resetAllFormInputsValueState();
         },
