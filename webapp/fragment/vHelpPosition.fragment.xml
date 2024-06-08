@@ -10,7 +10,7 @@
         <subHeader>
             <OverflowToolbar>
                 <SearchField
-                    liveChange=""
+                    liveChange="_positionTreeSearch"
                     width="100%"
                 />
             </OverflowToolbar>

@@ -352,7 +352,7 @@ sap.ui.define(
               this.oDialog.open();
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
-                .expandToLevel(3);
+                .expandToLevel(10);
               this.oDialog;
               this._fetchSHelpPositionTreeData();
             }.bind(this)
@@ -1072,6 +1072,23 @@ sap.ui.define(
             }
           }
           return { found: null, ancestors: [] };
+        },
+        _positionTreeSearch: function (oEvent) {
+          let oTree = this.getView().byId("idSHelpPositionTreeDataTree"),
+            oBinding = oTree.getBinding("items"),
+            oFilter = [],
+            inputValue = oEvent.getSource().getValue();
+          if (inputValue !== "") {
+            oFilter = new Filter(
+              [
+                new Filter("text", FilterOperator.Contains, inputValue),
+              ],
+              true
+            );
+            oBinding.filter([oFilter]);
+          } else {
+            oBinding.filter([oFilter]);
+          }
         },
         onSHelpCustomersSetComboBoxChange: function (oEvent) {
           if (!this._checkSHelpCustomersSetComboBoxIsValıd(oEvent)) {
