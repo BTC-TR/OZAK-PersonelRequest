@@ -130,6 +130,10 @@ sap.ui.define(
               },
             });
         },
+        _clearValidationValueState: function(inputId) {
+          let oView = this.getView();
+          oView.byId(inputId).setValueState("None");
+        },
         _onlyNumberInput: function (oEvent) {
           var _oInput = oEvent.getSource();
           var val = _oInput.getValue();

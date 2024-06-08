@@ -62,5 +62,9 @@ sap.ui.define([], function () {
           break;
       }
     },
+    removeDatsFromString: function (data) {
+      let removedData = data.replace(/-/g, "").toUpperCase()
+      return removedData;
+    },
   };
 });

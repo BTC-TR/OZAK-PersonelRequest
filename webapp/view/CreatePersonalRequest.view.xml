@@ -181,7 +181,7 @@
 												</f:FormElement>
 											</f:formElements>
 										</f:FormContainer>
-										<f:FormContainer ariaLabelledBy="Title2" >
+										<f:FormContainer ariaLabelledBy="Title2">
 											<f:toolbar>
 												<Toolbar>
 													<Title
@@ -389,9 +389,20 @@
 															showCurrentDateButton="true"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
 															width="100%"
+															change="_clearValidationValueState('initialPageCountingYearInput')"
 															value="{
 																path: 'jsonModel>/formInputValues/formStartDate',
-																type: 'sap.ui.model.type.Date'
+																type: 'sap.ui.model.type.Date',
+																formatOptions: {
+																	source: {
+																		pattern: 'dd/MM/yyyy'
+																	},
+																	pattern: 'dd/MM/yyyy'
+																},
+																constraints: {
+																	minimum: 'jsonModel>/today',
+																	maximum: 'jsonModel>/oneMonthLater'
+																}
 															}"
 															minDate="{jsonModel>/today}"
 															maxDate="{jsonModel>/oneMonthLater}"
@@ -602,6 +613,8 @@
 														<TextArea
 															id="formInputValues7"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/formNoVisibility}}"
+															rows="5"
+															maxLength="255"
 															value="{
 																path: 'jsonModel>/formInputValues/otherCandidateFeatures',
 																type: 'sap.ui.model.type.String',

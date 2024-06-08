@@ -39,6 +39,7 @@ sap.ui.define(
       },
       _formInputValues: function () {
         return {
+          formStartDate: "",
           requestedCompany: "",
           requestedDepartment: "",
           requestedDepartmentKey: "",

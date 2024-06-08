@@ -40,7 +40,7 @@ sap.ui.define(
           oRouter
             .getRoute("draftEdit")
             .attachMatched(this._onDraftMatched, this);
-            oRouter
+          oRouter
             .getRoute("draftEdit")
             .attachBeforeMatched(this._onBeforeRouteMatched, this);
           oRouter
@@ -59,7 +59,10 @@ sap.ui.define(
           this._clearFormInputs();
         },
         _onDraftMatched: function (oEvent) {
-          this.draftGuid = oEvent.getParameter("arguments").guid.replace(/-/g, "").toUpperCase();
+          this.draftGuid = oEvent
+            .getParameter("arguments")
+            .guid.replace(/-/g, "")
+            .toUpperCase();
           this.draftGuidWithDash = oEvent.getParameter("arguments");
           this._onRouteMatched();
           this._setDraftedInputs();
@@ -225,7 +228,7 @@ sap.ui.define(
             },
             error: (e) => {
               oElement.setBusy(false);
-            }
+            },
           });
         },
         onCustomerRadioButtonsChange: function (oEvent) {
@@ -233,15 +236,24 @@ sap.ui.define(
           this.setCustomerCredentialsFormVisibility(
             selectedItemIndex === 1 ? false : true
           );
-          this.getModel("jsonModel").setProperty("/formInputValues/selectedRequestType",  "0" + String(selectedItemIndex + 1))
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/selectedRequestType",
+            "0" + String(selectedItemIndex + 1)
+          );
           this._getCompanyCode();
-          this.setYesNoVisibility(selectedItemIndex)
+          this.setYesNoVisibility(selectedItemIndex);
         },
         setYesNoVisibility: function (selectedItemIndex) {
           let jsonModel = this.getModel("jsonModel");
-          
-          jsonModel.setProperty("/formInputValues/formYesVisibility", selectedItemIndex === 1 ? false : true)
-          jsonModel.setProperty("/formInputValues/formNoVisibility", selectedItemIndex === 1 ? true : false)
+
+          jsonModel.setProperty(
+            "/formInputValues/formYesVisibility",
+            selectedItemIndex === 1 ? false : true
+          );
+          jsonModel.setProperty(
+            "/formInputValues/formNoVisibility",
+            selectedItemIndex === 1 ? true : false
+          );
         },
         _onPersStatusClicked: function (oEvent, unselectCheckBox) {
           this._unselectCheckBox(oEvent, unselectCheckBox);
@@ -374,6 +386,8 @@ sap.ui.define(
         },
         _closeDialog: function () {
           this.oDialog.close();
+          this.oDialog.destroy();
+          this.oMPDialog = undefined;
         },
         _resetAllFormInputsValueState: function () {
           let oView = this.getView();
@@ -399,17 +413,26 @@ sap.ui.define(
           oView.byId("ageCheckBox5").setValueState("None");
         },
         _checkIfFormInputsValidated: function () {
-          let oView = this.getView();
-          let aInputs = [
+          let oView = this.getView(),
+            jsonModel = this.getModel("jsonModel"),
+            aInputs = [],
+            bValidationError = false,
+            selectedRequestType = jsonModel.getProperty(
+              "/formInputValues/selectedRequestType"
+            );
+    
+          if (selectedRequestType === "01") {
+            aInputs = [
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
-              // oView.byId("formInputValues3"),
+              oView.byId("formInputValues3"),
               // oView.byId("formInputValues4"),
-              // oView.byId("formInputValues5"),
-              oView.byId("formInputValues6"),
-              oView.byId("formInputValues7"),
-            ],
-            bValidationError = false;
+              oView.byId("formInputValues5"),
+              oView.byId("initialPageCountingYearInput"),
+              // oView.byId("formInputValues7"),
+            ];
+          }
+
           aInputs.forEach(function (oInput) {
             bValidationError = this._validateInput(oInput) || bValidationError;
           }, this);
@@ -494,6 +517,7 @@ sap.ui.define(
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
+            Ttarih = jsonModel.getProperty("/formInputValues/formStartDate").split("/"),
             that = this;
 
           let formData = {
@@ -538,6 +562,7 @@ sap.ui.define(
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
+            Ttarih: new Date(Number(Ttarih[2]), Number(Ttarih[1] - 1), Number(Ttarih[0])),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
@@ -726,13 +751,11 @@ sap.ui.define(
               .getSource()
               .getBindingContext("attachmentModel")
               .getProperty("FileName"),
-            sPath = this.getView()
-              .getModel()
-              .createKey("DeleteAttachmentSet", {
-                Guid: this.draftGuidWithDash.guid,
-                FileName: sFilename,
-                IType: "D",
-              }),
+            sPath = this.getView().getModel().createKey("DeleteAttachmentSet", {
+              Guid: this.draftGuidWithDash.guid,
+              FileName: sFilename,
+              IType: "D",
+            }),
             that = this;
 
           MessageBox.show(
@@ -857,13 +880,15 @@ sap.ui.define(
             oData = {
               IPernr: IPernr,
               IPlans: IPlans,
-              IPdurum: jsonModel.getProperty("/formInputValues/selectedRequestType")
+              IPdurum: jsonModel.getProperty(
+                "/formInputValues/selectedRequestType"
+              ),
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
-            if (IPlans === "") {
-              return;
-            } 
-            oModel.read(sPath, {
+          if (IPlans === "") {
+            return;
+          }
+          oModel.read(sPath, {
             success: (oData, oResponse) => {
               jsonModel.setProperty("/companyCode", oData.Bukrs);
               jsonModel.setProperty("/companyName", oData.Butxt);
@@ -1021,16 +1046,22 @@ sap.ui.define(
           let jsonModel = this.getModel("jsonModel");
           let uploadcollection = this.getView().byId("idUploadCollection");
           let that = this;
-          uploadcollection.setBusy(true)
+          uploadcollection.setBusy(true);
           this.getView()
             .getModel()
             .read("/AttachmentListSet", {
-              filters: [new Filter("Guid", FilterOperator.EQ, this.draftGuidWithDash.guid)],
+              filters: [
+                new Filter(
+                  "Guid",
+                  FilterOperator.EQ,
+                  this.draftGuidWithDash.guid
+                ),
+              ],
               success: function (oData) {
                 that
                   .getView()
                   .setModel(new JSONModel(oData.results), "attachmentModel");
-                uploadcollection.setBusy(false)
+                uploadcollection.setBusy(false);
               },
               error: function (oResponse) {
                 console.log(oResponse);
@@ -1066,6 +1097,7 @@ sap.ui.define(
               ancestors[0].Objid
             );
             oEvent.getSource().getSelectedItem().setSelected(false);
+            this._clearValidationValueState("formInputValues3");
             this._closeDialog();
             this._getCompanyCode();
           }
@@ -1094,9 +1126,7 @@ sap.ui.define(
             inputValue = oEvent.getSource().getValue();
           if (inputValue !== "") {
             oFilter = new Filter(
-              [
-                new Filter("text", FilterOperator.Contains, inputValue),
-              ],
+              [new Filter("text", FilterOperator.Contains, inputValue)],
               true
             );
             oBinding.filter([oFilter]);
@@ -1111,9 +1141,7 @@ sap.ui.define(
             inputValue = oEvent.getSource().getValue();
           if (inputValue !== "") {
             oFilter = new Filter(
-              [
-                new Filter("Btext", FilterOperator.Contains, inputValue),
-              ],
+              [new Filter("Btext", FilterOperator.Contains, inputValue)],
               true
             );
             oBinding.filter([oFilter]);
@@ -1123,16 +1151,17 @@ sap.ui.define(
         },
         onSHelpCustomersSetVHelpChange: function (oEvent) {
           let oSource = oEvent.getSource().getSelectedItem(),
-              oText = oSource.getProperty("title"),
-              oKey = oSource.getProperty("info"),
-              oAdditionalText = oSource.getProperty("description"),
-              jsonModel = this.getView().getModel("jsonModel");
-            jsonModel.setProperty("/formInputValues/jobLocation", oText);
-            jsonModel.setProperty("/formInputValues/jobWerks", oAdditionalText);
-            jsonModel.setProperty("/formInputValues/jobBtrtl", oKey);
-            oEvent.getSource().getSelectedItem().setSelected(false);
-            this._closeDialog();
-        }
+            oText = oSource.getProperty("title"),
+            oKey = oSource.getProperty("info"),
+            oAdditionalText = oSource.getProperty("description"),
+            jsonModel = this.getView().getModel("jsonModel");
+          jsonModel.setProperty("/formInputValues/jobLocation", oText);
+          jsonModel.setProperty("/formInputValues/jobWerks", oAdditionalText);
+          jsonModel.setProperty("/formInputValues/jobBtrtl", oKey);
+          oEvent.getSource().getSelectedItem().setSelected(false);
+          this._clearValidationValueState("formInputValues5");
+          this._closeDialog();
+        },
       }
     );
   }
