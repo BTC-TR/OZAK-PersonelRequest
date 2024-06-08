@@ -207,7 +207,7 @@
 													<f:fields>
 														<Input
 															id="formInputValues2"
-															enabled="{= ${jsonModel>/formInputValues/formNo02Visibility}}"
+															enabled="{= ${jsonModel>/formInputValues/persStatus01}}"
 															required="true"
 															value="{
 																path: 'jsonModel>/formInputValues/requestedDepartment',

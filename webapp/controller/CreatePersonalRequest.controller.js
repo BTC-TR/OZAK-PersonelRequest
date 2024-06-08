@@ -249,6 +249,7 @@ sap.ui.define(
             "0" + String(selectedItemIndex + 1)
           );
           this._getCompanyCode();
+          this._resetAllFormInputsValueState();
           this.setYesNoVisibility(selectedItemIndex);
         },
         setYesNoVisibility: function (selectedItemIndex) {
@@ -277,6 +278,7 @@ sap.ui.define(
           }
           if (unselectCheckBox && oSelected) {
             this.getView().byId(unselectCheckBox).setSelected(false);
+            this._resetAllFormInputsValueState();
           }
         },
         setCustomerCredentialsFormVisibility: function (value) {
@@ -406,6 +408,9 @@ sap.ui.define(
           oView.byId("formInputValues5").setValueState("None");
           oView.byId("formInputValues6").setValueState("None");
           oView.byId("formInputValues7").setValueState("None");
+          oView.byId("formInputValues13").setValueState("None");
+          oView.byId("formInputValues10").setValueState("None");
+          oView.byId("formInputValues14").setValueState("None");
           oView.byId("experienceCheckBox1").setValueState("None");
           oView.byId("experienceCheckBox2").setValueState("None");
           oView.byId("experienceCheckBox3").setValueState("None");
@@ -419,6 +424,7 @@ sap.ui.define(
           oView.byId("ageCheckBox3").setValueState("None");
           oView.byId("ageCheckBox4").setValueState("None");
           oView.byId("ageCheckBox5").setValueState("None");
+          oView.byId("initialPageCountingYearInput").setValueState("None");
         },
         _checkIfFormInputsValidated: function () {
           let oView = this.getView(),
@@ -434,22 +440,30 @@ sap.ui.define(
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
-              // oView.byId("formInputValues4"),
               oView.byId("formInputValues5"),
               oView.byId("initialPageCountingYearInput"),
-              // oView.byId("formInputValues7"),
             ];
-          } else if(selectedRequestType === "02") {
+          }
+          if(jsonModel.getProperty("/formInputValues/persStatus01")) {
+            aInputs = [
+              oView.byId("formInputValues1"),
+              oView.byId("formInputValues2"),
+              oView.byId("formInputValues13"),
+              oView.byId("formInputValues4"),
+              oView.byId("formInputValues5"),
+              oView.byId("formInputValues14"),
+              oView.byId("initialPageCountingYearInput"),
+            ];
+          }
+          if(jsonModel.getProperty("/formInputValues/persStatus02")) {
             aInputs = [
               oView.byId("formInputValues1"),
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
-              oView.byId("formInputValues10"),
-              // oView.byId("formInputValues4"),
+              oView.byId("formInputValues4"),
               oView.byId("formInputValues5"),
               oView.byId("formInputValues14"),
               oView.byId("initialPageCountingYearInput"),
-              // oView.byId("formInputValues7"),
             ];
           }
 
