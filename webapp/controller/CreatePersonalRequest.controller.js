@@ -695,23 +695,40 @@ sap.ui.define(
             Ttarih = jsonModel
               .getProperty("/formInputValues/formStartDate")
               .split("/"),
+            PAltDu = "",
+            Tneden = "",
             that = this;
+
+          if (jsonModel.getProperty("/formInputValues/formNo")) {
+            PAltDu = jsonModel.getProperty("/formInputValues/persStatus01")
+              ? "01"
+              : "02";
+              Tneden = jsonModel.getProperty("/formInputValues/persStatus01")
+              ? "02"
+              : "03";
+          } else {
+            Tneden = '01'
+          }
 
           let formData = {
             Guid: isUpdate
               ? this.getModel("jsonModel").getProperty("/draftGuid")
               : "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
-            Tneden: "I",
-            Abukrs: jsonModel.getProperty("/formInputValues/companyName"),
-            Apernr: jsonModel.getProperty("/formInputValues/oldEmployee"),
-            Tbukrs: jsonModel.getProperty("/formInputValues/requestedCompany"),
-            Torgeh: jsonModel.getProperty(
-              "/formInputValues/requestedDepartment"
-            ),
+            Abukrs: jsonModel.getProperty("/formInputValues/companyCode"),
+            // AbukrsText: jsonModel.getProperty("/formInputValues/companyName"),
+            Apernr: "00000000",
+            // ApernrText: jsonModel.getProperty("/formInputValues/oldEmployee"),
+            Tbukrs: jsonModel.getProperty("/formInputValues/requestedCompanyKey"),
+            // TbukrsText: jsonModel.getProperty("/formInputValues/requestedCompany"),
+            Torgeh: jsonModel.getProperty("/formInputValues/requestedDepartmentKey"),
+            // TorgehText: jsonModel.getProperty(
+            //   "/formInputValues/requestedDepartment"
+            // ),
             Tdate: jsonModel.getProperty("/today"),
-            Tplans: jsonModel.getProperty("/formInputValues/requestedPosition"),
-            Tneden: jsonModel.getProperty("/formInputValues/requestReason"),
+            Tplans: jsonModel.getProperty("/formInputValues/requestedPositionKey"),
+            // TnedenText: jsonModel.getProperty("/formInputValues/requestReason"),
+            Tneden: Tneden,
             Tcsayi:
               typeof jsonModel.getProperty(
                 "/formInputValues/requestedCandidateQuantity"
@@ -753,12 +770,9 @@ sap.ui.define(
               jsonModel.getProperty("/formInputValues/persStatus01") === true
                 ? "01"
                 : "02",
-            Pozisy:
-              jsonModel.getProperty("/formInputValues/persStatus01") === true
-                ? jsonModel.getProperty(
-                    "/formInputValues/requestedPositionFreeText"
-                  )
-                : jsonModel.getProperty("/formInputValues/requestedPosition"),
+            Pozisy: jsonModel.jsonModel.getProperty(
+              "/formInputValues/requestedPositionFreeText"
+            ),
             Pdurum:
               jsonModel.getProperty("/formInputValues/formYes") === true
                 ? "01"
