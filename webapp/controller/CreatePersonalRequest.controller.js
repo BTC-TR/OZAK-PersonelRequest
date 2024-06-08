@@ -41,8 +41,7 @@ sap.ui.define(
         _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
           this._clearFormInputs();
-          this._fetchSHelpPositionTreeData();
-          this._fetchLocations();
+          this._fetchLocations();_positionValueHelp
         },
         _onDraftMatched: function (oEvent) {
           this.draftGuid = oEvent.getParameter("arguments").guid.replace(/-/g, "").toUpperCase();
@@ -185,8 +184,10 @@ sap.ui.define(
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
             jsonModel = this.getModel("jsonModel"),
+            oElement = this.getView().byId("idSHelpPositionTreeDataTree")
             sPath = "/SHelp_OrgTreeHeaderSet",
             that = this;
+          oElement.setBusy(true);
           let oFilter = new Filter(
             [
               new Filter(
@@ -205,7 +206,11 @@ sap.ui.define(
             },
             success: (oData, oResponse) => {
               this._createTreeDataForOrgTree(oData);
+              oElement.setBusy(false);
             },
+            error: (e) => {
+              oElement.setBusy(false);
+            }
           });
         },
         onCustomerRadioButtonsChange: function (oEvent) {
@@ -325,6 +330,7 @@ sap.ui.define(
                 .byId("idSHelpPositionTreeDataTree")
                 .expandToLevel(3);
               this.oDialog;
+              this._fetchSHelpPositionTreeData();
             }.bind(this)
           );
         },

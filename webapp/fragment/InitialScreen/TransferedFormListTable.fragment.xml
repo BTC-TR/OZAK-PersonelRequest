@@ -12,7 +12,7 @@
                 value1: '05'
             }]
         }"
-        mode="MultiSelect"
+        mode="None"
         selectionChange="onPersonalFormListSetTableSelectionChange"
         itemPress="onPersonalFormListSetTableItemPress"
         fixedLayout="false"
@@ -24,11 +24,11 @@
             <Toolbar class="sapUiTinyMarginTop">
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
-                <Button
+                <!-- <Button
                     press="resetSelections($event, 'idPersonalFormListSetTableTransfered')"
                     icon="sap-icon://reset"
                     type="Emphasized"
-                />
+                /> -->
                 
                 <SearchField
                     showRefreshButton="false"
