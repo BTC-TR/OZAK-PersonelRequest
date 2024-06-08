@@ -71,20 +71,31 @@ sap.ui.define(
           this._clearFormInputs();
         },
         _onDraftMatched: function (oEvent) {
-          this.draftGuid = oEvent
-            .getParameter("arguments")
-            .guid.replace(/-/g, "")
-            .toUpperCase();
           this.draftGuidWithDash = oEvent.getParameter("arguments");
-          this._onRouteMatched();
-          this._setDraftedInputs();
+          this.pageId = oEvent.getSource()._oConfig.name;
+          this._getUserInfo().then(() => {
+            this._fetchLocations().then(() => {
+              this._fetchAllFormListData().then(() => {
+                this._setDraftedInputs();
+              });
+            });
+          });
+
           this._getAttachment();
         },
         _setDraftedInputs: function () {
           let jsonModel = this.getModel("jsonModel"),
             oView = this.getView(),
-            draftData = jsonModel.getProperty("/draftData");
-
+            draftData = jsonModel.getProperty("/draftData"),
+            that = this;
+          if (!draftData) {
+            draftData = jsonModel
+              .getProperty("/PersonalFormListSet")
+              .find((elmnt) => {
+                return elmnt.Guid === that.draftGuidWithDash.guid;
+              });
+            delete draftData.__metadata;
+          }
           draftData.Guid = draftData.Guid.replace(/-/g, "").toUpperCase();
 
           jsonModel.setProperty("/draftGuid", `${draftData.Guid}`);
@@ -211,6 +222,27 @@ sap.ui.define(
             draftData.Pdurum === "01" ? true : false
           );
         },
+        _fetchAllFormListData: function () {
+          var that = this;
+          return new Promise((resolve, reject) => {
+            let oModel = that.getView().getModel(),
+              jsonModel = that.getModel("jsonModel"),
+              IPernr = that.getModel("userModel").getProperty("/Pernr"),
+              sPath = "/PersonalFormListSet";
+            if (jsonModel.getProperty("/draftData")) {
+              return;
+            }
+            this.getOwnerComponent().byId(that.pageId).setBusy(true);
+            oModel.read(sPath, {
+              filters: [new Filter("IPernr", FilterOperator.EQ, IPernr)],
+              success: (oData, oResponse) => {
+                jsonModel.setProperty("/PersonalFormListSet", oData.results);
+                this.getOwnerComponent().byId(that.pageId).setBusy(false);
+                resolve();
+              },
+            });
+          });
+        },
         _fetchSHelpPositionTreeData: function () {
           let oModel = this.getView().getModel(),
             jsonModel = this.getModel("jsonModel"),
@@ -271,14 +303,8 @@ sap.ui.define(
             "/formInputValues/formNoVisibility",
             selectedItemIndex === 1 ? true : false
           );
-          jsonModel.setProperty(
-            "/formInputValues/persStatus01",
-            false
-          );
-          jsonModel.setProperty(
-            "/formInputValues/persStatus02",
-            false
-          );
+          jsonModel.setProperty("/formInputValues/persStatus01", false);
+          jsonModel.setProperty("/formInputValues/persStatus02", false);
         },
         _onPersStatusClicked: function (oEvent, unselectCheckBox) {
           this._unselectCheckBox(oEvent, unselectCheckBox);
@@ -302,30 +328,102 @@ sap.ui.define(
           }
         },
         _resetSomeCurtainInputs: function () {
-          this.getModel("jsonModel").setProperty("/formInputValues/requestedCompany", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/requestedDepartment", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/requestedPosition", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/requestedPositionFreeText", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/requestedCandidateQuantity", undefined)
-          this.getModel("jsonModel").setProperty("/formInputValues/formStartDate", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/requestReason", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/oldEmployee", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/jobLocation", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/jobDefinition", "")
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateExperienceLevel/checkboxValues/0", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateExperienceLevel/checkboxValues/1", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateExperienceLevel/checkboxValues/2", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/0", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/1", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/2", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/3", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateEducationalLevel/checkboxValues/4", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/0", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/1", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/2", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/3", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/candidateAge/checkboxValues/4", false)
-          this.getModel("jsonModel").setProperty("/formInputValues/otherCandidateFeatures", "")
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestedCompany",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestedDepartment",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestedPosition",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestedPositionFreeText",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestedCandidateQuantity",
+            undefined
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/formStartDate",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestReason",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/oldEmployee",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/jobLocation",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/jobDefinition",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateExperienceLevel/checkboxValues/0",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateExperienceLevel/checkboxValues/1",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateExperienceLevel/checkboxValues/2",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateEducationalLevel/checkboxValues/0",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateEducationalLevel/checkboxValues/1",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateEducationalLevel/checkboxValues/2",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateEducationalLevel/checkboxValues/3",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateEducationalLevel/checkboxValues/4",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateAge/checkboxValues/0",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateAge/checkboxValues/1",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateAge/checkboxValues/2",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateAge/checkboxValues/3",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/candidateAge/checkboxValues/4",
+            false
+          );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/otherCandidateFeatures",
+            ""
+          );
         },
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
@@ -605,25 +703,15 @@ sap.ui.define(
               : "",
             Pernr: this.getModel("userModel").getProperty("/Pernr"),
             Tneden: "I",
-            Abukrs: jsonModel.getProperty(
-              "/formInputValues/requestedDepartmentKey"
-            )
-              ? jsonModel
-                  .getProperty("/formInputValues/requestedDepartmentKey")
-                  .split(" ")[0]
-              : "",
-            Apernr: "",
+            Abukrs: jsonModel.getProperty("/formInputValues/companyName"),
+            Apernr: jsonModel.getProperty("/formInputValues/oldEmployee"),
             Tbukrs: jsonModel.getProperty("/formInputValues/requestedCompany"),
             Torgeh: jsonModel.getProperty(
-              "/formInputValues/requestedDepartmentKey"
-            )
-              ? jsonModel.getProperty("/formInputValues/requestedDepartmentKey")
-              : "",
-            Tplans: jsonModel.getProperty(
-              "/formInputValues/requestedPositionKey"
-            )
-              ? jsonModel.getProperty("/formInputValues/requestedPositionKey")
-              : "",
+              "/formInputValues/requestedDepartment"
+            ),
+            Tdate: jsonModel.getProperty("/today"),
+            Tplans: jsonModel.getProperty("/formInputValues/requestedPosition"),
+            Tneden: jsonModel.getProperty("/formInputValues/requestReason"),
             Tcsayi:
               typeof jsonModel.getProperty(
                 "/formInputValues/requestedCandidateQuantity"
@@ -973,13 +1061,22 @@ sap.ui.define(
           // }
           oModel.read(sPath, {
             success: (oData, oResponse) => {
-              jsonModel.setProperty("/companyCode", oData.Bukrs);
-              jsonModel.setProperty("/companyName", oData.Butxt);
+              jsonModel.setProperty(
+                "/formInputValues/companyCode",
+                oData.Bukrs
+              );
+              jsonModel.setProperty(
+                "/formInputValues/companyName",
+                oData.Butxt
+              );
               jsonModel.setProperty(
                 "/formInputValues/requestedCompany",
                 `${oData.Bukrs} ${oData.Butxt}`
               );
-              jsonModel.setProperty("/oldEmployee", oData.Ename);
+              jsonModel.setProperty(
+                "/formInputValues/oldEmployee",
+                oData.Ename
+              );
             },
           });
         },

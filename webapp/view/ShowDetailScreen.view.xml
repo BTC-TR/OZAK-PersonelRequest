@@ -11,7 +11,7 @@
     height="100%"
     busyIndicatorDelay="0"
 >
-    <Page>
+    <Page id="showDetail">
         <customHeader>
             <Toolbar>
                 <Button
@@ -68,15 +68,9 @@
                     </uxap:heading>
                     <uxap:actions>
                         <ObjectNumber
-                            number="Kayıt Tarihi:"
-                            unit="{
-                                path: 'jsonModel>/today',
-                                type: 'sap.ui.model.type.DateTime',
-                                formatOptions: {
-                                    pattern: 'dd/MM/yyyy'
-                                }
-                            }"
-                        />
+							number="Kayıt Tarihi:"
+							unit="{jsonModel>/today}"
+						/>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
             </uxap:headerTitle>
@@ -376,18 +370,30 @@
                                                 <f:FormElement label="Talep Edilen Başlangıç Tarihi">
                                                     <f:fields>
                                                         <DatePicker
-                                                            id="initialPageCountingYearInput"
-                                                            class="sapUiTinyMarginBottom"
-                                                            showCurrentDateButton="true"
-                                                            width="100%"
+															id="initialPageCountingYearInput"
+															class="sapUiTinyMarginBottom"
+															showCurrentDateButton="true"
                                                             enabled="false"
-                                                            value="{
-                                                                path: 'jsonModel>/formInputValues/formStartDate',
-                                                                type: 'sap.ui.model.type.Date'
-                                                            }"
-                                                            minDate="{jsonModel>/today}"
-                                                            maxDate="{jsonModel>/oneMonthLater}"
-                                                        />
+															width="100%"
+															required="true"
+															change="_clearValidationValueState('initialPageCountingYearInput')"
+															value="{
+																path: 'jsonModel>/formInputValues/formStartDate',
+																type: 'sap.ui.model.type.Date',
+																formatOptions: {
+																	source: {
+																		pattern: 'dd/MM/yyyy'
+																	},
+																	pattern: 'dd/MM/yyyy'
+																},
+																constraints: {
+																	minimum: '',
+																	maximum: ''
+																}
+															}"
+															minDate="{jsonModel>/todayJS}"
+															maxDate="{jsonModel>/oneMonthLaterJS}"
+														/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement label="İş Tanımı Eki">
