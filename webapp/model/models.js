@@ -26,12 +26,17 @@ sap.ui.define(
         });
       },
       createJsonModel: function () {
-        let date = new Date();
+        let date = new Date(),
+        today = new Date(),
+          oneMonthFromNow = new Date(date.setMonth(date.getMonth() + 1));
         var oModel = new JSONModel({
           busy: true,
-          today: new Date(),
+          today: `0${today.getDate()}/0${today.getMonth() + 1}/${today.getFullYear()}`,
+          // today: "08/06/2024",
+          todayJS: today,
+          oneMonthLater: `${oneMonthFromNow.getDate()}/${oneMonthFromNow.getMonth() + 1}/${oneMonthFromNow.getFullYear()}`,
+          oneMonthLaterJS: oneMonthFromNow,
           sendToApproveSPaths: [],
-          oneMonthLater: new Date(date.setMonth(date.getMonth() + 1)),
           formInputValues: this._formInputValues(),
           sHelpPositionTreeData: [],
         });

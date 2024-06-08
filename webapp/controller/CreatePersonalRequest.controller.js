@@ -49,6 +49,14 @@ sap.ui.define(
           oRouter
             .getRoute("showDetail")
             .attachBeforeMatched(this._onBeforeRouteMatched, this);
+
+          this.getView()
+            .byId("initialPageCountingYearInput")
+            .getBindingInfo("value")
+            .parts[0].type.setConstraints({
+              minimum: this.getOwnerComponent().getModel("jsonModel").getProperty("/today"),
+              maximum: this.getOwnerComponent().getModel("jsonModel").getProperty("/oneMonthLater"),
+            });
         },
         _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
@@ -420,7 +428,7 @@ sap.ui.define(
             selectedRequestType = jsonModel.getProperty(
               "/formInputValues/selectedRequestType"
             );
-    
+
           if (selectedRequestType === "01") {
             aInputs = [
               oView.byId("formInputValues1"),
@@ -517,7 +525,9 @@ sap.ui.define(
           const jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
-            Ttarih = jsonModel.getProperty("/formInputValues/formStartDate").split("/"),
+            Ttarih = jsonModel
+              .getProperty("/formInputValues/formStartDate")
+              .split("/"),
             that = this;
 
           let formData = {
@@ -562,7 +572,11 @@ sap.ui.define(
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
-            Ttarih: new Date(Number(Ttarih[2]), Number(Ttarih[1] - 1), Number(Ttarih[0])),
+            Ttarih: new Date(
+              Number(Ttarih[2]),
+              Number(Ttarih[1] - 1),
+              Number(Ttarih[0])
+            ),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",

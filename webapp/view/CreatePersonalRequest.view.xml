@@ -69,13 +69,7 @@
 					<uxap:actions>
 						<ObjectNumber
 							number="Talep Tarihi:"
-							unit="{
-								path: 'jsonModel>/today',
-								type: 'sap.ui.model.type.DateTime',
-								formatOptions: {
-									pattern: 'dd/MM/yyyy'
-								}
-							}"
+							unit="{jsonModel>/today}"
 						/>
 					</uxap:actions>
 				</uxap:ObjectPageDynamicHeaderTitle>
@@ -400,13 +394,27 @@
 																	pattern: 'dd/MM/yyyy'
 																},
 																constraints: {
-																	minimum: 'jsonModel>/today',
-																	maximum: 'jsonModel>/oneMonthLater'
+																	minimum: '',
+																	maximum: ''
 																}
 															}"
-															minDate="{jsonModel>/today}"
-															maxDate="{jsonModel>/oneMonthLater}"
+															minDate="{jsonModel>/todayJS}"
+															maxDate="{jsonModel>/oneMonthLaterJS}"
 														/>
+														<!-- {
+														path: 'jsonModel>/formInputValues/formStartDate',
+														type: 'sap.ui.model.type.Date',
+														formatOptions: {
+														source: {
+															pattern: 'dd/MM/yyyy'
+														},
+														pattern: 'dd/MM/yyyy'
+														},
+														constraints: {
+														minimum: 'jsonModel>/today',
+														maximum: 'jsonModel>/oneMonthLater'
+														}
+													} -->
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement label="İş Tanımı Eki">
@@ -451,8 +459,7 @@
 																enableEdit="false"
 																fileName="{attachmentModel>FileName}"
 																mimeType="{attachmentModel>FileType}"
-																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
-																	/$value"
+																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
 																visibleEdit="false"
 																deletePress="onDeletePressAttachment"
 															/>
