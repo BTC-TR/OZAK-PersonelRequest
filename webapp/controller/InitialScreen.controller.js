@@ -295,7 +295,9 @@ sap.ui.define(
           });
         },
         refreshTransferedTable: function () {
-          this._fetchAllFormListData();
+          this._fetchAllFormListData().then(() => {
+            this.setTableDataCount();
+          });
           this.resetSelections("", "idPersonalFormListSetTableTransfered");
         },
         resetSelections: function (oEvent, tableName) {

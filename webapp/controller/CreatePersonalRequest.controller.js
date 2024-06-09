@@ -170,13 +170,17 @@ sap.ui.define(
             "/formInputValues/jobWerks",
             `${draftData.Werks}`
           );
-          this.pageId === 'showDetail' ? jsonModel.setProperty(
-            "/formInputValues/formStartDate",
-            draftData.Ttarih
-          ) : jsonModel.setProperty(
-            "/formInputValues/formStartDate",
-            `${draftData.Ttarih.getDate()}/${draftData.Ttarih.getMonth() + 1}/${draftData.Ttarih.getFullYear()}`
-          );
+          // this.pageId === 'showDetail' ? jsonModel.setProperty(
+          //   "/formInputValues/formStartDate",
+          //   draftData.Ttarih
+          // ) : jsonModel.setProperty(
+          //   "/formInputValues/formStartDate",
+          //   `${draftData.Ttarih.getDate()}/${draftData.Ttarih.getMonth() + 1}/${draftData.Ttarih.getFullYear()}`
+          // );
+          jsonModel.setProperty(
+              "/formInputValues/formStartDate",
+              draftData.Ttarih
+            )
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
             `${draftData.Pozisy}`
@@ -540,7 +544,7 @@ sap.ui.define(
 
           jsonModel.setProperty("/formInputValues", models._formInputValues());
           if (this.draftGuidWithDash !== jsonModel.getProperty("/draftData/Guid")) {
-            jsonModel.setProperty("/draftData", undefined);
+            // jsonModel.setProperty("/draftData", undefined);
           }
           this.getView().byId("idUploadCollection").destroyItems();
           this.treeData = [];
