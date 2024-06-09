@@ -69,7 +69,7 @@
                     <uxap:actions>
                         <ObjectNumber
 							number="Kayıt Tarihi:"
-							unit="{ path:'jsonModel>/formCreationTime', type:'sap.ui.model.type.DateTime', 'formatOptions': { 'pattern': 'dd/MM/yyyy' } }"
+							unit="{ path:'jsonModel>/formInputValues/formCreationTime', type:'sap.ui.model.type.DateTime', 'formatOptions': { 'pattern': 'dd/MM/yyyy' } }"
 						/>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
@@ -318,6 +318,7 @@
 																}
 															}"
 															required="true"
+                                                            enabled="false"
 															showSuggestion="true"
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://map"
@@ -375,9 +376,6 @@
 																path: 'jsonModel>/formInputValues/formStartDate',
 																type: 'sap.ui.model.type.Date',
 																formatOptions: {
-																	source: {
-																		pattern: 'dd/MM/yyyy'
-																	},
 																	pattern: 'dd/MM/yyyy'
 																},
 																constraints: {

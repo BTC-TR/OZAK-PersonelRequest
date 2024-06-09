@@ -45,6 +45,7 @@ sap.ui.define(
       _formInputValues: function () {
         return {
           formStartDate: "",
+          formCreationTime: "",
           requestedCompany: "",
           requestedDepartment: "",
           requestedDepartmentKey: "",
@@ -53,6 +54,7 @@ sap.ui.define(
           requestedPositionFreeText: "",
           companyCode: "",
           companyName: "",
+          requestReason: "",
           requestedCompanyKey: "",
           positionRequestType: false,
           persStatus01: false,

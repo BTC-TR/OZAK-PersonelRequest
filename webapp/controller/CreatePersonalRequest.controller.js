@@ -110,7 +110,7 @@ sap.ui.define(
             `${draftData.Abukrstext}`
           );
           jsonModel.setProperty(
-            "/formInputValues/jobLocaiton",
+            "/formInputValues/jobLocation",
             `${draftData.Btext}`
           );
           jsonModel.setProperty(
@@ -131,7 +131,7 @@ sap.ui.define(
           );
           jsonModel.setProperty(
             "/formInputValues/requestedCompany",
-            `${draftData.TbukrsText}`
+            `${draftData.Tbukrstext}`
           );
           jsonModel.setProperty(
             "/formInputValues/requestedDepartmentKey",
@@ -139,15 +139,15 @@ sap.ui.define(
           );
           jsonModel.setProperty(
             "/formInputValues/requestedDepartment",
-            `${draftData.TorgehText}`
+            `${draftData.Torgehtext}`
           );
           jsonModel.setProperty(
             "/formInputValues/formCreationTime",
-            `${draftData.Tdate}`
+            draftData.Tdate
           );
           jsonModel.setProperty(
             "/formInputValues/requestedPosition",
-            `${draftData.TplansText}`
+            `${draftData.Tplanstext}`
           );
           jsonModel.setProperty(
             "/formInputValues/requestedPositionKey",
@@ -155,7 +155,7 @@ sap.ui.define(
           );
           jsonModel.setProperty(
             "/formInputValues/requestReason",
-            `${draftData.TnedenText}`
+            `${draftData.Tnedentext}`
           );
           jsonModel.setProperty(
             "/formInputValues/requestedCandidateQuantity",
@@ -167,7 +167,7 @@ sap.ui.define(
           );
           jsonModel.setProperty(
             "/formInputValues/formStartDate",
-            `${draftData.Ttarih}`
+            draftData.Ttarih
           );
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
@@ -224,10 +224,6 @@ sap.ui.define(
           jsonModel.setProperty(
             "/formInputValues/persStatus02",
             draftData.PAltDu === "02" ? true : false
-          );
-          jsonModel.setProperty(
-            "/formInputValues/requestedPosition",
-            draftData.Pozisy
           );
           jsonModel.setProperty(
             "/formInputValues/otherCandidateFeatures",
@@ -789,7 +785,11 @@ sap.ui.define(
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
-            Ttarih: new Date(),
+            Ttarih: new Date(
+              Number(Ttarih[2]),
+              Number(Ttarih[1]),
+              Number(Ttarih[0])
+            ),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
