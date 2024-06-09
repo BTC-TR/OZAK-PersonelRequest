@@ -789,11 +789,7 @@ sap.ui.define(
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
-            Ttarih: new Date(
-              Number(Ttarih[2]),
-              Number(Ttarih[1]),
-              Number(Ttarih[0])
-            ),
+            Ttarih: new Date(),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
