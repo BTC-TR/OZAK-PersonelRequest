@@ -293,7 +293,6 @@
                                                         <Input
                                                             id="formInputValues4"
                                                             type="Number"
-                                                            liveChange="_onlyNumberInput"
                                                             required="true"
 															change="_clearValidationValueState('formInputValues4')"
 															liveChange="_candidateQuantityInputLiveChange"
