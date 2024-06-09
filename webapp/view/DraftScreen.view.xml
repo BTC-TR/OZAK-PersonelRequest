@@ -68,8 +68,8 @@
                     </uxap:heading>
                     <uxap:actions>
                         <ObjectNumber
-							number="Güncelleme Tarihi:"
-							unit="{jsonModel>/today}"
+							number="Oluşturma Tarihi:"
+							unit="{ path:'jsonModel>/formCreationTime', type:'sap.ui.model.type.DateTime', 'formatOptions': { 'pattern': 'dd/MM/yyyy' } }"
 						/>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>

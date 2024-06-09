@@ -136,7 +136,7 @@
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement
-                                                    visible="{= !${jsonModel>/formInputValues/customerFormVisibility} }"
+                                                    visible="{= ${jsonModel>/formInputValues/formNoVisibility} }"
                                                     label="Yeni bir pozisyon yaratmak istiyorum"
                                                 >
                                                     <VBox>
@@ -273,7 +273,7 @@
                                                             enabled="false"
                                                             maxLength="3"
                                                             value="{
-                                                                path: 'jsonModel>/formInputValues/oldEmployeeName',
+                                                                	path: 'jsonModel>/formInputValues/oldEmployee',																
                                                                 type: 'sap.ui.model.type.String',
                                                                 constraints: {
                                                                     minLength: 1
@@ -284,7 +284,7 @@
                                                 </f:FormElement>
                                                 <f:FormElement
                                                     label="Talep Edilen Çalışan Sayısı"
-                                                    visible="{= !${jsonModel>/formInputValues/customerFormVisibility} }"
+                                                    visible="{= ${jsonModel>/formInputValues/formNo} }"
                                                 >
                                                     <f:fields>
                                                         <Input
@@ -308,35 +308,27 @@
                                                     visible="{= ${jsonModel>/formInputValues/customerFormVisibility} || ${jsonModel>/formInputValues/persStatus01}}"
                                                 >
                                                     <f:fields>
-                                                        <ComboBox
-                                                            id="formInputValues5"
-                                                            showSecondaryValues="true"
-                                                            filterSecondaryValues="true"
-                                                            change="onSHelpCustomersSetComboBoxChange"
-                                                            enabled="false"
-                                                            items="{
-                                                                path: 'jsonModel>/SHelp_LocationsSet'
-                                                            }"
-                                                            value="{
-                                                                path: 'jsonModel>/formInputValues/jobLocation',
-                                                                type: 'sap.ui.model.type.String',
-                                                                constraints: {
-                                                                    minLength: 1
-                                                                }
-                                                            }"
-                                                            selectedKey="{jsonModel>/formInputValues/jobLocationKey}"
-                                                        >
-                                                            <c:ListItem
-                                                                key="{jsonModel>Btrtl}"
-                                                                text="{jsonModel>Btext}"
-                                                                additionalText="{jsonModel>Werks}"
-                                                            />
-                                                        </ComboBox>
+                                                        <Input
+															id="formInputValues5"
+															value="{
+																path: 'jsonModel>/formInputValues/jobLocation',
+																type: 'sap.ui.model.type.String',
+																constraints: {
+																	minLength: 1
+																}
+															}"
+															required="true"
+															showSuggestion="true"
+															valueHelpOnly="true"
+															valueHelpIconSrc="sap-icon://map"
+															showValueHelp="true"
+															valueHelpRequest="_locationValueHelp"
+														/>
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement
                                                     label="Talep Gerekçesi"
-                                                    visible="{= !${jsonModel>/formInputValues/customerFormVisibility}}"
+                                                    visible="{= ${jsonModel>/formInputValues/formNo}}"
                                                 >
                                                     <f:fields>
                                                         <Input
@@ -357,6 +349,8 @@
                                                         <TextArea
                                                             id="formInputValues6"
                                                             enabled="false"
+                                                            rows="5"
+															maxLength="100"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/jobDefinition',
                                                                 type: 'sap.ui.model.type.String',
@@ -585,6 +579,8 @@
                                                         <TextArea
                                                             id="formInputValues7"
                                                             enabled="false"
+                                                            rows="5"
+															maxLength="255"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/otherCandidateFeatures',
                                                                 type: 'sap.ui.model.type.String',
