@@ -141,7 +141,6 @@
                     "pattern": "draftEdit/{guid}",
                     "name": "draftEdit",
                     "target": [
-                      "initialScreen",
                       "draftEdit"
                     ]
                   },
@@ -149,7 +148,6 @@
                     "pattern": "showDetail/{guid}",
                     "name": "showDetail",
                     "target": [
-                      "initialScreen",
                       "showDetail"
                     ]
                   }
