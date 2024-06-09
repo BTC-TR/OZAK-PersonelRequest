@@ -74,22 +74,6 @@
                     </customData>
                 </IconTabFilter>
                 <IconTabFilter
-                    icon="sap-icon://decline"
-                    iconColor="Negative"
-                    count="{jsonModel>/declinedDataCount}"
-                    text="Reddedilen(ler)"
-                    design="Horizontal"
-                    key="red"
-                >
-                    <c:Fragment
-                        type="XML"
-                        fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.DeclinedFormListTable"
-                    />
-                    <customData>
-                        <BadgeCustomData visible="true" />
-                    </customData>
-                </IconTabFilter>
-                <IconTabFilter
                     icon="sap-icon://approvals"
                     iconColor="Positive"
                     count="{jsonModel>/approvedDataCount}"
@@ -100,6 +84,22 @@
                     <c:Fragment
                         type="XML"
                         fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.ApprovedFormListTable"
+                    />
+                    <customData>
+                        <BadgeCustomData visible="true" />
+                    </customData>
+                </IconTabFilter>
+                <IconTabFilter
+                    icon="sap-icon://decline"
+                    iconColor="Negative"
+                    count="{jsonModel>/declinedDataCount}"
+                    text="Reddedilen(ler)"
+                    design="Horizontal"
+                    key="red"
+                >
+                    <c:Fragment
+                        type="XML"
+                        fragmentName="ozak.com.zhrpersonalrequestform.fragment.InitialScreen.DeclinedFormListTable"
                     />
                     <customData>
                         <BadgeCustomData visible="true" />

@@ -97,7 +97,7 @@
                 />
                 <FlexBox>
                     <Button
-                        visible="{= ${jsonModel>Statu} === '01'  }"
+                        visible="{= ${jsonModel>Statu} !== '05'  }"
                         icon="sap-icon://show"
                         press="navigateToShowDetail"
                     />

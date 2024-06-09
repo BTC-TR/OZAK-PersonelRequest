@@ -107,14 +107,14 @@ sap.ui.define(
               that._oTable = this.byId("idPersonalFormListSetTableWaiting");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[1]
               break;
-            case "red":
-              that._oTable = this.byId("idPersonalFormListSetTableDeclined");
+              case "onay":
+              that._oTable = this.byId("idPersonalFormListSetTableApproved");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[2]
               break;
-            case "onay":
-              that._oTable = this.byId("idPersonalFormListSetTableApproved");
+            case "red":
+              that._oTable = this.byId("idPersonalFormListSetTableDeclined");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[3]
-              break;
+              break;            
             case "system":
               that._oTable = this.byId("idPersonalFormListSetTableTransfered");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[4]

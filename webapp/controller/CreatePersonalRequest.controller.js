@@ -174,7 +174,7 @@ sap.ui.define(
               "/formInputValues/formStartDate",
               draftData.Ttarih
             )
-          this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
+          
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
             `${draftData.Pozisy}`
@@ -260,6 +260,9 @@ sap.ui.define(
             "/formInputValues/customerFormVisibility",
             draftData.Pdurum === "01" ? true : false
           );
+
+          // en sona koyunuz yoksa patlatıyor
+          this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
         },
         _fetchAllFormListData: function () {
           var that = this;
