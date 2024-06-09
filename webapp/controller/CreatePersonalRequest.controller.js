@@ -159,7 +159,7 @@ sap.ui.define(
           );
           jsonModel.setProperty(
             "/formInputValues/requestedCandidateQuantity",
-            `${draftData.Tcsayi}`
+            draftData.Tcsayi.replace(/0/g, "")
           );
           jsonModel.setProperty(
             "/formInputValues/jobWerks",
@@ -625,7 +625,6 @@ sap.ui.define(
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
               oView.byId("formInputValues4"),
-              oView.byId("formInputValues5"),
               oView.byId("formInputValues14"),
               oView.byId("initialPageCountingYearInput"),
             ];

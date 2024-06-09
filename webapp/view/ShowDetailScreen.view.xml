@@ -68,9 +68,15 @@
                     </uxap:heading>
                     <uxap:actions>
                         <ObjectNumber
-							number="Kayıt Tarihi:"
-							unit="{ path:'jsonModel>/formInputValues/formCreationTime', type:'sap.ui.model.type.DateTime', 'formatOptions': { 'pattern': 'dd/MM/yyyy' } }"
-						/>
+                            number="Kayıt Tarihi:"
+                            unit="{
+                                path: 'jsonModel>/formInputValues/formCreationTime',
+                                type: 'sap.ui.model.type.DateTime',
+                                formatOptions: {
+                                    pattern: 'dd/MM/yyyy'
+                                }
+                            }"
+                        />
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
             </uxap:headerTitle>
@@ -105,7 +111,10 @@
                                         />
                                     </f:layout>
                                     <f:formContainers>
-                                        <f:FormContainer ariaLabelledBy="Title5" visible="false">
+                                        <f:FormContainer
+                                            ariaLabelledBy="Title5"
+                                            visible="false"
+                                        >
                                             <f:toolbar>
                                                 <Toolbar>
                                                     <Title
@@ -273,7 +282,7 @@
                                                             enabled="false"
                                                             maxLength="3"
                                                             value="{
-                                                                	path: 'jsonModel>/formInputValues/oldEmployee',																
+                                                                path: 'jsonModel>/formInputValues/oldEmployee',
                                                                 type: 'sap.ui.model.type.String',
                                                                 constraints: {
                                                                     minLength: 1
@@ -289,16 +298,10 @@
                                                     <f:fields>
                                                         <Input
                                                             id="formInputValues4"
-                                                            type="Number"
-                                                            liveChange="_onlyNumberInput"
-                                                            maxLength="3"
                                                             enabled="false"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedCandidateQuantity',
-                                                                type: 'sap.ui.model.type.Integer',
-                                                                constraints: {
-                                                                    minimum: 1
-                                                                }
+                                                                type: 'sap.ui.model.odata.type.String'
                                                             }"
                                                         />
                                                     </f:fields>
@@ -309,22 +312,22 @@
                                                 >
                                                     <f:fields>
                                                         <Input
-															id="formInputValues5"
-															value="{
-																path: 'jsonModel>/formInputValues/jobLocation',
-																type: 'sap.ui.model.type.String',
-																constraints: {
-																	minLength: 1
-																}
-															}"
-															required="true"
+                                                            id="formInputValues5"
+                                                            value="{
+                                                                path: 'jsonModel>/formInputValues/jobLocation',
+                                                                type: 'sap.ui.model.type.String',
+                                                                constraints: {
+                                                                    minLength: 1
+                                                                }
+                                                            }"
+                                                            required="true"
                                                             enabled="false"
-															showSuggestion="true"
-															valueHelpOnly="true"
-															valueHelpIconSrc="sap-icon://map"
-															showValueHelp="true"
-															valueHelpRequest="_locationValueHelp"
-														/>
+                                                            showSuggestion="true"
+                                                            valueHelpOnly="true"
+                                                            valueHelpIconSrc="sap-icon://map"
+                                                            showValueHelp="true"
+                                                            valueHelpRequest="_locationValueHelp"
+                                                        />
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement
@@ -351,7 +354,7 @@
                                                             id="formInputValues6"
                                                             enabled="false"
                                                             rows="5"
-															maxLength="100"
+                                                            maxLength="100"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/jobDefinition',
                                                                 type: 'sap.ui.model.type.String',
@@ -365,62 +368,62 @@
                                                 <f:FormElement label="Talep Edilen Başlangıç Tarihi">
                                                     <f:fields>
                                                         <DatePicker
-															id="initialPageCountingYearInput"
-															class="sapUiTinyMarginBottom"
-															showCurrentDateButton="true"
+                                                            id="initialPageCountingYearInput"
+                                                            class="sapUiTinyMarginBottom"
+                                                            showCurrentDateButton="true"
                                                             enabled="false"
-															width="100%"
-															required="true"
-															change="_clearValidationValueState('initialPageCountingYearInput')"
-															value="{
-																path: 'jsonModel>/formInputValues/formStartDate',
-																type: 'sap.ui.model.type.Date',
-																formatOptions: {
-																	pattern: 'dd/MM/yyyy'
-																},
-																constraints: {
-																	minimum: '',
-																	maximum: ''
-																}
-															}"
-															minDate="{jsonModel>/todayJS}"
-															maxDate="{jsonModel>/oneMonthLaterJS}"
-														/>
+                                                            width="100%"
+                                                            required="true"
+                                                            change="_clearValidationValueState('initialPageCountingYearInput')"
+                                                            value="{
+                                                                path: 'jsonModel>/formInputValues/formStartDate',
+                                                                type: 'sap.ui.model.type.Date',
+                                                                formatOptions: {
+                                                                    pattern: 'dd/MM/yyyy'
+                                                                },
+                                                                constraints: {
+                                                                    minimum: '',
+                                                                    maximum: ''
+                                                                }
+                                                            }"
+                                                            minDate="{jsonModel>/todayJS}"
+                                                            maxDate="{jsonModel>/oneMonthLaterJS}"
+                                                        />
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement label="İş Tanımı Eki">
                                                     <f:fields>
                                                         <UploadCollection
-															id="idUploadCollection"
-															instantUpload="false"
-															mode="None"
+                                                            id="idUploadCollection"
+                                                            instantUpload="false"
+                                                            mode="None"
                                                             uploadEnabled="false"
-															multiple="true"
-															noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
-															noDataText="Ek yok"
-															terminationEnabled="false"
-															items="{
-																path: 'attachmentModel>/',
-																parameters: {
-																	operationMode: 'Client'
-																}
-															}"
-															beforeUploadStarts="onBeforeUploadStarts"
-															change="onChangeUploadCollection"
-															uploadComplete="onUploadComplete"
-															fileType="png,jpeg,pdf"
-                                                            
-														>
-															<UploadCollectionItem
-																enableEdit="false"
-																fileName="{attachmentModel>FileName}"
-																mimeType="{attachmentModel>FileType}"
-																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
-																visibleEdit="false"
+                                                            multiple="true"
+                                                            noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
+                                                            noDataText="Ek yok"
+                                                            terminationEnabled="false"
+                                                            items="{
+                                                                path: 'attachmentModel>/',
+                                                                parameters: {
+                                                                    operationMode: 'Client'
+                                                                }
+                                                            }"
+                                                            beforeUploadStarts="onBeforeUploadStarts"
+                                                            change="onChangeUploadCollection"
+                                                            uploadComplete="onUploadComplete"
+                                                            fileType="png,jpeg,pdf"
+                                                        >
+                                                            <UploadCollectionItem
+                                                                enableEdit="false"
+                                                                fileName="{attachmentModel>FileName}"
+                                                                mimeType="{attachmentModel>FileType}"
+                                                                url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
+                                                                       /$value"
+                                                                visibleEdit="false"
                                                                 visibleDelete="false"
-																deletePress="onDeletePressAttachment"
-															/>
-														</UploadCollection>
+                                                                deletePress="onDeletePressAttachment"
+                                                            />
+                                                        </UploadCollection>
                                                     </f:fields>
                                                 </f:FormElement>
                                             </f:formElements>
@@ -578,7 +581,7 @@
                                                             id="formInputValues7"
                                                             enabled="false"
                                                             rows="5"
-															maxLength="255"
+                                                            maxLength="255"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/otherCandidateFeatures',
                                                                 type: 'sap.ui.model.type.String',
