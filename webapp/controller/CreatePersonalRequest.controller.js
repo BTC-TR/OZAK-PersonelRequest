@@ -267,6 +267,7 @@ sap.ui.define(
                 "OrgTreeHeaderToOrgItem,OrgTreeHeaderToPersonItem,OrgTreeHeaderToPositionItem",
             },
             success: (oData, oResponse) => {
+              jsonModel.setProperty("/OrganizationList", oData.results[0])
               this._createTreeDataForOrgTree(oData);
               oElement.setBusy(false);
             },
@@ -1269,24 +1270,29 @@ sap.ui.define(
               .getSource()
               .getSelectedItem()
               .getProperty("highlightText"),
-            oIcon = oEvent.getSource().getSelectedItem().getProperty("icon");
+            oIcon = oEvent.getSource().getSelectedItem().getProperty("icon"),
+            oSelectedItemData = oEvent.getSource().getSelectedItem().getBindingContext("jsonModel").getObject();
           if (oIcon === "sap-icon://family-care") {
-            jsonModel.setProperty("/formInputValues/requestedPosition", oTitle);
+            jsonModel.setProperty("/formInputValues/requestedPosition", oSelectedItemData.text);
             jsonModel.setProperty(
               "/formInputValues/requestedPositionKey",
-              oHighlightText
+              oSelectedItemData.Objid
             );
             let { found, ancestors } = this.findNodeAndAncestors(
               jsonModel.getProperty("/sHelpPositionTreeData"),
-              oTitle
+              oSelectedItemData.Objid
             );
+            let oSelectedItemDepartmanNo = oSelectedItemData.Pup
+            let departman = ancestors.find((elmnt)=> {
+              return elmnt.Seqnr === oSelectedItemDepartmanNo
+            })
             jsonModel.setProperty(
               "/formInputValues/requestedDepartment",
-              ancestors[0].text
+              departman.text
             );
             jsonModel.setProperty(
               "/formInputValues/requestedDepartmentKey",
-              ancestors[0].Objid
+              departman.Objid
             );
             oEvent.getSource().getSelectedItem().setSelected(false);
             this._clearValidationValueState("formInputValues3");
@@ -1296,7 +1302,7 @@ sap.ui.define(
         },
         findNodeAndAncestors: function (nodes, searchText, ancestors = []) {
           for (const node of nodes) {
-            if (node.text === searchText) {
+            if (node.Objid === searchText) {
               return { found: node, ancestors };
             }
             if (node.nodes) {
