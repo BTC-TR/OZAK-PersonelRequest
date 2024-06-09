@@ -31,7 +31,7 @@ sap.ui.define(
           oneMonthFromNow = new Date(date.setMonth(date.getMonth() + 1));
         var oModel = new JSONModel({
           busy: true,
-          today: `0${today.getDate()}/0${today.getMonth() + 1}/${today.getFullYear()}`,
+          today: `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
           // today: "08/06/2024",
           todayJS: today,
           oneMonthLater: `${oneMonthFromNow.getDate()}/${oneMonthFromNow.getMonth() + 1}/${oneMonthFromNow.getFullYear()}`,
@@ -46,6 +46,7 @@ sap.ui.define(
         return {
           formStartDate: "",
           formCreationTime: "",
+          oldEmployee: "",
           requestedCompany: "",
           requestedDepartment: "",
           requestedDepartmentKey: "",
@@ -67,7 +68,7 @@ sap.ui.define(
           customerFormEnabled: false,
           formYes: false,
           formNo: false,
-          requestedCandidateQuantity: Number,
+          requestedCandidateQuantity: undefined,
           jobLocation: "",
           jobLocationKey: "",
           jobDefinition: "",

@@ -135,7 +135,7 @@
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement
-                                                    visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
+                                                    visible="{= ${jsonModel>/formInputValues/formNoVisibility} }"
                                                     label="Yeni bir pozisyon yaratmak istiyorum"
                                                 >
                                                     <VBox>

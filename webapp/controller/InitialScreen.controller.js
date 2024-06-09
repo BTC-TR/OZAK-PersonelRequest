@@ -28,7 +28,7 @@ sap.ui.define(
             .attachMatched(this._onRouteMatched, this);
           var oTable = this.byId("idPersonalFormListSetTable");
           this._oTable = oTable;
-          this.oSF = this.getView().byId("searchField");
+          
         },
         _onRouteMatched: function (oEvent) {
           this._getUserInfo().then(() => {
@@ -97,20 +97,27 @@ sap.ui.define(
           let oSource = oEvent.getSource(),
             selectedKey = oSource.getSelectedKey(),
             that = this;
+            
           switch (selectedKey) {
             case "All":
               that._oTable = this.byId("idPersonalFormListSetTable");
+              this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[0]
               break;
             case "bekleyen":
               that._oTable = this.byId("idPersonalFormListSetTableWaiting");
+              this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[1]
               break;
             case "red":
               that._oTable = this.byId("idPersonalFormListSetTableDeclined");
+              this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[2]
               break;
             case "onay":
               that._oTable = this.byId("idPersonalFormListSetTableApproved");
+              this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[3]
+              break;
             case "system":
               that._oTable = this.byId("idPersonalFormListSetTableTransfered");
+              this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[4]
               break;
           }
         },
@@ -123,9 +130,13 @@ sap.ui.define(
             ),
             inputValue = oEvent.getSource().getValue();
           if (inputValue !== "") {
+            let guid = inputValue.replace(/-/g, "").toUpperCase()
             oFilter = new Filter(
               [
-                new Filter("TplansT", FilterOperator.Contains, inputValue),
+                new Filter("Guid", FilterOperator.Contains, inputValue),
+                // new Filter("Tplanstext", FilterOperator.Contains, inputValue),
+                // new Filter("Pozisy", FilterOperator.Contains, inputValue),
+                // new Filter("Btext", FilterOperator.Contains, inputValue),
                 new Filter("Statu", FilterOperator.Contains, statu),
               ],
               true
@@ -142,14 +153,20 @@ sap.ui.define(
             aFilters = [
               new Filter(
                 [
-                  new Filter("id", function (sText) {
+                  new Filter("Guid", function (sText) {
                     return (
                       (String(sText) || "")
                         .toUpperCase()
                         .indexOf(sValue.toUpperCase()) > -1
                     );
                   }),
-                  new Filter("TplansT", function (sDes) {
+                  new Filter("Tplanstext", function (sDes) {
+                    return (
+                      (sDes || "").toUpperCase().indexOf(sValue.toUpperCase()) >
+                      -1
+                    );
+                  }),
+                  new Filter("Pozisy", function (sDes) {
                     return (
                       (sDes || "").toUpperCase().indexOf(sValue.toUpperCase()) >
                       -1

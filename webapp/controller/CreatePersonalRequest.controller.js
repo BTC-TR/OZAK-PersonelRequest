@@ -66,7 +66,8 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
           this._getUserInfo();
         },
-        _onBeforeRouteMatched: function () {
+        _onBeforeRouteMatched: function (oEvent) {
+          this.draftGuidWithDash = oEvent.getParameter("arguments");
           this._clearFormInputs();
         },
         _onDraftMatched: function (oEvent) {
@@ -169,9 +170,12 @@ sap.ui.define(
             "/formInputValues/jobWerks",
             `${draftData.Werks}`
           );
-          jsonModel.setProperty(
+          this.pageId === 'showDetail' ? jsonModel.setProperty(
             "/formInputValues/formStartDate",
             draftData.Ttarih
+          ) : jsonModel.setProperty(
+            "/formInputValues/formStartDate",
+            `${draftData.Ttarih.getDate()}/${draftData.Ttarih.getMonth() + 1}/${draftData.Ttarih.getFullYear()}`
           );
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
@@ -238,7 +242,19 @@ sap.ui.define(
             draftData.Pdurum === "01" ? true : false
           );
           jsonModel.setProperty(
+            "/formInputValues/formYesVisibility",
+            draftData.Pdurum === "01" ? true : false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/selectedRequestType",
+            draftData.Pdurum
+          );
+          jsonModel.setProperty(
             "/formInputValues/formNo",
+            draftData.Pdurum === "02" ? true : false
+          );
+          jsonModel.setProperty(
+            "/formInputValues/formNoVisibility",
             draftData.Pdurum === "02" ? true : false
           );
 
@@ -331,11 +347,6 @@ sap.ui.define(
           );
           jsonModel.setProperty("/formInputValues/persStatus01", false);
           jsonModel.setProperty("/formInputValues/persStatus02", false);
-        },
-        _onPersStatusClicked: function (oEvent, unselectCheckBox) {
-          this._unselectCheckBox(oEvent, unselectCheckBox);
-          if (unselectCheckBox === "persStatus02") {
-          }
         },
         _unselectCheckBox: function (oEvent, unselectCheckBox) {
           let oSource = oEvent.getSource(),
@@ -528,7 +539,9 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", models._formInputValues());
-          jsonModel.setProperty("/draftData", undefined);
+          if (this.draftGuidWithDash !== jsonModel.getProperty("/draftData/Guid")) {
+            jsonModel.setProperty("/draftData", undefined);
+          }
           this.getView().byId("idUploadCollection").destroyItems();
           this.treeData = [];
           this._resetAllFormInputsValueState();
@@ -713,7 +726,7 @@ sap.ui.define(
           this._saveForm("05", false);
         },
         _onDraftUpdate: function () {
-          this._saveForm("05", true);
+          this._saveForm("01", true);
         },
         _saveForm: function (statu, isUpdate) {
           let jsonModel = this.getModel("jsonModel"),
@@ -725,8 +738,14 @@ sap.ui.define(
             Tdate = jsonModel.getProperty("/today").split("/"),
             PAltDu = "",
             Tneden = "",
+            Tcsayi = "",
             that = this;
-
+          
+          if (jsonModel.getProperty("/formInputValues/requestedCandidateQuantity") !== undefined && jsonModel.getProperty("/formInputValues/formNo")) {
+            Tcsayi = jsonModel.getProperty("/formInputValues/requestedCandidateQuantity")
+          } else if (jsonModel.getProperty("/formInputValues/formYes")){
+            Tcsayi = '1';
+          }
           if (jsonModel.getProperty("/formInputValues/formNo")) {
             PAltDu = jsonModel.getProperty("/formInputValues/persStatus01")
               ? "01"
@@ -773,13 +792,7 @@ sap.ui.define(
             Tneden: Tneden,
             TnedenText: jsonModel.getProperty("/formInputValues/requestReason"),
             Tcsayi:
-              typeof jsonModel.getProperty(
-                "/formInputValues/requestedCandidateQuantity"
-              ) === typeof 1
-                ? jsonModel.getProperty(
-                    "/formInputValues/requestedCandidateQuantity"
-                  )
-                : "1",
+             Tcsayi ,
             Werks: jsonModel.getProperty("/formInputValues/jobWerks")
               ? jsonModel.getProperty("/formInputValues/jobWerks")
               : "",
@@ -832,7 +845,7 @@ sap.ui.define(
               success: function (oData) {
                 if (oData.CreateForm_Func_Imp.Type === "S") {
                   that._showMessageBoxWithRoute(
-                    "Kayıt Başarılı",
+                    oData.CreateForm_Func_Imp.Message,
                     oData.CreateForm_Func_Imp.Type,
                     "initialScreen"
                   );

@@ -17,21 +17,16 @@
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
                 <SearchField
-                    id="searchField"
+                fieldGroupIds="searchField"
                     showRefreshButton="false"
                     enableSuggestions="true"
                     tooltip="{i18n>listSearchTooltip}"
-                    suggest="onSuggest"
-                    suggestionItems="{
-                        path: '/PersonalFormListSet'
-                    }"
                     search="_onSearchcidMyPYPListTableAll($event, 'idPersonalFormListSetTable', '0')"
                     width="auto"
                 >
                     <SuggestionItem
-                        key="{jsonModel>id}"
-                        text="{jsonModel>TplansT}"
-                        description="{jsonModel>Btext}"
+                        key="{jsonModel>Guid}"
+                        text="{jsonModel>Guid}"
                     />
                 </SearchField>
                 <Button
@@ -70,9 +65,12 @@
         <items>
             <ColumnListItem>
                 <ObjectIdentifier text="{
+                    path: 'jsonModel>Guid'
+                }" />
+                <!-- <ObjectIdentifier text="{
                     path: 'jsonModel>Guid',
                     formatter: '.formatter.removeDatsFromString'
-                }" />
+                }" /> -->
                 <ObjectIdentifier text="{= ${jsonModel>Tplanstext} === '' ? ${jsonModel>Pozisy} : ${jsonModel>Tplanstext} }" />
                 <ObjectIdentifier text="{
                     path: 'jsonModel>Tcsayi',
