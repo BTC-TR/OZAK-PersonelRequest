@@ -175,7 +175,6 @@ sap.ui.define(
               draftData.Ttarih
             )
           this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
-          this.getView().byId("initialPageCountingYearInput").setDisplayFormat("dd/MM/yyyy")
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
             `${draftData.Pozisy}`

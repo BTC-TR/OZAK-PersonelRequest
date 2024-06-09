@@ -417,8 +417,7 @@
                                                                 enableEdit="false"
                                                                 fileName="{attachmentModel>FileName}"
                                                                 mimeType="{attachmentModel>FileType}"
-                                                                url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
-                                                                       /$value"
+                                                                url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
                                                                 visibleEdit="false"
                                                                 visibleDelete="false"
                                                                 deletePress="onDeletePressAttachment"
