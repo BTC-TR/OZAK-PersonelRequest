@@ -80,6 +80,7 @@ sap.ui.define(
               });
             });
           } else {
+            this._getUserInfo();
             this._setDraftedInputs();
           }
           this._getAttachment();
@@ -784,7 +785,7 @@ sap.ui.define(
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
-            Ttarih: new Date(
+            Ttarih: Ttarih[0] === '' ? '00000000' : new Date(
               Number(Ttarih[2]),
               Number(Ttarih[1]),
               Number(Ttarih[0])
