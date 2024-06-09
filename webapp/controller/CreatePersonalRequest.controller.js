@@ -96,6 +96,9 @@ sap.ui.define(
               .find((elmnt) => {
                 return elmnt.Guid === that.draftGuidWithDash.guid;
               });
+            if (!draftData) {
+              this.navigateToInitialScreen();
+            }
             delete draftData.__metadata;
           }
           draftData.Guid = draftData.Guid.replace(/-/g, "").toUpperCase();
@@ -525,6 +528,7 @@ sap.ui.define(
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", models._formInputValues());
+          jsonModel.setProperty("/draftData", undefined);
           this.getView().byId("idUploadCollection").destroyItems();
           this.treeData = [];
           this._resetAllFormInputsValueState();
