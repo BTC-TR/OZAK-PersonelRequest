@@ -262,7 +262,11 @@ sap.ui.define(
           );
 
           // en sona koyunuz yoksa patlatıyor
+          try {
           this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
+          } catch (error) {
+            console.log(error)
+          }
         },
         _fetchAllFormListData: function () {
           var that = this;

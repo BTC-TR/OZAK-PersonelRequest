@@ -320,7 +320,6 @@
                                                                     minLength: 1
                                                                 }
                                                             }"
-                                                            required="true"
                                                             enabled="false"
                                                             showSuggestion="true"
                                                             valueHelpOnly="true"
@@ -373,7 +372,6 @@
                                                             showCurrentDateButton="true"
                                                             enabled="false"
                                                             width="100%"
-                                                            required="true"
                                                             change="_clearValidationValueState('initialPageCountingYearInput')"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/formStartDate',
