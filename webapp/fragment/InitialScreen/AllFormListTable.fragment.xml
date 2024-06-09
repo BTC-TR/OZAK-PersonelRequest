@@ -73,7 +73,7 @@
                     path: 'jsonModel>Guid',
                     formatter: '.formatter.removeDatsFromString'
                 }" />
-                <ObjectIdentifier text="{jsonModel>TplansT}" />
+                <ObjectIdentifier text="{= ${jsonModel>Tplanstext} === '' ? ${jsonModel>Pozisy} : ${jsonModel>Tplanstext} }" />
                 <ObjectIdentifier text="{
                     path: 'jsonModel>Tcsayi',
                     type: 'sap.ui.model.odata.type.String',
