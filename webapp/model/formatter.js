@@ -14,6 +14,9 @@ sap.ui.define([], function () {
       }
       return parseFloat(sValue).toFixed(2);
     },
+    formatDate: function (sValue) {
+      return `${sValue.getDate()}/${sValue.getMonth() + 1}/${sValue.getFullYear()}`;
+    },
     setStatusText: function (sValue) {
       switch (sValue) {
         case "01":

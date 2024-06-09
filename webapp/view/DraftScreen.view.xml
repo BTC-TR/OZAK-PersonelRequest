@@ -384,6 +384,7 @@
 															width="100%"
 															required="true"
 															change="_clearValidationValueState('initialPageCountingYearInput')"
+                                                            validationError="onFormStartDateDatePickerValidationError"
 															value="{
 																path: 'jsonModel>/formInputValues/formStartDate',
 																type: 'sap.ui.model.type.Date',
@@ -391,7 +392,8 @@
 																	source: {
 																		pattern: 'dd/MM/yyyy'
 																	},
-																	pattern: 'dd/MM/yyyy'
+                                                                    stricktParsing : true,
+                                                                    pattern: 'dd/MM/yyyy'
 																},
 																constraints: {
 																	minimum: '',

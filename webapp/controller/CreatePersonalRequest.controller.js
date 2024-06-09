@@ -174,6 +174,8 @@ sap.ui.define(
               "/formInputValues/formStartDate",
               draftData.Ttarih
             )
+          this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
+          this.getView().byId("initialPageCountingYearInput").setDisplayFormat("dd/MM/yyyy")
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
             `${draftData.Pozisy}`
@@ -1044,6 +1046,9 @@ sap.ui.define(
               },
             }
           );
+        },
+        onFormStartDateDatePickerValidationError: function (oEvent) {
+          debugger
         },
         _uploadAttachment: function (sGuid) {
           var parts = [];
