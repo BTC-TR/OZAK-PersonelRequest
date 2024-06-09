@@ -170,13 +170,6 @@ sap.ui.define(
             "/formInputValues/jobWerks",
             `${draftData.Werks}`
           );
-          // this.pageId === 'showDetail' ? jsonModel.setProperty(
-          //   "/formInputValues/formStartDate",
-          //   draftData.Ttarih
-          // ) : jsonModel.setProperty(
-          //   "/formInputValues/formStartDate",
-          //   `${draftData.Ttarih.getDate()}/${draftData.Ttarih.getMonth() + 1}/${draftData.Ttarih.getFullYear()}`
-          // );
           jsonModel.setProperty(
               "/formInputValues/formStartDate",
               draftData.Ttarih
@@ -729,22 +722,37 @@ sap.ui.define(
         _onDraftSave: function () {
           this._saveForm("05", false);
         },
+        _onDraftSaveUpdate: function () {
+          this._saveForm("05", true);
+        },
         _onDraftUpdate: function () {
+          let boxValidation = this._checkIfFormCheckBoxesValidated();
+          let formValidation = this._checkIfFormInputsValidated();
+          if (!boxValidation && !formValidation) {
+           
           this._saveForm("01", true);
+          } else {
+            MessageToast.show("Gerekli Alanları Doldurunuz !");
+          }
         },
         _saveForm: function (statu, isUpdate) {
           let jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
-            Ttarih = jsonModel
-              .getProperty("/formInputValues/formStartDate")
-              .split("/"),
+            Ttarih = '00000000',
             Tdate = jsonModel.getProperty("/today").split("/"),
             PAltDu = "",
             Tneden = "",
             Tcsayi = "",
             that = this;
           
+            if (typeof(jsonModel.getProperty("/formInputValues/formStartDate")) === typeof(new Date())) {
+              Ttarih = `${jsonModel.getProperty("/formInputValues/formStartDate").getDate()}/${jsonModel.getProperty("/formInputValues/formStartDate").getMonth() + 1}/${jsonModel.getProperty("/formInputValues/formStartDate").getFullYear()}`.split("/")
+            } else {
+              Ttarih = jsonModel
+              .getProperty("/formInputValues/formStartDate")
+              .split("/");
+            }
           if (jsonModel.getProperty("/formInputValues/requestedCandidateQuantity") !== undefined && jsonModel.getProperty("/formInputValues/formNo")) {
             Tcsayi = jsonModel.getProperty("/formInputValues/requestedCandidateQuantity")
           } else if (jsonModel.getProperty("/formInputValues/formYes")){
@@ -784,8 +792,8 @@ sap.ui.define(
             ),
             Tdate: new Date(
               Number(Tdate[2]),
-              Number(Tdate[1]),
-              Number(Tdate[0])
+              Number(Tdate[1]) - 1,
+              Number(Tdate[0]) + 1
             ),
             Tplans: jsonModel.getProperty(
               "/formInputValues/requestedPositionKey"
@@ -808,8 +816,8 @@ sap.ui.define(
               : "",
             Ttarih: Ttarih[0] === '' ? '00000000' : new Date(
               Number(Ttarih[2]),
-              Number(Ttarih[1]),
-              Number(Ttarih[0])
+              Number(Ttarih[1]) - 1,
+              Number(Ttarih[0]) + 1
             ),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",

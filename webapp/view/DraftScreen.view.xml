@@ -69,7 +69,13 @@
                     <uxap:actions>
                         <ObjectNumber
 							number="Oluşturma Tarihi:"
-							unit="{ path:'jsonModel>/formCreationTime', type:'sap.ui.model.type.DateTime', 'formatOptions': { 'pattern': 'dd/MM/yyyy' } }"
+							unit="{
+                                path: 'jsonModel>/formInputValues/formCreationTime',
+                                type: 'sap.ui.model.type.DateTime',
+                                formatOptions: {
+                                    pattern: 'dd/MM/yyyy'
+                                }
+                            }"
 						/>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
@@ -615,6 +621,13 @@
                     press="_clearFormInputs"
                 />
                 <ToolbarSpacer />
+                <Button
+					type="Neutral"
+					icon="sap-icon://timesheet"
+					text="Taslağa Kaydet"
+					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+					press="_onDraftSaveUpdate"
+				/>
                 <Button
                     type="Accept"
                     icon="sap-icon://paper-plane"
