@@ -313,28 +313,6 @@
 													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} || ${jsonModel>/formInputValues/persStatus01}}"
 												>
 													<f:fields>
-														<!-- <ComboBox
-															id="formInputValues5"
-															showSecondaryValues="true"
-															filterSecondaryValues="true"
-															change="onSHelpCustomersSetComboBoxChange"
-															items="{
-																path: 'jsonModel>/SHelp_LocationsSet'
-															}"
-															value="{
-																path: 'jsonModel>/formInputValues/jobLocation',
-																type: 'sap.ui.model.type.String',
-																constraints: {
-																	minLength: 1
-																}
-															}"
-														>
-															<c:ListItem
-																key="{jsonModel>Btrtl}"
-																text="{jsonModel>Btext}"
-																additionalText="{jsonModel>Werks}"
-															/>
-														</ComboBox> -->
 														<Input
 															id="formInputValues5"
 															value="{
@@ -379,7 +357,7 @@
 															id="formInputValues6"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
-															maxLength="255"
+															maxLength="100"
 															value="{
 																path: 'jsonModel>/formInputValues/jobDefinition',
 																type: 'sap.ui.model.type.String',

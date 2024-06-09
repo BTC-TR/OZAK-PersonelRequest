@@ -65,22 +65,23 @@ sap.ui.define(
         _onRouteMatched: function () {
           let jsonModel = this.getView().getModel("jsonModel");
           this._getUserInfo();
-          this._fetchLocations();
         },
         _onBeforeRouteMatched: function () {
           this._clearFormInputs();
         },
         _onDraftMatched: function (oEvent) {
+          let jsonModel = this.getModel("jsonModel");
           this.draftGuidWithDash = oEvent.getParameter("arguments");
           this.pageId = oEvent.getSource()._oConfig.name;
-          this._getUserInfo().then(() => {
-            this._fetchLocations().then(() => {
+          if (!jsonModel.getProperty("/draftData")) {
+            this._getUserInfo().then(() => {
               this._fetchAllFormListData().then(() => {
                 this._setDraftedInputs();
               });
             });
-          });
-
+          } else {
+            this._setDraftedInputs();
+          }
           this._getAttachment();
         },
         _setDraftedInputs: function () {
@@ -101,53 +102,77 @@ sap.ui.define(
           jsonModel.setProperty("/draftGuid", `${draftData.Guid}`);
 
           jsonModel.setProperty(
-            "/formInputValues/requestedCompany",
-            `${draftData.Tbukrs}`
+            "/formInputValues/companyCode",
+            `${draftData.Abukrs}`
           );
           jsonModel.setProperty(
-            "/formInputValues/requestedDepartment",
-            draftData.Pozisy
+            "/formInputValues/companyName",
+            `${draftData.Abukrstext}`
           );
           jsonModel.setProperty(
-            "/formInputValues/requestedDepartmentKey",
-            draftData.Torgeh
+            "/formInputValues/jobLocaiton",
+            `${draftData.Btext}`
           );
           jsonModel.setProperty(
-            "/formInputValues/requestedPosition",
-            draftData.TplansT
+            "/formInputValues/jobBtrtl",
+            `${draftData.Btrtl}`
           );
           jsonModel.setProperty(
-            "/formInputValues/requestedPositionFreeText",
-            draftData.TplansT
-          );
-          jsonModel.setProperty(
-            "/formInputValues/requestedPositionKey",
-            draftData.Tplans
-          );
-          jsonModel.setProperty(
-            "/formInputValues/requestedCandidateQuantity",
-            Number(draftData.Tcsayi)
-          );
-          jsonModel.setProperty("/formInputValues/jobWerks", draftData.Werks);
-          jsonModel.setProperty("/formInputValues/jobBtrtl", draftData.Btrtl);
-
-          if (draftData.Btrtl !== "") {
-            jsonModel.setProperty(
-              "/formInputValues/jobLocation",
-              jsonModel.getProperty("/SHelp_LocationsSet").find((element) => {
-                return element.Btrtl === draftData.Btrtl;
-              }).Btext
-            );
-          }
-          jsonModel.setProperty(
-            "/formInputValues/jobLocationKey",
-            draftData.Btrtl
+            "/formInputValues/otherCandidateFeatures",
+            `${draftData.Diger}`
           );
           jsonModel.setProperty(
             "/formInputValues/jobDefinition",
-            draftData.Istnm
+            `${draftData.Istnm}`
           );
-
+          jsonModel.setProperty(
+            "/formInputValues/requestedCompanyKey",
+            `${draftData.Tbukrs}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedCompany",
+            `${draftData.TbukrsText}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedDepartmentKey",
+            `${draftData.Torgeh}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedDepartment",
+            `${draftData.TorgehText}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/formCreationTime",
+            `${draftData.Tdate}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPosition",
+            `${draftData.TplansText}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPositionKey",
+            `${draftData.Tplans}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestReason",
+            `${draftData.TnedenText}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedCandidateQuantity",
+            `${draftData.Tcsayi}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/jobWerks",
+            `${draftData.Werks}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/formStartDate",
+            `${draftData.Ttarih}`
+          );
+          jsonModel.setProperty(
+            "/formInputValues/requestedPositionFreeText",
+            `${draftData.Pozisy}`
+          );
           oView
             .byId("experienceCheckBox1")
             .setSelected(draftData.Tcrb1 === "X" ? true : false);
@@ -267,7 +292,7 @@ sap.ui.define(
                 "OrgTreeHeaderToOrgItem,OrgTreeHeaderToPersonItem,OrgTreeHeaderToPositionItem",
             },
             success: (oData, oResponse) => {
-              jsonModel.setProperty("/OrganizationList", oData.results[0])
+              jsonModel.setProperty("/OrganizationList", oData.results[0]);
               this._createTreeDataForOrgTree(oData);
               oElement.setBusy(false);
             },
@@ -536,6 +561,7 @@ sap.ui.define(
               this.oDialog = oDialog;
               this.oDialog.open();
               this.oDialog;
+              this._fetchLocations();
             }.bind(this)
           );
         },
@@ -690,12 +716,13 @@ sap.ui.define(
           this._saveForm("05", true);
         },
         _saveForm: function (statu, isUpdate) {
-          const jsonModel = this.getModel("jsonModel"),
+          let jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
             Ttarih = jsonModel
               .getProperty("/formInputValues/formStartDate")
               .split("/"),
+            Tdate = jsonModel.getProperty("/today").split("/"),
             PAltDu = "",
             Tneden = "",
             that = this;
@@ -704,11 +731,11 @@ sap.ui.define(
             PAltDu = jsonModel.getProperty("/formInputValues/persStatus01")
               ? "01"
               : "02";
-              Tneden = jsonModel.getProperty("/formInputValues/persStatus01")
+            Tneden = jsonModel.getProperty("/formInputValues/persStatus01")
               ? "02"
               : "03";
           } else {
-            Tneden = '01'
+            Tneden = "01";
           }
 
           let formData = {
@@ -720,12 +747,29 @@ sap.ui.define(
             AbukrsText: jsonModel.getProperty("/formInputValues/companyName"),
             Apernr: "00000000",
             ApernrText: jsonModel.getProperty("/formInputValues/oldEmployee"),
-            Tbukrs: jsonModel.getProperty("/formInputValues/requestedCompanyKey"),
-            TbukrsText: jsonModel.getProperty("/formInputValues/requestedCompany"),
-            Torgeh: jsonModel.getProperty("/formInputValues/requestedDepartmentKey"),
-            TorgehText: jsonModel.getProperty("/formInputValues/requestedDepartment"),
-            Tdate: jsonModel.getProperty("/today"),
-            Tplans: jsonModel.getProperty("/formInputValues/requestedPositionKey"),
+            Tbukrs: jsonModel.getProperty(
+              "/formInputValues/requestedCompanyKey"
+            ),
+            TbukrsText: jsonModel.getProperty(
+              "/formInputValues/requestedCompany"
+            ),
+            Torgeh: jsonModel.getProperty(
+              "/formInputValues/requestedDepartmentKey"
+            ),
+            TorgehText: jsonModel.getProperty(
+              "/formInputValues/requestedDepartment"
+            ),
+            Tdate: new Date(
+              Number(Tdate[2]),
+              Number(Tdate[1]),
+              Number(Tdate[0])
+            ),
+            Tplans: jsonModel.getProperty(
+              "/formInputValues/requestedPositionKey"
+            ),
+            TplansText: jsonModel.getProperty(
+              "/formInputValues/requestedPosition"
+            ),
             Tneden: Tneden,
             TnedenText: jsonModel.getProperty("/formInputValues/requestReason"),
             Tcsayi:
@@ -747,7 +791,7 @@ sap.ui.define(
               : "",
             Ttarih: new Date(
               Number(Ttarih[2]),
-              Number(Ttarih[1] - 1),
+              Number(Ttarih[1]),
               Number(Ttarih[0])
             ),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
@@ -765,11 +809,8 @@ sap.ui.define(
             Yas3: oView.byId("ageCheckBox3").getSelected() ? "X" : "",
             Yas4: oView.byId("ageCheckBox4").getSelected() ? "X" : "",
             Yas5: oView.byId("ageCheckBox5").getSelected() ? "X" : "",
-            PAltDu:
-              jsonModel.getProperty("/formInputValues/persStatus01") === true
-                ? "01"
-                : "02",
-            Pozisy: jsonModel.jsonModel.getProperty(
+            PAltDu: PAltDu,
+            Pozisy: jsonModel.getProperty(
               "/formInputValues/requestedPositionFreeText"
             ),
             Pdurum:
@@ -1087,6 +1128,10 @@ sap.ui.define(
                 `${oData.Bukrs} ${oData.Butxt}`
               );
               jsonModel.setProperty(
+                "/formInputValues/requestedCompanyKey",
+                oData.Bukrs
+              );
+              jsonModel.setProperty(
                 "/formInputValues/oldEmployee",
                 oData.Ename
               );
@@ -1271,9 +1316,16 @@ sap.ui.define(
               .getSelectedItem()
               .getProperty("highlightText"),
             oIcon = oEvent.getSource().getSelectedItem().getProperty("icon"),
-            oSelectedItemData = oEvent.getSource().getSelectedItem().getBindingContext("jsonModel").getObject();
+            oSelectedItemData = oEvent
+              .getSource()
+              .getSelectedItem()
+              .getBindingContext("jsonModel")
+              .getObject();
           if (oIcon === "sap-icon://family-care") {
-            jsonModel.setProperty("/formInputValues/requestedPosition", oSelectedItemData.text);
+            jsonModel.setProperty(
+              "/formInputValues/requestedPosition",
+              oSelectedItemData.text
+            );
             jsonModel.setProperty(
               "/formInputValues/requestedPositionKey",
               oSelectedItemData.Objid
@@ -1282,10 +1334,10 @@ sap.ui.define(
               jsonModel.getProperty("/sHelpPositionTreeData"),
               oSelectedItemData.Objid
             );
-            let oSelectedItemDepartmanNo = oSelectedItemData.Pup
-            let departman = ancestors.find((elmnt)=> {
-              return elmnt.Seqnr === oSelectedItemDepartmanNo
-            })
+            let oSelectedItemDepartmanNo = oSelectedItemData.Pup;
+            let departman = ancestors.find((elmnt) => {
+              return elmnt.Seqnr === oSelectedItemDepartmanNo;
+            });
             jsonModel.setProperty(
               "/formInputValues/requestedDepartment",
               departman.text
