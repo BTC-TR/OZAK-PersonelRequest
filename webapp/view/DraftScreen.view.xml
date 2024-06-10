@@ -199,6 +199,7 @@
                                                             id="formInputValues1"
                                                             enabled="false"
                                                             required="true"
+                                                            maxLength="50"
 															change="_clearValidationValueState('formInputValues1')"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedCompany',
@@ -216,6 +217,7 @@
                                                             id="formInputValues2"
                                                             enabled="{= ${jsonModel>/formInputValues/persStatus01}}"
 															required="true"
+                                                            maxLength="50"
 															change="_clearValidationValueState('formInputValues2')"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedDepartment',
@@ -259,6 +261,7 @@
                                                         <Input
                                                             id="formInputValues13"
                                                             required="true"
+                                                            maxLength="50"
 															change="_clearValidationValueState('formInputValues13')"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedPositionFreeText',
@@ -329,6 +332,7 @@
 																}
 															}"
 															required="true"
+                                                            maxLength="50"
 															showSuggestion="true"
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://map"
@@ -345,6 +349,7 @@
                                                         <Input
                                                             id="formInputValues14"
                                                             required="true"
+                                                            maxLength="50"
 															change="_clearValidationValueState('formInputValues14')"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
                                                             value="{
@@ -363,7 +368,7 @@
                                                             id="formInputValues6"
                                                             enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
-															maxLength="100"
+															maxLength="255"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/jobDefinition',
                                                                 type: 'sap.ui.model.type.String',
@@ -401,9 +406,10 @@
 																}
 															}"
 															minDate="{jsonModel>/todayJS}"
-															maxDate="{jsonModel>/oneMonthLaterJS}"
 														/>
                                                     </f:fields>
+															<!-- maxDate="{jsonModel>/oneMonthLaterJS}" -->
+
                                                 </f:FormElement>
                                                 <f:FormElement label="İş Tanımı Eki">
                                                     <f:fields>

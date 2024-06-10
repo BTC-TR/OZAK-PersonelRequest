@@ -20,7 +20,7 @@
                 id="idSHelpPositionTreeDataTree"
                 selectionChange="onSHelpPositionTreeDataTreeSelectionChange"
                 items="{jsonModel>/sHelpPositionTreeData}"
-                mode="SingleSelect"
+                mode="SingleSelectLeft"
             >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"

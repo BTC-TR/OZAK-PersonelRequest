@@ -263,6 +263,7 @@ sap.ui.define(
 
           // en sona koyunuz yoksa patlatıyor
           try {
+            if (draftData.Ttarih.getFullYear() > new Date().getFullYear() - 10)
           this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
           } catch (error) {
             console.log(error)
