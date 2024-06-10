@@ -1065,12 +1065,12 @@ sap.ui.define(
         _uploadAttachment: function (sGuid) {
           var parts = [];
 
-          parts.push(sGuid.slice(0, 8));
-          parts.push(sGuid.slice(8, 12));
-          parts.push(sGuid.slice(12, 16));
-          parts.push(sGuid.slice(16, 20));
-          parts.push(sGuid.slice(20, 32));
-          sGuid = parts.join("-");
+          // parts.push(sGuid.slice(0, 8));
+          // parts.push(sGuid.slice(8, 12));
+          // parts.push(sGuid.slice(12, 16));
+          // parts.push(sGuid.slice(16, 20));
+          // parts.push(sGuid.slice(20, 32));
+          // sGuid = parts.join("-");
 
           var sPath = this.getView()
               .getModel()
