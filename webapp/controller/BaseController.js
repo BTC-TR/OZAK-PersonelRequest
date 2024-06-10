@@ -255,6 +255,7 @@ sap.ui.define(
                     userModel.setProperty("/Ename", oData.EvEname);
                     userModel.setProperty("/Yonetici", oData.EvYonetici);
                     userModel.setProperty("/Werks", oData.Werks);
+                    userModel.setProperty("/Btrtl", oData.Btrtl);
                     userModel.setProperty("/Stell", oData.Stell);
                     userModel.setProperty("/Bukrs", oData.Bukrs);
                     userModel.refresh(true);

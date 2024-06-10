@@ -467,6 +467,11 @@ sap.ui.define(
             "/formInputValues/otherCandidateFeatures",
             ""
           );
+          if (this.oMPDialog) {
+            
+          this.oDialog.destroy();
+          }
+          this.oMPDialog = undefined;
         },
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
@@ -816,10 +821,10 @@ sap.ui.define(
              Tcsayi ,
             Werks: jsonModel.getProperty("/formInputValues/jobWerks")
               ? jsonModel.getProperty("/formInputValues/jobWerks")
-              : "",
+              : this.getModel("userModel").getProperty("/Werks"),
             Btrtl: jsonModel.getProperty("/formInputValues/jobBtrtl")
               ? jsonModel.getProperty("/formInputValues/jobBtrtl")
-              : "",
+              : this.getModel("userModel").getProperty("/Btrtl"),
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
