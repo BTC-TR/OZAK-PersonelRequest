@@ -595,6 +595,7 @@ sap.ui.define(
           this.oDialog.destroy();
           this.oMPDialog = undefined;
         },
+        
         _resetAllFormInputsValueState: function () {
           let oView = this.getView();
           oView.byId("formInputValues1").setValueState("None");

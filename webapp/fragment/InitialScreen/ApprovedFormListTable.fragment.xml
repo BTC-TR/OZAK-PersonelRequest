@@ -95,6 +95,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <ObjectIdentifier text="{jsonModel>Btext}" />
                 <Button
                     icon="sap-icon://show"
                     press="navigateToShowDetail"

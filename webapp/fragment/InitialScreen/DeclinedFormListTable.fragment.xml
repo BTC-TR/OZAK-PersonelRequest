@@ -63,6 +63,12 @@
                 <Text text="Onay Durumu" />
             </Column>
             <Column>
+                <Text text="Red Nedeni" />
+            </Column>
+            <Column>
+                <Text text="Red Eden" />
+            </Column>
+            <Column>
                 <Text text="" />
             </Column>
         </columns>
@@ -95,6 +101,24 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <ObjectIdentifier text="{jsonModel>Aciklama}" />
+                <ObjectIdentifier text="{jsonModel>Onaye}" />
+                <!-- <MenuButton text="İşlemler">
+                    <menu>
+                        <Menu>
+                            <MenuItem
+                                text="Ayrıntıları Görüntüle"
+                                icon="sap-icon://show"
+                                press="navigateToShowDetail"
+                            />
+                            <MenuItem
+                                text="Açıklama"
+                                icon="sap-icon://notes"
+                                press="onPressShowDenyText"
+                            />
+                        </Menu>
+                    </menu>
+                </MenuButton> -->
                 <Button
                     icon="sap-icon://show"
                     press="navigateToShowDetail"

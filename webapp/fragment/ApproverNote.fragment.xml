@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+>
+	<Dialog
+		showHeader="true"
+		draggable="true"
+		title="Açıklama"
+	>
+		<content>
+			<VBox class="sapUiTinyMarginBeginEnd">
+				<!-- <Label
+					class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+					required="{viewModel>/IsNoteRequired}"
+					text="Not"
+				/> -->
+				<TextArea
+					class="sapUiTinyMarginTopBottom"
+					enabled="false"
+					width="100%"
+					rows="8"
+					value="{jsonModel>/ApproverNote}"
+				/>
+			</VBox>
+		</content>
+		<endButton>
+			<Button text="Kapat" type="Emphasized" press="onPressCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -121,6 +121,21 @@ sap.ui.define(
               break;
           }
         },
+        onPressCancel: function () {
+          this.oNoteDialog.close();
+          this.oNoteDialog.destroy();
+          this.oNoteDialog = undefined;
+        },
+        onPressShowDenyText: function () {
+          this._openNoteDialog();
+        },
+        _openNoteDialog: function() {
+          if (!this.oNoteDialog) {
+            this.oNoteDialog = sap.ui.xmlfragment("ozak.com.zhrpersonalrequestform.fragment.ApproverNote", this);
+          }
+          this.getView().addDependent(this.oNoteDialog, this);
+          this.oNoteDialog.open();
+        },
         _onSearchcidMyPYPListTableAll: function (oEvent, tableName, statu) {
           let table = this.getView().byId(tableName),
             oBinding = table.getBinding("items"),
