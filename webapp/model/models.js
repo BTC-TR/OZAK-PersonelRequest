@@ -56,6 +56,7 @@ sap.ui.define(
           requestedPositionFreeText: "",
           companyCode: "",
           companyName: "",
+          jobBtrtl: "",
           requestReason: "",
           requestedCompanyKey: "",
           positionRequestType: false,

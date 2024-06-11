@@ -795,8 +795,13 @@ sap.ui.define(
             PAltDu = "",
             Tneden = "",
             Tcsayi = "",
+            Btrlt = "",
             that = this;
-          
+            if (!jsonModel.getProperty("/formInputValues/jobBtrtl") && jsonModel.getProperty("/formInputValues/persStatus02")) {
+              Btrlt = this.getModel("userModel").getProperty("/Btrtl");
+            } else {
+              Btrlt = jsonModel.getProperty("/formInputValues/jobBtrtl");
+            }
             if (typeof(jsonModel.getProperty("/formInputValues/formStartDate")) === typeof(new Date())) {
               Ttarih = `${jsonModel.getProperty("/formInputValues/formStartDate").getDate()}/${jsonModel.getProperty("/formInputValues/formStartDate").getMonth() + 1}/${jsonModel.getProperty("/formInputValues/formStartDate").getFullYear()}`.split("/")
             } else {
@@ -859,9 +864,7 @@ sap.ui.define(
             Werks: jsonModel.getProperty("/formInputValues/jobWerks")
               ? jsonModel.getProperty("/formInputValues/jobWerks")
               : this.getModel("userModel").getProperty("/Werks"),
-            Btrtl: jsonModel.getProperty("/formInputValues/jobBtrtl")
-              ? jsonModel.getProperty("/formInputValues/jobBtrtl")
-              : this.getModel("userModel").getProperty("/Btrtl"),
+            Btrtl: Btrlt,
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
