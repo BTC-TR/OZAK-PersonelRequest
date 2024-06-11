@@ -408,7 +408,7 @@
 																	maximum: ''
 																}
 															}"
-															minDate="{jsonModel>/todayJS}"
+															minDate="{jsonModel>/oneMonthLaterJS}"
 														/>
                                                     </f:fields>
 															<!-- maxDate="{jsonModel>/oneMonthLaterJS}" -->

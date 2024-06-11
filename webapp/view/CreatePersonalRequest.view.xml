@@ -400,9 +400,9 @@
 																	maximum: ''
 																}
 															}"
-															minDate="{jsonModel>/todayJS}"
+															minDate="{jsonModel>/oneMonthLaterJS}"
 														/>
-															<!-- maxDate="{jsonModel>/oneMonthLaterJS}" -->
+															<!-- maxDate="{jsonModel>/todayJS}" -->
 
 														<!-- {
 														path: 'jsonModel>/formInputValues/formStartDate',
