@@ -1,0 +1,27 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+>
+	<Popover
+		id="redPopover"
+		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer"
+		placement="Bottom"
+	>
+		<customHeader>
+			<Toolbar class="padding2">
+				<ToolbarSpacer />
+				<Title
+					level="H3"
+					text="Red Açıklama"
+				/>
+				<ToolbarSpacer />
+			</Toolbar>
+		</customHeader>
+		<TextArea
+			value="{jsonModel>Aciklama}"
+			maxLength="255"
+			rows="5"
+			enabled="false"
+		/>
+	</Popover>
+</core:FragmentDefinition>

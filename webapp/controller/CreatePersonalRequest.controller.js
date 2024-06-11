@@ -579,7 +579,7 @@ sap.ui.define(
               this.oDialog.open();
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
-                .expandToLevel(10);
+                .expandToLevel(999);
               this.oDialog;
               this._fetchSHelpPositionTreeData();
             }.bind(this)

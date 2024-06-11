@@ -268,6 +268,31 @@ sap.ui.define(
           );
           jsonModel;
         },
+        _denyPopOver: function (oEvent) {
+          // let dataPath = oEvent.getSource().getParent().getBindingContext("jsonModel").getProperty("Aciklama")
+          let dataPath = oEvent.getSource().getParent().getBindingContext("jsonModel"),
+          oView = this.getView(),
+          oButton = oEvent.getSource(),
+          that = this;
+          if (!this._pPopover) {
+            this._pPopover = Fragment.load({
+              id: oView.getId(),
+              name: "ozak.com.zhrpersonalrequestform.fragment.DenyReasonPopover",
+              controller: this
+            }).then(function(oPopover) {
+              oView.addDependent(oPopover);
+              oPopover.bindElement('jsonModel>'+dataPath.getPath());
+              return oPopover;
+            });
+          }
+          this._pPopover.then(function(oPopover) {
+            oPopover.openBy(oButton);
+          });
+        },
+        _closeDialog: function () {
+          this.getView().byId("denyAciklamaButton").close();
+          this._pPopover = undefined;
+        },
         onOnayaGnderButtonPress: function () {
           let oModel = this.getModel(),
             that = this;

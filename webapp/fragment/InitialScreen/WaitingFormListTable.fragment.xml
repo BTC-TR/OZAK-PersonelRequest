@@ -63,6 +63,9 @@
                 <Text text="Onay Durumu" />
             </Column>
             <Column>
+                <Text text="Onayında" />
+            </Column>
+            <Column>
                 <Text text="" />
             </Column>
         </columns>
@@ -95,6 +98,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <ObjectIdentifier text="{jsonModel>Onaye}" />
                 <Button
                     icon="sap-icon://show"
                     press="navigateToShowDetail"

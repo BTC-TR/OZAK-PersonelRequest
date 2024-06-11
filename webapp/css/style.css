@@ -40,3 +40,9 @@ div[role="toolbar"] {
 .ZsapMInputBaseContentWrapperError {
     border: 2px solid #e00;
 }
+.margin0 {
+    margin: 0 !important;
+}
+.padding2 {
+    padding: 8px !important;
+}

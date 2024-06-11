@@ -101,7 +101,13 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
-                <ObjectIdentifier text="{jsonModel>Aciklama}" />
+                <!-- <ObjectIdentifier text="Açıklama" /> -->
+                <Button
+                    id="denyAciklamaButton"
+                    text="Açıklama"
+                    press="_denyPopOver"
+                    ariaHasPopup="Dialog"
+                />
                 <ObjectIdentifier text="{jsonModel>Onaye}" />
                 <!-- <MenuButton text="İşlemler">
                     <menu>
