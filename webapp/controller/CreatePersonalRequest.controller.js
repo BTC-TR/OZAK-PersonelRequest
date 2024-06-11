@@ -56,10 +56,10 @@ sap.ui.define(
             .parts[0].type.setConstraints({
               minimum: this.getOwnerComponent()
                 .getModel("jsonModel")
-                .getProperty("/today"),
-              maximum: this.getOwnerComponent()
-                .getModel("jsonModel")
                 .getProperty("/oneMonthLater"),
+              // maximum: this.getOwnerComponent()
+              //   .getModel("jsonModel")
+              //   .getProperty("/oneMonthLater"),
             });
         },
         _onRouteMatched: function () {
@@ -204,8 +204,12 @@ sap.ui.define(
           oView
             .byId("educationCheckBox5")
             .setSelected(draftData.Egtm5 === "X" ? true : false);
-          oView.byId("educationCheckBox6").setSelected(draftData.Egtm6 === 'X' ? true : false);
-          oView.byId("educationCheckBox7").setSelected(draftData.Egtm7 === 'X' ? true : false);
+          oView
+            .byId("educationCheckBox6")
+            .setSelected(draftData.Egtm6 === 'X' ? true : false);
+          oView
+            .byId("educationCheckBox7")
+            .setSelected(draftData.Egtm7 === 'X' ? true : false);
 
           oView
             .byId("ageCheckBox1")
@@ -622,6 +626,8 @@ sap.ui.define(
           oView.byId("educationCheckBox3").setValueState("None");
           oView.byId("educationCheckBox4").setValueState("None");
           oView.byId("educationCheckBox5").setValueState("None");
+          oView.byId("educationCheckBox6").setValueState("None");
+          oView.byId("educationCheckBox7").setValueState("None");
           oView.byId("ageCheckBox1").setValueState("None");
           oView.byId("ageCheckBox2").setValueState("None");
           oView.byId("ageCheckBox3").setValueState("None");
@@ -706,6 +712,8 @@ sap.ui.define(
             oView.byId("educationCheckBox3").setValueState("Error");
             oView.byId("educationCheckBox4").setValueState("Error");
             oView.byId("educationCheckBox5").setValueState("Error");
+            oView.byId("educationCheckBox6").setValueState("Error");
+            oView.byId("educationCheckBox7").setValueState("Error");
             bValidationError = true;
           }
           if (!candidateAgeCheckBoxValues.includes(true)) {
@@ -731,6 +739,8 @@ sap.ui.define(
           oView.byId("educationCheckBox3").setValueState("None");
           oView.byId("educationCheckBox4").setValueState("None");
           oView.byId("educationCheckBox5").setValueState("None");
+          oView.byId("educationCheckBox6").setValueState("None");
+          oView.byId("educationCheckBox7").setValueState("None");
         },
         _resetAgeCheckBoxesValueStates: function () {
           let oView = this.getView();
