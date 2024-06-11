@@ -151,7 +151,7 @@
                                                         >
                                                             <Label
                                                                 class="padding"
-                                                                text="Organizasyonda varolamayan yeni bir pozisyon talebi yapmak istiyorum."
+                                                                text="Organizasyonda varolmayan yeni bir pozisyon talebi yapmak istiyorum."
                                                                 wrapping="true"
                                                             />
                                                             <CheckBox
@@ -198,7 +198,6 @@
                                                         <Input
                                                             id="formInputValues1"
                                                             enabled="false"
-                                                            required="true"
                                                             maxLength="50"
 															change="_clearValidationValueState('formInputValues1')"
                                                             value="{
@@ -216,7 +215,7 @@
                                                         <Input
                                                             id="formInputValues2"
                                                             enabled="{= ${jsonModel>/formInputValues/persStatus01}}"
-															required="true"
+															required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus01}}"
                                                             maxLength="50"
 															change="_clearValidationValueState('formInputValues2')"
                                                             value="{
@@ -274,7 +273,7 @@
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement
-                                                    label="Ayrılan Çalışan Adı Soyadı"
+                                                    label="Ayrılan / Ayrılacak Olan Çalışan Adı Soyadı"
                                                     visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
                                                 >
                                                     <f:fields>
@@ -362,12 +361,13 @@
                                                         />
                                                     </f:fields>
                                                 </f:FormElement>
-                                                <f:FormElement label="İş Tanımı">
+                                                <f:FormElement label="İş Tanımı Açıklama">
                                                     <f:fields>
                                                         <TextArea
                                                             id="formInputValues6"
                                                             enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
+                                                            required="true"
 															maxLength="255"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/jobDefinition',
@@ -411,7 +411,10 @@
 															<!-- maxDate="{jsonModel>/oneMonthLaterJS}" -->
 
                                                 </f:FormElement>
-                                                <f:FormElement label="İş Tanımı Eki">
+                                                <f:FormElement class="sapMLabelColonAndRequired" label="İş Tanımı Eki">
+                                                <f:label>
+													<Label text="İş Tanımı Eki" required="true"></Label>
+												</f:label>
                                                     <f:fields>
                                                         <UploadCollection
 															id="idUploadCollection"
@@ -430,7 +433,7 @@
 															beforeUploadStarts="onBeforeUploadStarts"
 															change="onChangeUploadCollection"
 															uploadComplete="onUploadComplete"
-															fileType="png,jpeg,pdf"
+															fileType="png,jpeg,pdf,docx,xlsx,xls,ppt,pptx"
 														>
 															<UploadCollectionItem
 																enableEdit="false"

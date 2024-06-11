@@ -204,8 +204,8 @@ sap.ui.define(
           oView
             .byId("educationCheckBox5")
             .setSelected(draftData.Egtm5 === "X" ? true : false);
-          // oView.byId("educationCheckBox6").setSelected(draftData.Egtm1 === 'X' ? true : false);
-          // oView.byId("educationCheckBox7").setSelected(draftData.Egtm1 === 'X' ? true : false);
+          oView.byId("educationCheckBox6").setSelected(draftData.Egtm6 === 'X' ? true : false);
+          oView.byId("educationCheckBox7").setSelected(draftData.Egtm7 === 'X' ? true : false);
 
           oView
             .byId("ageCheckBox1")
@@ -472,6 +472,8 @@ sap.ui.define(
           this.oDialog.destroy();
           }
           this.oMPDialog = undefined;
+
+          this._clearClass("idUploadCollection", "ZsapMInputBaseContentWrapperError");
         },
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
@@ -522,15 +524,19 @@ sap.ui.define(
             for (let key in map) {
               if (map[key].Objid === desc.Objid) {
                 map[key].text = desc.Stext;
+                
                 switch (desc.Otype) {
                   case "P":
                     map[key].ref = "sap-icon://employee";
+                    map[key].mergedText =  map[key].text
                     break;
                   case "S":
                     map[key].ref = "sap-icon://family-care";
+                    map[key].mergedText = map[key].Objid + ' - ' + map[key].text
                     break;
                   case "O":
                     map[key].ref = "sap-icon://overview-chart";
+                    map[key].mergedText =  map[key].text
                     break;
                   default:
                     map[key].ref = "";
@@ -622,6 +628,7 @@ sap.ui.define(
           oView.byId("ageCheckBox4").setValueState("None");
           oView.byId("ageCheckBox5").setValueState("None");
           oView.byId("initialPageCountingYearInput").setValueState("None");
+          this.getView().byId("idUploadCollection").removeStyleClass("ZsapMInputBaseContentWrapperError");
         },
         _checkIfFormInputsValidated: function () {
           let oView = this.getView(),
@@ -635,6 +642,7 @@ sap.ui.define(
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
               oView.byId("formInputValues5"),
+              oView.byId("formInputValues6"),
               oView.byId("initialPageCountingYearInput"),
             ];
           }
@@ -645,6 +653,7 @@ sap.ui.define(
               oView.byId("formInputValues13"),
               oView.byId("formInputValues4"),
               oView.byId("formInputValues5"),
+              oView.byId("formInputValues6"),
               oView.byId("formInputValues14"),
               oView.byId("initialPageCountingYearInput"),
             ];
@@ -655,6 +664,7 @@ sap.ui.define(
               oView.byId("formInputValues2"),
               oView.byId("formInputValues3"),
               oView.byId("formInputValues4"),
+              oView.byId("formInputValues6"),
               oView.byId("formInputValues14"),
               oView.byId("initialPageCountingYearInput"),
             ];
@@ -663,6 +673,11 @@ sap.ui.define(
           aInputs.forEach(function (oInput) {
             bValidationError = this._validateInput(oInput) || bValidationError;
           }, this);
+
+          if (this.getView().byId("idUploadCollection")._aFileUploadersForPendingUpload.length === 0){
+            this.getView().byId("idUploadCollection").addStyleClass("ZsapMInputBaseContentWrapperError");
+            bValidationError = true
+          }
 
           return bValidationError;
         },
@@ -842,8 +857,8 @@ sap.ui.define(
             Egtm3: oView.byId("educationCheckBox3").getSelected() ? "X" : "",
             Egtm4: oView.byId("educationCheckBox4").getSelected() ? "X" : "",
             Egtm5: oView.byId("educationCheckBox5").getSelected() ? "X" : "",
-            Egtm6: "",
-            Egtm7: "",
+            Egtm6: oView.byId("educationCheckBox6").getSelected() ? "X" : "",
+            Egtm7: oView.byId("educationCheckBox7").getSelected() ? "X" : "",
             Yas1: oView.byId("ageCheckBox1").getSelected() ? "X" : "",
             Yas2: oView.byId("ageCheckBox2").getSelected() ? "X" : "",
             Yas3: oView.byId("ageCheckBox3").getSelected() ? "X" : "",
@@ -977,6 +992,7 @@ sap.ui.define(
             );
 
             this.getView().setBusy(false);
+            this._clearClass("idUploadCollection", "ZsapMInputBaseContentWrapperError");
           }
         },
         onUploadComplete: function (oEvent) {
@@ -1367,7 +1383,7 @@ sap.ui.define(
           if (oIcon === "sap-icon://family-care") {
             jsonModel.setProperty(
               "/formInputValues/requestedPosition",
-              oSelectedItemData.text
+              oSelectedItemData.mergedText
             );
             jsonModel.setProperty(
               "/formInputValues/requestedPositionKey",
@@ -1383,7 +1399,7 @@ sap.ui.define(
             });
             jsonModel.setProperty(
               "/formInputValues/requestedDepartment",
-              departman.text
+              departman.Objid + '-' + departman.text
             );
             jsonModel.setProperty(
               "/formInputValues/requestedDepartmentKey",

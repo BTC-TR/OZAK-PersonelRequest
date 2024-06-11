@@ -24,7 +24,7 @@
             >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
-                    title="{jsonModel>text}"
+                    title="{jsonModel>mergedText}"
                     highlightText="{jsonModel>Objid}"
                 >
                     <customData>

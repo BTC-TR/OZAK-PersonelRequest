@@ -145,7 +145,7 @@
 														>
 															<Label
 																class="padding"
-																text="Organizasyonda varolamayan yeni bir pozisyon talebi yapmak istiyorum."
+																text="Organizasyonda varolmayan yeni bir pozisyon talebi yapmak istiyorum."
 																wrapping="true"
 															/>
 															<CheckBox
@@ -192,7 +192,6 @@
 														<Input
 															id="formInputValues1"
 															enabled="false"
-															required="true"
 															maxLength="50"
 															change="_clearValidationValueState('formInputValues1')"
 															value="{
@@ -210,7 +209,7 @@
 														<Input
 															id="formInputValues2"
 															enabled="{= ${jsonModel>/formInputValues/persStatus01}}"
-															required="true"
+															required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus01}}"
 															maxLength="50"
 															change="_clearValidationValueState('formInputValues2')"
 															value="{
@@ -269,7 +268,7 @@
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
-													label="Ayrılan Çalışan Adı Soyadı"
+													label="Ayrılan / Ayrılacak Olan Çalışan Adı Soyadı"
 													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
 												>
 													<f:fields>
@@ -357,12 +356,14 @@
 														/>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement label="İş Tanımı">
+												<f:FormElement label="İş Tanımı Açıklama">
 													<f:fields>
 														<TextArea
 															id="formInputValues6"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
+															required="true"
+															change="_clearValidationValueState('formInputValues6')"
 															maxLength="255"
 															value="{
 																path: 'jsonModel>/formInputValues/jobDefinition',
@@ -371,6 +372,7 @@
 																	minLength: 1
 																}
 															}"
+															placeholder="En fazla 255 karakter"
 														/>
 													</f:fields>
 												</f:FormElement>
@@ -418,7 +420,10 @@
 													} -->
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement label="İş Tanımı Eki">
+												<f:FormElement>
+												<f:label>
+													<Label text="İş Tanımı Eki" required="true"></Label>
+												</f:label>
 													<f:fields>
 														<!-- <upload:UploadSet
 															id="idUploadCollection"
@@ -454,7 +459,7 @@
 															beforeUploadStarts="onBeforeUploadStarts"
 															change="onChangeUploadCollection"
 															uploadComplete="onUploadComplete"
-															fileType="png,jpeg,pdf"
+															fileType="png,jpeg,pdf,docx,xlsx,xls,ppt,pptx"
 														>
 															<UploadCollectionItem
 																enableEdit="false"
@@ -464,8 +469,10 @@
 																visibleEdit="false"
 																deletePress="onDeletePressAttachment"
 															/>
+															
 														</UploadCollection>
 													</f:fields>
+													
 												</f:FormElement>
 											</f:formElements>
 										</f:FormContainer>
@@ -514,7 +521,10 @@
 														</HBox>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement label="Eğitim Düzeyi">
+												<f:FormElement >
+												<f:label>
+													<Label text="Eğitim Düzeyi"></Label>
+												</f:label>
 													<f:fields>
 														<HBox wrap="Wrap">
 															<CheckBox
@@ -556,11 +566,29 @@
 															<CheckBox
 																id="educationCheckBox5"
 																select="_resetEducationCheckBoxesValueStates"
-																text="Üniversite"
-																width="100px"
+																text="Önlisans"
+																width="70px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
+															/>
+															<CheckBox
+																id="educationCheckBox6"
+																select="_resetEducationCheckBoxesValueStates"
+																text="Lisans"
+																width="70px"
+																wrapping="true"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/5}"
+															/>
+															<CheckBox
+																id="educationCheckBox7"
+																select="_resetEducationCheckBoxesValueStates"
+																text="Yüksek Lisans"
+																width="100px"
+																wrapping="true"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/6}"
 															/>
 														</HBox>
 													</f:fields>
@@ -571,7 +599,7 @@
 															<CheckBox
 																id="ageCheckBox1"
 																select="_resetAgeCheckBoxesValueStates"
-																text="18-25"
+																text="18-24"
 																width="70px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
@@ -580,7 +608,7 @@
 															<CheckBox
 																id="ageCheckBox2"
 																select="_resetAgeCheckBoxesValueStates"
-																text="25-30"
+																text="25-29"
 																width="70px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
@@ -589,7 +617,7 @@
 															<CheckBox
 																id="ageCheckBox3"
 																select="_resetAgeCheckBoxesValueStates"
-																text="30-40"
+																text="30-39"
 																width="75px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
@@ -598,7 +626,7 @@
 															<CheckBox
 																id="ageCheckBox4"
 																select="_resetAgeCheckBoxesValueStates"
-																text="40-45"
+																text="40-44"
 																width="100px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
@@ -616,12 +644,13 @@
 														</HBox>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement label="Personelde Aranan Diğer Nitelikler">
+												<f:FormElement label="Personelde Aranan Yetkinlikler">
 													<f:fields>
 														<TextArea
 															id="formInputValues7"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
+															placeholder="En fazla 255 karakter"
 															maxLength="255"
 															value="{
 																path: 'jsonModel>/formInputValues/otherCandidateFeatures',

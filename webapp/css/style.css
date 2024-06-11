@@ -37,3 +37,6 @@ div[role="toolbar"] {
 *[data-otype="P"] .sapMLIBSelectS{
     display: none !important;
 }
+.ZsapMInputBaseContentWrapperError {
+    border: 2px solid #e00;
+}
