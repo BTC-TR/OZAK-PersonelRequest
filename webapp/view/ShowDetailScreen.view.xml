@@ -204,6 +204,7 @@
                                                         <Input
                                                             id="formInputValues1"
                                                             enabled="false"
+                                                            maxLength="50"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/requestedCompany',
                                                                 type: 'sap.ui.model.type.String',
@@ -271,16 +272,15 @@
                                                     </f:fields>
                                                 </f:FormElement>
                                                 <f:FormElement
-                                                    label="Ayrılan Çalışan Adı Soyadı"
+                                                    label="Ayrılan / Ayrılacak Olan Çalışan Adı Soyadı"
                                                     visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
                                                 >
                                                     <f:fields>
                                                         <Input
                                                             id="formInputValues10"
-                                                            type="Number"
                                                             liveChange="_onlyNumberInput"
                                                             enabled="false"
-                                                            maxLength="3"
+                                                            maxLength="50"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/oldEmployee',
                                                                 type: 'sap.ui.model.type.String',
@@ -353,7 +353,7 @@
                                                             id="formInputValues6"
                                                             enabled="false"
                                                             rows="5"
-                                                            maxLength="100"
+                                                            maxLength="255"
                                                             value="{
                                                                 path: 'jsonModel>/formInputValues/jobDefinition',
                                                                 type: 'sap.ui.model.type.String',
@@ -384,8 +384,7 @@
                                                                     maximum: ''
                                                                 }
                                                             }"
-                                                            minDate="{jsonModel>/todayJS}"
-                                                            maxDate="{jsonModel>/oneMonthLaterJS}"
+                                                            minDate="{jsonModel>/oneMonthLaterJS}"
                                                         />
                                                     </f:fields>
                                                 </f:FormElement>
@@ -415,7 +414,7 @@
                                                                 enableEdit="false"
                                                                 fileName="{attachmentModel>FileName}"
                                                                 mimeType="{attachmentModel>FileType}"
-                                                                url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
+                                                                url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid='{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
                                                                 visibleEdit="false"
                                                                 visibleDelete="false"
                                                                 deletePress="onDeletePressAttachment"
@@ -443,7 +442,7 @@
                                                             <CheckBox
                                                                 id="experienceCheckBox1"
                                                                 select="_resetExperienceCheckBoxesValueStates"
-                                                                text="0-1 Yıl"
+                                                                text="0-3 Yıl"
                                                                 width="70px"
                                                                 wrapping="true"
                                                                 enabled="false"
@@ -452,21 +451,40 @@
                                                             <CheckBox
                                                                 id="experienceCheckBox2"
                                                                 select="_resetExperienceCheckBoxesValueStates"
-                                                                text="1-3 Yıl"
+                                                                text="3-5 Yıl"
                                                                 width="70px"
                                                                 wrapping="true"
                                                                 enabled="false"
                                                                 selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
                                                             />
                                                             <CheckBox
-                                                                id="experienceCheckBox3"
-                                                                select="_resetExperienceCheckBoxesValueStates"
-                                                                text="3 Yıl ve üzeri"
-                                                                width="100px"
-                                                                wrapping="true"
+																id="experienceCheckBox3"
+																select="_resetExperienceCheckBoxesValueStates"
+																text="5-8 Yıl"
+                                                                
+																width="75px"
+																wrapping="true" 
                                                                 enabled="false"
-                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
-                                                            />
+																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
+															/>
+                                                            <CheckBox
+																id="experienceCheckBox4"
+																select="_resetExperienceCheckBoxesValueStates"
+																text="8-10 Yıl"
+																width="100px"
+																wrapping="true"
+																enabled="false"
+																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/3}"
+															/>
+                                                            <CheckBox
+																id="experienceCheckBox5"
+																select="_resetExperienceCheckBoxesValueStates"
+																text="10 Yıl ve üzeri"
+																width="100px"
+																wrapping="true"
+																enabled="false"
+																selected="jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/4"
+															/>
                                                         </HBox>
                                                     </f:fields>
                                                 </f:FormElement>

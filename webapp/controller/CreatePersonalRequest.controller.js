@@ -188,7 +188,12 @@ sap.ui.define(
           oView
             .byId("experienceCheckBox3")
             .setSelected(draftData.Tcrb3 === "X" ? true : false);
-
+          oView
+            .byId("experienceCheckBox4")
+            .setSelected(draftData.Tcrb4 === "X" ? true : false);
+          oView
+            .byId("experienceCheckBox5")
+            .setSelected(draftData.Tcrb5 === "X" ? true : false);
           oView
             .byId("educationCheckBox1")
             .setSelected(draftData.Egtm1 === "X" ? true : false);
@@ -621,6 +626,8 @@ sap.ui.define(
           oView.byId("experienceCheckBox1").setValueState("None");
           oView.byId("experienceCheckBox2").setValueState("None");
           oView.byId("experienceCheckBox3").setValueState("None");
+          oView.byId("experienceCheckBox4").setValueState("None");
+          oView.byId("experienceCheckBox5").setValueState("None");
           oView.byId("educationCheckBox1").setValueState("None");
           oView.byId("educationCheckBox2").setValueState("None");
           oView.byId("educationCheckBox3").setValueState("None");
@@ -704,6 +711,8 @@ sap.ui.define(
             oView.byId("experienceCheckBox1").setValueState("Error");
             oView.byId("experienceCheckBox2").setValueState("Error");
             oView.byId("experienceCheckBox3").setValueState("Error");
+            oView.byId("experienceCheckBox4").setValueState("Error");
+            oView.byId("experienceCheckBox5").setValueState("Error");
             bValidationError = true;
           }
           if (!candidateEducationalLevelCheckBoxValues.includes(true)) {
@@ -731,6 +740,8 @@ sap.ui.define(
           oView.byId("experienceCheckBox1").setValueState("None");
           oView.byId("experienceCheckBox2").setValueState("None");
           oView.byId("experienceCheckBox3").setValueState("None");
+          oView.byId("experienceCheckBox4").setValueState("None");
+          oView.byId("experienceCheckBox5").setValueState("None");
         },
         _resetEducationCheckBoxesValueStates: function () {
           let oView = this.getView();
@@ -862,6 +873,8 @@ sap.ui.define(
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
+            Tcrb4: oView.byId("experienceCheckBox4").getSelected() ? "X" : "",
+            Tcrb5: oView.byId("experienceCheckBox5").getSelected() ? "X" : "",
             Egtm1: oView.byId("educationCheckBox1").getSelected() ? "X" : "",
             Egtm2: oView.byId("educationCheckBox2").getSelected() ? "X" : "",
             Egtm3: oView.byId("educationCheckBox3").getSelected() ? "X" : "",

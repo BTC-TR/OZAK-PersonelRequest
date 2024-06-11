@@ -288,9 +288,11 @@
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
-													label="Talep Edilen Çalışan Sayısı"
 													visible="{= ${jsonModel>/formInputValues/formNo} }"
 												>
+												<f:label>
+													<Label text="Talep Edilen Çalışan Sayısı" required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
+												</f:label>
 													<f:fields>
 														<Input
 															id="formInputValues4"
@@ -335,9 +337,11 @@
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement
-													label="Talep Gerekçesi"
 													visible="{= ${jsonModel>/formInputValues/formNo}}"
 												>
+												<f:label>
+													<Label text="Talep Gerekçesi" required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
+												</f:label>
 													<f:fields>
 														<Input
 															id="formInputValues14"
@@ -361,7 +365,7 @@
 															id="formInputValues6"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															rows="5"
-															required="true"
+															required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															change="_clearValidationValueState('formInputValues6')"
 															maxLength="255"
 															value="{
@@ -383,7 +387,7 @@
 															showCurrentDateButton="true"
 															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															width="100%"
-															required="true"
+															required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 															change="_clearValidationValueState('initialPageCountingYearInput')"
 															value="{
 																path: 'jsonModel>/formInputValues/formStartDate',
@@ -421,7 +425,7 @@
 												</f:FormElement>
 												<f:FormElement>
 												<f:label>
-													<Label text="İş Tanımı Eki" required="true"></Label>
+													<Label text="İş Tanımı Eki" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
 												</f:label>
 													<f:fields>
 														<!-- <upload:UploadSet
@@ -464,7 +468,7 @@
 																enableEdit="false"
 																fileName="{attachmentModel>FileName}"
 																mimeType="{attachmentModel>FileType}"
-																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
+																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid='{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
 																visibleEdit="false"
 																deletePress="onDeletePressAttachment"
 															/>
@@ -487,13 +491,16 @@
 												</Toolbar>
 											</f:toolbar>
 											<f:formElements>
-												<f:FormElement label="Tecrübe">
+												<f:FormElement>
+												<f:label>
+													<Label text="Tecrübe" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
+												</f:label>
 													<f:fields>
-														<HBox>
+														<HBox wrap="Wrap">
 															<CheckBox
 																id="experienceCheckBox1"
 																select="_resetExperienceCheckBoxesValueStates"
-																text="0-1 Yıl"
+																text="0-3 Yıl"
 																width="70px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
@@ -502,7 +509,7 @@
 															<CheckBox
 																id="experienceCheckBox2"
 																select="_resetExperienceCheckBoxesValueStates"
-																text="1-3 Yıl"
+																text="3-5 Yıl"
 																width="70px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
@@ -511,18 +518,36 @@
 															<CheckBox
 																id="experienceCheckBox3"
 																select="_resetExperienceCheckBoxesValueStates"
-																text="3 Yıl ve üzeri"
-																width="100px"
+																text="5-8 Yıl"
+																width="75px"
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
+															/>
+															<CheckBox
+																id="experienceCheckBox4"
+																select="_resetExperienceCheckBoxesValueStates"
+																text="8-10 Yıl"
+																width="100px"
+																wrapping="true"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/3}"
+															/>
+															<CheckBox
+																id="experienceCheckBox5"
+																select="_resetExperienceCheckBoxesValueStates"
+																text="10 Yıl ve üzeri"
+																width="100px"
+																wrapping="true"
+																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+																selected="jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/4"
 															/>
 														</HBox>
 													</f:fields>
 												</f:FormElement>
 												<f:FormElement >
 												<f:label>
-													<Label text="Eğitim Düzeyi"></Label>
+													<Label text="Eğitim Düzeyi" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
 												</f:label>
 													<f:fields>
 														<HBox wrap="Wrap">
@@ -592,7 +617,10 @@
 														</HBox>
 													</f:fields>
 												</f:FormElement>
-												<f:FormElement label="Yaşı">
+												<f:FormElement >
+												<f:label>
+													<Label text="Yaşı" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
+												</f:label>
 													<f:fields>
 														<HBox wrap="Wrap">
 															<CheckBox
