@@ -274,7 +274,7 @@
 													<f:fields>
 														<Input
 															id="formInputValues10"
-															required="true"
+															required="{= !${jsonModel>/formInputValues/formYesVisibility}}"
 															maxLength="50"
 															enabled="false"
 															value="{
