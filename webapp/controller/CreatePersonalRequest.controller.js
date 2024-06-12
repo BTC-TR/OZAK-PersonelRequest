@@ -478,6 +478,10 @@ sap.ui.define(
             "/formInputValues/otherCandidateFeatures",
             ""
           );
+          this.getModel("jsonModel").setProperty(
+            "/formInputValues/locationInputEnabled",
+            false
+          );
           if (this.oMPDialog) {
             this.oDialog.destroy();
           }
@@ -507,9 +511,11 @@ sap.ui.define(
         _addNodes: function () {
           const map = [];
           const roots = [];
+          let departmanList = [];
+          let departmentMap = [];
 
           // İlk olarak, her öğeyi bir haritada saklıyoruz
-          this.treeConnectionList.forEach((item) => {
+          this.treeConnectionList.forEach((item, index) => {
             map[item.Seqnr] = {
               Seqnr: item.Seqnr,
               Pup: item.Pup,
@@ -518,9 +524,18 @@ sap.ui.define(
               nodes: [],
               added: false,
             };
+            if (item.Otype === 'O') { 
+              departmentMap[item.Seqnr] = {
+                Seqnr: item.Seqnr,
+                Pup: item.Pup,
+                Objid: item.Objid,
+                Otype: item.Otype,
+                nodes: [],
+                added: false,
+              };
+            }
+            
           });
-
-          let departmanList = [];
 
           // Şimdi her öğeyi uygun yere yerleştiriyoruz
           this.treeConnectionList.forEach((item) => {
@@ -529,6 +544,10 @@ sap.ui.define(
               if (map[item.Pup]) {
                 map[item.Pup].nodes.push(map[item.Seqnr]);
                 map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+              }
+              if (item.Otype === 'O') {
+                departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
+                departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
               }
             } else {
               // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
@@ -539,7 +558,7 @@ sap.ui.define(
             for (let key in map) {
               if (map[key].Objid === desc.Objid) {
                 map[key].text = desc.Stext;
-
+                
                 switch (desc.Otype) {
                   case "P":
                     map[key].ref = "sap-icon://employee";
@@ -553,27 +572,42 @@ sap.ui.define(
                   case "O":
                     map[key].ref = "sap-icon://overview-chart";
                     map[key].mergedText = map[key].text;
-                    departmanList.push(map[key]);
                     break;
                   default:
                     map[key].ref = "";
                 }
+                
+              }
+            }
+            for (let key in departmentMap) {
+              if (departmentMap[key].Objid === desc.Objid) {
+                
+                switch (desc.Otype) {
+                  case "O":
+                    departmentMap[key].text = desc.Stext;
+                    departmentMap[key].ref = "sap-icon://overview-chart";
+                    departmentMap[key].mergedText = departmentMap[key].text;
+                    break;
+                  default:
+                    departmentMap[key].ref = "";
+                }
+                
               }
             }
           });
           let filteredMap = map.filter((item) => {
             return !item.added;
           });
-          // let filteredDepertmandMap = departmanList.filter((item) => {
-          //   return !item.added;
-          // });
+          let filteredDepertmandMap = departmentMap.filter((item) => {
+            return !item.added;
+          });
           this.getModel("jsonModel").setProperty(
             "/sHelpPositionTreeData",
             filteredMap
           );
           this.getModel("jsonModel").setProperty(
-            "/sHelpDepertman",
-            departmanList
+            "/sHelpDepartment",
+            filteredDepertmandMap
           );
         },
         _clearFormInputs: function () {
@@ -598,10 +632,13 @@ sap.ui.define(
           this.oMPDialog.then(
             function (oDialog) {
               this.oDialog = oDialog;
-              this.oDialog.open();
+              // this.getView()
+              //   .byId("idPositionVHelpDialog")
+              //   .setEscapeHandler(this._closeDialog());
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
                 .expandToLevel(999);
+              this.oDialog.open();
               this.oDialog;
               this._fetchSHelpPositionTreeData();
             }.bind(this)
@@ -631,6 +668,10 @@ sap.ui.define(
           this.oMPDialog.then(
             function (oDialog) {
               this.oDialog = oDialog;
+              // oDialog.setEscapeHandler(this._closeDialog());
+              this.getView()
+                .byId("idSHelpPositionTreeDataTree")
+                .expandToLevel(999);
               this.oDialog.open();
               this.oDialog;
               this._fetchSHelpPositionTreeData();
@@ -825,19 +866,44 @@ sap.ui.define(
           }
         },
         onSHelpDepertmanListSelectionChange: function (oEvent) {
-          let oSource = oEvent.getSource().getSelectedItem(),
-            oText = oSource.getProperty("title"),
-            oKey = oSource.getProperty("info"),
-            jsonModel = this.getModel("jsonModel");
+          // let oSource = oEvent.getSource().getSelectedItem(),
+          //   oText = oSource.getProperty("title"),
+          //   oKey = oSource.getProperty("info"),
+          //   jsonModel = this.getModel("jsonModel");
 
-          jsonModel.setProperty("/formInputValues/requestedDepartment", oText);
-          jsonModel.setProperty("/formInputValues/requestedDepartmentKey", oKey);
-          oEvent.getSource().getSelectedItem().setSelected(false);
+          // jsonModel.setProperty("/formInputValues/requestedDepartment", oText);
+          // jsonModel.setProperty("/formInputValues/requestedDepartmentKey", oKey);
+          // oEvent.getSource().getSelectedItem().setSelected(false);
 
-          this._getLocationCode();
-          this._clearValidationValueState("formInputValues5");
-          this._closeDialog();
-        },
+          // this._getLocationCode();
+          // this._clearValidationValueState("formInputValues5");
+          // this._closeDialog();
+          let jsonModel = this.getView().getModel("jsonModel"),
+            oTitle = oEvent.getSource().getSelectedItem().getProperty("title"),
+            oHighlightText = oEvent
+              .getSource()
+              .getSelectedItem()
+              .getProperty("highlightText"),
+            oIcon = oEvent.getSource().getSelectedItem().getProperty("icon"),
+            oSelectedItemData = oEvent
+              .getSource()
+              .getSelectedItem()
+              .getBindingContext("jsonModel")
+              .getObject();
+          if (oIcon === "sap-icon://overview-chart") {
+            jsonModel.setProperty(
+              "/formInputValues/requestedDepartment",
+              oSelectedItemData.mergedText
+            );
+            jsonModel.setProperty(
+              "/formInputValues/requestedDepartmentKey",
+              oSelectedItemData.Objid
+            );
+
+            this._getLocationCode();
+            this._clearValidationValueState("formInputValues5");
+            this._closeDialog();
+        }},
         _getLocationCode: function () {
           let jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
@@ -1542,6 +1608,7 @@ sap.ui.define(
             this._clearValidationValueState("formInputValues3");
             this._closeDialog();
             this._getCompanyCode();
+            this._getLocationCode();
           }
         },
         findNodeAndAncestors: function (nodes, searchText, ancestors = []) {

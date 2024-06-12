@@ -3,9 +3,10 @@
     xmlns:core="sap.ui.core"
 >
     <Dialog
-        id="idLocationVHelpDialog"
-        title="Lokasyon Seçimi"
+        id="idDepartmentVHelpDialog"
+        title="Departman Seçimi"
         type="Standard"
+        escapeHandler="._closeDialog"
     >
         <subHeader>
             <OverflowToolbar>
@@ -16,7 +17,7 @@
             </OverflowToolbar>
         </subHeader>
         <content>
-            <List
+            <!-- <List
                 id="idSHelpPositionTreeDataTree"
                 items="{
                     path : 'jsonModel>/sHelpDepertman'
@@ -32,7 +33,23 @@
                     info="{jsonModel>Objid}"
                     iconDensityAware="false"
                     iconInset="false" />
-            </List>
+            </List> -->
+             <Tree
+                id="idSHelpPositionTreeDataTree"
+                selectionChange="onSHelpDepertmanListSelectionChange"
+                items="{jsonModel>/sHelpDepartment}"
+                mode="SingleSelectMaster"
+            >
+                <StandardTreeItem
+                    icon="{jsonModel>ref}"
+                    title="{jsonModel>text}"
+                    highlightText="{jsonModel>Objid}"
+                >
+                    <customData>
+                    <core:CustomData key="Otype" value="{jsonModel>Otype}" writeToDom="true"></core:CustomData>
+                    </customData>
+                </StandardTreeItem>
+            </Tree>
         </content>
         <buttons>
             <Button

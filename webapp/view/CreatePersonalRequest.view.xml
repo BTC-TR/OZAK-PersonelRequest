@@ -333,7 +333,7 @@
 															}"
 															maxLength="50"
 															required="true"
-															enabled="{jsonModel>/formInputValues/locationInputEnabled}"
+															enabled="{=${jsonModel>/formInputValues/locationInputEnabled}}"
 															showSuggestion="true"
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://map"

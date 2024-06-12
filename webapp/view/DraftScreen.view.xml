@@ -337,8 +337,9 @@
 																	minLength: 1
 																}
 															}"
-															required="true"
                                                             maxLength="50"
+                                                            required="true"
+                                                            enabled="{= ${jsonModel>/formInputValues/locationInputEnabled} || ${jsonModel>/formInputValues/jobLocation} === ''}"
 															showSuggestion="true"
 															valueHelpOnly="true"
 															valueHelpIconSrc="sap-icon://map"
