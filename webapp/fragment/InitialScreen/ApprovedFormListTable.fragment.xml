@@ -50,19 +50,19 @@
             <Column>
                 <Text text="Talep No" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talep Edilen Pozisyon" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talep Edilen Çalışan Sayısı" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Çalışacağı Lokasyon" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Onay Durumu" />
             </Column>
-            <Column>
+            <Column hAlign="End">
                 <Text text="" />
             </Column>
         </columns>
@@ -95,7 +95,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
-                <ObjectIdentifier text="{jsonModel>Btext}" />
+                <!-- <ObjectIdentifier text="{jsonModel>Btext}" /> -->
                 <Button
                     icon="sap-icon://show"
                     press="navigateToShowDetail"

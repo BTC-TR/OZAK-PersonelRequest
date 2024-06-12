@@ -52,7 +52,7 @@
 							fitContainer="true"
 							justifyContent="SpaceBetween"
 						>
-							<VBox class="sapUiLargeMarginEnd sapUiSmallMarginTopBottom">
+							<VBox class="sapUiSmallMarginTopBottom">
 								<HBox>
 									<Title
 										text="Personel Talep Formu"
@@ -69,7 +69,13 @@
 					<uxap:actions>
 						<ObjectNumber
 							number="Talep Tarihi:"
-							unit="{jsonModel>/today}"
+							unit="{
+                                path: 'jsonModel>/todayJS',
+                                type: 'sap.ui.model.type.DateTime',
+                                formatOptions: {
+                                    pattern: 'dd/MM/yyyy'
+                                }
+                            }"
 						/>
 					</uxap:actions>
 				</uxap:ObjectPageDynamicHeaderTitle>

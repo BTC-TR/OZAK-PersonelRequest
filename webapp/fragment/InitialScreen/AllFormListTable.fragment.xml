@@ -46,22 +46,22 @@
             <Column>
                 <Text text="Talep No" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talep Edilen Pozisyon" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talep Edilen Çalışan Sayısı" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Çalışacağı Lokasyon" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Onay Durumu" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talebinde" />
             </Column>
-            <Column>
+            <Column hAlign="End">
                 <Text text="" />
             </Column>
         </columns>
@@ -99,7 +99,7 @@
                     }"
                 />
                 <ObjectIdentifier text="{jsonModel>Onaye}" />
-                <FlexBox>
+                <FlexBox justifyContent="End">
                     <Button
                         visible="{= ${jsonModel>Statu} !== '05'  }"
                         icon="sap-icon://show"

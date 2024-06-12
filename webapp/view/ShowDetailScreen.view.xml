@@ -52,15 +52,16 @@
                             fitContainer="true"
                             justifyContent="SpaceBetween"
                         >
-                            <VBox class="sapUiLargeMarginEnd sapUiSmallMarginTopBottom">
+                            <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
                                     <Title
                                         text="Personel Talep Form Detayı"
                                         level="H1"
+                                        wrapping="true"
                                     />
                                 </HBox>
                                 <HBox>
-                                    <Text text="İlettiğiniz Bilgiler Aşşağıda Görüntülenmektedir." />
+                                    <Text text="İlettiğiniz Bilgiler Aşağıda Görüntülenmektedir." />
                                 </HBox>
                             </VBox>
                             <VBox />

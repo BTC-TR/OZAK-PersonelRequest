@@ -37,6 +37,9 @@ div[role="toolbar"] {
 *[data-otype="P"] .sapMLIBSelectS{
     display: none !important;
 }
+*[data-ikiNoktaGizleme="true"] .sapMListTblSubCntHdr{
+    display: none !important;
+}
 .ZsapMInputBaseContentWrapperError {
     border: 2px solid #e00;
 }
@@ -46,3 +49,10 @@ div[role="toolbar"] {
 .padding2 {
     padding: 8px !important;
 }
+.sapFDynamicPageTitleMainActionsHasContent {
+    flex-basis: auto !important;
+    width: 100% !important;
+}
+/* .sapUxAPObjectPageHeaderTitle {
+    padding-right: 0px !important;
+} */

@@ -50,22 +50,22 @@
             <Column>
                 <Text text="Talep No" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talep Edilen Pozisyon" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Talep Edilen Çalışan Sayısı" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Çalışacağı Lokasyon" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Onay Durumu" />
             </Column>
-            <Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
                 <Text text="Onayında" />
             </Column>
-            <Column>
+            <Column hAlign="End">
                 <Text text="" />
             </Column>
         </columns>
@@ -102,6 +102,7 @@
                 <Button
                     icon="sap-icon://show"
                     press="navigateToShowDetail"
+                    
                 />
                 <!-- <ObjectIdentifier text="{= ${Statu} === '01' ? 'Onayda' : ''}" /> -->
             </ColumnListItem>

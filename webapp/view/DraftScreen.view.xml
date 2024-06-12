@@ -52,7 +52,7 @@
                             fitContainer="true"
                             justifyContent="SpaceBetween"
                         >
-                            <VBox class="sapUiLargeMarginEnd sapUiSmallMarginTopBottom">
+                            <VBox class="sapUiSmallMarginTopBottom">
                                 <HBox>
                                     <Title
                                         text="Personel Talep Formu"
