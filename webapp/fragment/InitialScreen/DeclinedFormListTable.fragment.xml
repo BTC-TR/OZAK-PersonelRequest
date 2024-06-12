@@ -18,7 +18,7 @@
         growingScrollToLoad="true"
     >
         <headerToolbar>
-            <Toolbar class="sapUiTinyMarginTop">
+            <OverflowToolbar class="sapUiTinyMarginTop">
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
                 <SearchField
@@ -44,7 +44,7 @@
                     icon="sap-icon://sort"
                     type="Transparent"
                 />
-            </Toolbar>
+            </OverflowToolbar>
         </headerToolbar>
         <columns>
             <Column>

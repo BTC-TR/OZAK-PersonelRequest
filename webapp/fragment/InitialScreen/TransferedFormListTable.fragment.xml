@@ -21,7 +21,7 @@
         growingScrollToLoad="true"
     >
         <headerToolbar>
-            <Toolbar class="sapUiTinyMarginTop">
+            <OverflowToolbar class="sapUiTinyMarginTop">
                 <Title text="Talep Listem" />
                 <ToolbarSpacer />
                 <!-- <Button
@@ -59,7 +59,7 @@
                     type="Accept"
                     icon="sap-icon://paper-plane"
                 />
-            </Toolbar>
+            </OverflowToolbar>
         </headerToolbar>
         <columns>
             <Column>
