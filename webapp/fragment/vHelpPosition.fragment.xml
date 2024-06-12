@@ -6,6 +6,7 @@
         id="idPositionVHelpDialog"
         title="Pozisyon Seçimi"
         type="Standard"
+        escapeHandler="._closeDialog"
     >
         <subHeader>
             <OverflowToolbar>
