@@ -171,10 +171,10 @@ sap.ui.define(
             `${draftData.Werks}`
           );
           jsonModel.setProperty(
-              "/formInputValues/formStartDate",
-              draftData.Ttarih
-            )
-          
+            "/formInputValues/formStartDate",
+            draftData.Ttarih
+          );
+
           jsonModel.setProperty(
             "/formInputValues/requestedPositionFreeText",
             `${draftData.Pozisy}`
@@ -211,10 +211,10 @@ sap.ui.define(
             .setSelected(draftData.Egtm5 === "X" ? true : false);
           oView
             .byId("educationCheckBox6")
-            .setSelected(draftData.Egtm6 === 'X' ? true : false);
+            .setSelected(draftData.Egtm6 === "X" ? true : false);
           oView
             .byId("educationCheckBox7")
-            .setSelected(draftData.Egtm7 === 'X' ? true : false);
+            .setSelected(draftData.Egtm7 === "X" ? true : false);
 
           oView
             .byId("ageCheckBox1")
@@ -273,9 +273,11 @@ sap.ui.define(
           // en sona koyunuz yoksa patlatıyor
           try {
             if (draftData.Ttarih.getFullYear() > new Date().getFullYear() - 10)
-          this.getView().byId("initialPageCountingYearInput").setValue(formatter.formatDate(draftData.Ttarih))
+              this.getView()
+                .byId("initialPageCountingYearInput")
+                .setValue(formatter.formatDate(draftData.Ttarih));
           } catch (error) {
-            console.log(error)
+            console.log(error);
           }
         },
         _fetchAllFormListData: function () {
@@ -477,12 +479,14 @@ sap.ui.define(
             ""
           );
           if (this.oMPDialog) {
-            
-          this.oDialog.destroy();
+            this.oDialog.destroy();
           }
           this.oMPDialog = undefined;
 
-          this._clearClass("idUploadCollection", "ZsapMInputBaseContentWrapperError");
+          this._clearClass(
+            "idUploadCollection",
+            "ZsapMInputBaseContentWrapperError"
+          );
         },
         setCustomerCredentialsFormVisibility: function (value) {
           const jsonModel = this.getModel("jsonModel");
@@ -516,6 +520,8 @@ sap.ui.define(
             };
           });
 
+          let departmanList = [];
+
           // Şimdi her öğeyi uygun yere yerleştiriyoruz
           this.treeConnectionList.forEach((item) => {
             if (item.Pup !== 0) {
@@ -533,19 +539,21 @@ sap.ui.define(
             for (let key in map) {
               if (map[key].Objid === desc.Objid) {
                 map[key].text = desc.Stext;
-                
+
                 switch (desc.Otype) {
                   case "P":
                     map[key].ref = "sap-icon://employee";
-                    map[key].mergedText =  map[key].text
+                    map[key].mergedText = map[key].text;
                     break;
                   case "S":
                     map[key].ref = "sap-icon://family-care";
-                    map[key].mergedText = map[key].Objid + ' - ' + map[key].text
+                    map[key].mergedText =
+                      map[key].Objid + " - " + map[key].text;
                     break;
                   case "O":
                     map[key].ref = "sap-icon://overview-chart";
-                    map[key].mergedText =  map[key].text
+                    map[key].mergedText = map[key].text;
+                    departmanList.push(map[key]);
                     break;
                   default:
                     map[key].ref = "";
@@ -556,16 +564,25 @@ sap.ui.define(
           let filteredMap = map.filter((item) => {
             return !item.added;
           });
+          // let filteredDepertmandMap = departmanList.filter((item) => {
+          //   return !item.added;
+          // });
           this.getModel("jsonModel").setProperty(
             "/sHelpPositionTreeData",
             filteredMap
+          );
+          this.getModel("jsonModel").setProperty(
+            "/sHelpDepertman",
+            departmanList
           );
         },
         _clearFormInputs: function () {
           let jsonModel = this.getView().getModel("jsonModel");
 
           jsonModel.setProperty("/formInputValues", models._formInputValues());
-          if (this.draftGuidWithDash !== jsonModel.getProperty("/draftData/Guid")) {
+          if (
+            this.draftGuidWithDash !== jsonModel.getProperty("/draftData/Guid")
+          ) {
             // jsonModel.setProperty("/draftData", undefined);
           }
           this.getView().byId("idUploadCollection").destroyItems();
@@ -605,12 +622,27 @@ sap.ui.define(
             }.bind(this)
           );
         },
+        _departmanValueHelp: function () {
+          if (!this.oMPDialog) {
+            this.oMPDialog = this.loadFragment({
+              name: "ozak.com.zhrpersonalrequestform.fragment.vHelpDepartman",
+            });
+          }
+          this.oMPDialog.then(
+            function (oDialog) {
+              this.oDialog = oDialog;
+              this.oDialog.open();
+              this.oDialog;
+              this._fetchSHelpPositionTreeData();
+            }.bind(this)
+          );
+        },
         _closeDialog: function () {
           this.oDialog.close();
           this.oDialog.destroy();
           this.oMPDialog = undefined;
         },
-        
+
         _resetAllFormInputsValueState: function () {
           let oView = this.getView();
           oView.byId("formInputValues1").setValueState("None");
@@ -641,7 +673,9 @@ sap.ui.define(
           oView.byId("ageCheckBox4").setValueState("None");
           oView.byId("ageCheckBox5").setValueState("None");
           oView.byId("initialPageCountingYearInput").setValueState("None");
-          this.getView().byId("idUploadCollection").removeStyleClass("ZsapMInputBaseContentWrapperError");
+          this.getView()
+            .byId("idUploadCollection")
+            .removeStyleClass("ZsapMInputBaseContentWrapperError");
         },
         _checkIfFormInputsValidated: function () {
           let oView = this.getView(),
@@ -687,9 +721,14 @@ sap.ui.define(
             bValidationError = this._validateInput(oInput) || bValidationError;
           }, this);
 
-          if (this.getView().byId("idUploadCollection")._aFileUploadersForPendingUpload.length === 0){
-            this.getView().byId("idUploadCollection").addStyleClass("ZsapMInputBaseContentWrapperError");
-            bValidationError = true
+          if (
+            this.getView().byId("idUploadCollection")
+              ._aFileUploadersForPendingUpload.length === 0
+          ) {
+            this.getView()
+              .byId("idUploadCollection")
+              .addStyleClass("ZsapMInputBaseContentWrapperError");
+            bValidationError = true;
           }
 
           return bValidationError;
@@ -780,39 +819,102 @@ sap.ui.define(
           let boxValidation = this._checkIfFormCheckBoxesValidated();
           let formValidation = this._checkIfFormInputsValidated();
           if (!boxValidation && !formValidation) {
-           
-          this._saveForm("01", true);
+            this._saveForm("01", true);
           } else {
             MessageToast.show("Gerekli Alanları Doldurunuz !");
           }
+        },
+        onSHelpDepertmanListSelectionChange: function (oEvent) {
+          let oSource = oEvent.getSource().getSelectedItem(),
+            oText = oSource.getProperty("title"),
+            oKey = oSource.getProperty("info"),
+            jsonModel = this.getModel("jsonModel");
+
+          jsonModel.setProperty("/formInputValues/requestedDepartment", oText);
+          jsonModel.setProperty("/formInputValues/requestedDepartmentKey", oKey);
+          oEvent.getSource().getSelectedItem().setSelected(false);
+
+          this._getLocationCode();
+          this._clearValidationValueState("formInputValues5");
+          this._closeDialog();
+        },
+        _getLocationCode: function () {
+          let jsonModel = this.getModel("jsonModel"),
+            oModel = this.getModel(),
+            sPath = "",
+            oData = {},
+            that = this;
+
+          oData = {
+            IOrgeh: jsonModel.getProperty(
+              "/formInputValues/requestedDepartmentKey"
+            ),
+          };
+          sPath = oModel.createKey("/SHelp_LocationByDepartmentSet", oData);
+          oModel.read(sPath, {
+            success: (oData, oResponse) => {
+              jsonModel.setProperty("/formInputValues/jobBtrtl", oData.Btrtl);
+              jsonModel.setProperty("/formInputValues/jobWerks", oData.Werks);
+              jsonModel.setProperty(
+                "/formInputValues/jobLocation",
+                oData.Btext
+              );
+              if (oData.Btrtl !== "") {
+                jsonModel.setProperty("/formInputValues/locationInputEnabled", false)
+              } else {
+                jsonModel.setProperty("/formInputValues/locationInputEnabled", true)
+              }
+            },
+          });
         },
         _saveForm: function (statu, isUpdate) {
           let jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             oView = this.getView(),
-            Ttarih = '00000000',
+            Ttarih = "00000000",
             Tdate = jsonModel.getProperty("/today").split("/"),
             PAltDu = "",
             Tneden = "",
             Tcsayi = "",
             Btrlt = "",
             that = this;
-            if (!jsonModel.getProperty("/formInputValues/jobBtrtl") && jsonModel.getProperty("/formInputValues/persStatus02")) {
-              Btrlt = this.getModel("userModel").getProperty("/Btrtl");
-            } else {
-              Btrlt = jsonModel.getProperty("/formInputValues/jobBtrtl");
-            }
-            if (typeof(jsonModel.getProperty("/formInputValues/formStartDate")) === typeof(new Date())) {
-              Ttarih = `${jsonModel.getProperty("/formInputValues/formStartDate").getDate()}/${jsonModel.getProperty("/formInputValues/formStartDate").getMonth() + 1}/${jsonModel.getProperty("/formInputValues/formStartDate").getFullYear()}`.split("/")
-            } else {
-              Ttarih = jsonModel
+          if (
+            !jsonModel.getProperty("/formInputValues/jobBtrtl") &&
+            jsonModel.getProperty("/formInputValues/persStatus02")
+          ) {
+            Btrlt = this.getModel("userModel").getProperty("/Btrtl");
+          } else {
+            Btrlt = jsonModel.getProperty("/formInputValues/jobBtrtl");
+          }
+          if (
+            typeof jsonModel.getProperty("/formInputValues/formStartDate") ===
+            typeof new Date()
+          ) {
+            Ttarih = `${jsonModel
+              .getProperty("/formInputValues/formStartDate")
+              .getDate()}/${
+              jsonModel
+                .getProperty("/formInputValues/formStartDate")
+                .getMonth() + 1
+            }/${jsonModel
+              .getProperty("/formInputValues/formStartDate")
+              .getFullYear()}`.split("/");
+          } else {
+            Ttarih = jsonModel
               .getProperty("/formInputValues/formStartDate")
               .split("/");
-            }
-          if (jsonModel.getProperty("/formInputValues/requestedCandidateQuantity") !== undefined && jsonModel.getProperty("/formInputValues/formNo")) {
-            Tcsayi = jsonModel.getProperty("/formInputValues/requestedCandidateQuantity")
-          } else if (jsonModel.getProperty("/formInputValues/formYes")){
-            Tcsayi = '1';
+          }
+          if (
+            jsonModel.getProperty(
+              "/formInputValues/requestedCandidateQuantity"
+            ) !== undefined &&
+            jsonModel.getProperty("/formInputValues/formNo")
+          ) {
+            Tcsayi = jsonModel.getProperty(
+              "/formInputValues/requestedCandidateQuantity"
+            );
+          } else if (jsonModel.getProperty("/formInputValues/formYes")) {
+            Tcsayi = "1";
           }
           if (jsonModel.getProperty("/formInputValues/formNo")) {
             PAltDu = jsonModel.getProperty("/formInputValues/persStatus01")
@@ -859,8 +961,7 @@ sap.ui.define(
             ),
             Tneden: Tneden,
             TnedenText: jsonModel.getProperty("/formInputValues/requestReason"),
-            Tcsayi:
-             Tcsayi ,
+            Tcsayi: Tcsayi,
             Werks: jsonModel.getProperty("/formInputValues/jobWerks")
               ? jsonModel.getProperty("/formInputValues/jobWerks")
               : this.getModel("userModel").getProperty("/Werks"),
@@ -868,11 +969,14 @@ sap.ui.define(
             Istnm: jsonModel.getProperty("/formInputValues/jobDefinition")
               ? jsonModel.getProperty("/formInputValues/jobDefinition")
               : "",
-            Ttarih: Ttarih[0] === '' ? '00000000' : new Date(
-              Number(Ttarih[2]),
-              Number(Ttarih[1]) - 1,
-              Number(Ttarih[0]) + 1
-            ),
+            Ttarih:
+              Ttarih[0] === ""
+                ? "00000000"
+                : new Date(
+                    Number(Ttarih[2]),
+                    Number(Ttarih[1]) - 1,
+                    Number(Ttarih[0]) + 1
+                  ),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
@@ -1018,7 +1122,10 @@ sap.ui.define(
             );
 
             this.getView().setBusy(false);
-            this._clearClass("idUploadCollection", "ZsapMInputBaseContentWrapperError");
+            this._clearClass(
+              "idUploadCollection",
+              "ZsapMInputBaseContentWrapperError"
+            );
           }
         },
         onUploadComplete: function (oEvent) {
@@ -1103,7 +1210,7 @@ sap.ui.define(
           );
         },
         onFormStartDateDatePickerValidationError: function (oEvent) {
-          debugger
+          debugger;
         },
         _uploadAttachment: function (sGuid) {
           var parts = [];
@@ -1425,7 +1532,7 @@ sap.ui.define(
             });
             jsonModel.setProperty(
               "/formInputValues/requestedDepartment",
-              departman.Objid + '-' + departman.text
+              departman.Objid + "-" + departman.text
             );
             jsonModel.setProperty(
               "/formInputValues/requestedDepartmentKey",
@@ -1479,6 +1586,26 @@ sap.ui.define(
               [new Filter("Btext", FilterOperator.Contains, inputValue)],
               true
             );
+            oBinding.filter([oFilter]);
+          } else {
+            oBinding.filter([oFilter]);
+          }
+        },
+        _departmentVHelpSearch: function (oEvent) {
+          let oTree = this.getView().byId("idSHelpPositionTreeDataTree"),
+            oBinding = oTree.getBinding("items"),
+            oFilter = [],
+            inputValue = oEvent.getSource().getValue();
+          if (inputValue !== "") {
+            oFilter = [
+              new Filter(
+                [
+                  new Filter("text", FilterOperator.Contains, inputValue),
+                  new Filter("Objid", FilterOperator.Contains, inputValue),
+                ],
+                false
+              ),
+            ];
             oBinding.filter([oFilter]);
           } else {
             oBinding.filter([oFilter]);

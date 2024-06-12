@@ -23,7 +23,7 @@ sap.ui.define(
           Yonetici: "",
           Werks: "",
           Btrlt: "",
-          guid: "00505696-9651-1edf-89f8-308f7a7452ee",
+          guid: "00505696-9651-1edf-89fd-fab9cd7772ee",
         });
       },
       createJsonModel: function () {
@@ -56,6 +56,7 @@ sap.ui.define(
           requestedPositionFreeText: "",
           companyCode: "",
           companyName: "",
+          locationInputEnabled: false,
           jobBtrtl: "",
           requestReason: "",
           requestedCompanyKey: "",

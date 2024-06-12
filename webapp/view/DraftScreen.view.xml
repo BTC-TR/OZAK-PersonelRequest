@@ -167,7 +167,7 @@
                                                         >
                                                             <Label
                                                                 class="padding"
-                                                                text="Organizasyondan varolan pozisyonlardan biri ile aynı yeni bir  pozisyon talebi yapmak istiyorum."
+                                                                text="Organizasyonda varolan pozisyonlardan biri ile aynı yeni bir pozisyon talebi yapmak istiyorum. "
                                                                 wrapping="true"
                                                             />
                                                             <CheckBox
@@ -225,6 +225,11 @@
                                                                     minLength: 1
                                                                 }
                                                             }"
+                                                            showSuggestion="true"
+															valueHelpOnly="true"
+															valueHelpIconSrc="sap-icon://building"
+															showValueHelp="true"
+															valueHelpRequest="_departmanValueHelp"
                                                         />
                                                     </f:fields>
                                                 </f:FormElement>

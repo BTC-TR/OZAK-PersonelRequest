@@ -1,0 +1,44 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="idLocationVHelpDialog"
+        title="Lokasyon Seçimi"
+        type="Standard"
+    >
+        <subHeader>
+            <OverflowToolbar>
+                <SearchField
+                    liveChange="_departmentVHelpSearch"
+                    width="100%"
+                />
+            </OverflowToolbar>
+        </subHeader>
+        <content>
+            <List
+                id="idSHelpPositionTreeDataTree"
+                items="{
+                    path : 'jsonModel>/sHelpDepertman'
+                }"
+                selectionChange="onSHelpDepertmanListSelectionChange"
+                mode="SingleSelectMaster"
+                growing="true"
+                includeItemInSelection="true">
+                <StandardListItem
+                    title="{
+                        path: 'jsonModel>text'
+                    }"
+                    info="{jsonModel>Objid}"
+                    iconDensityAware="false"
+                    iconInset="false" />
+            </List>
+        </content>
+        <buttons>
+            <Button
+                text="Kapat"
+                press="_closeDialog"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

@@ -59,6 +59,9 @@
                 <Text text="Onay Durumu" />
             </Column>
             <Column>
+                <Text text="Talebinde" />
+            </Column>
+            <Column>
                 <Text text="" />
             </Column>
         </columns>
@@ -95,6 +98,7 @@
                         formatter: '.formatter.setStatusState'
                     }"
                 />
+                <ObjectIdentifier text="{jsonModel>Onaye}" />
                 <FlexBox>
                     <Button
                         visible="{= ${jsonModel>Statu} !== '05'  }"
