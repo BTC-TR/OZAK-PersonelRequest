@@ -1341,10 +1341,11 @@ sap.ui.define(
             let oModel = this.getView().getModel(),
               jsonModel = this.getModel("jsonModel"),
               IPernr = this.getModel("userModel").getProperty("/Pernr"),
+              IWerks = this.getModel("jsonModel").getProperty("/formInputValues/jobWerks"),
               that = this,
               sPath = "/SHelp_LocationsSet";
             oModel.read(sPath, {
-              filters: [new Filter("IPernr", FilterOperator.EQ, IPernr)],
+              filters: [new Filter("IPernr", FilterOperator.EQ, IPernr), new Filter("Werks", FilterOperator.EQ, IWerks)],
               success: (oData, oResponse) => {
                 jsonModel.setProperty("/SHelp_LocationsSet", oData.results);
                 resolve();
