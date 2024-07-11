@@ -1341,7 +1341,7 @@ sap.ui.define(
             let oModel = this.getView().getModel(),
               jsonModel = this.getModel("jsonModel"),
               IPernr = this.getModel("userModel").getProperty("/Pernr"),
-              IWerks = this.getModel("jsonModel").getProperty("/formInputValues/jobWerks"),
+              IWerks = jsonModel.getProperty("/formInputValues/jobWerks") ? jsonModel.getProperty("/formInputValues/jobWerks") : this.getModel("userModel").getProperty("/Werks"),
               that = this,
               sPath = "/SHelp_LocationsSet";
             oModel.read(sPath, {
@@ -1591,7 +1591,8 @@ sap.ui.define(
             );
             let { found, ancestors } = this.findNodeAndAncestors(
               jsonModel.getProperty("/sHelpPositionTreeData"),
-              oSelectedItemData.Objid
+              // oSelectedItemData.Objid,
+              oSelectedItemData.Pup
             );
             let oSelectedItemDepartmanNo = oSelectedItemData.Pup;
             let departman = ancestors.find((elmnt) => {
@@ -1612,13 +1613,13 @@ sap.ui.define(
             this._getLocationCode();
           }
         },
-        findNodeAndAncestors: function (nodes, searchText, ancestors = []) {
+        findNodeAndAncestors: function (nodes, searchPup, ancestors = []) {
           for (const node of nodes) {
-            if (node.Objid === searchText) {
+            if ( node.Pup === searchPup) {
               return { found: node, ancestors };
             }
             if (node.nodes) {
-              const result = this.findNodeAndAncestors(node.nodes, searchText, [
+              const result = this.findNodeAndAncestors(node.nodes, searchPup, [
                 ...ancestors,
                 node,
               ]);
