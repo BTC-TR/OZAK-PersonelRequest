@@ -1,407 +1,429 @@
 <mvc:View
-	xmlns:upload="sap.m.upload"
-	xmlns:uxap="sap.uxap"
-	controllerName="ozak.com.zhrpersonalrequestform.controller.CreatePersonalRequest"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	xmlns:c="sap.ui.core"
-	xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form"
-	displayBlock="true"
-	height="100%"
-	busyIndicatorDelay="0"
+    xmlns:upload="sap.m.upload"
+    xmlns:uxap="sap.uxap"
+    controllerName="ozak.com.zhrpersonalrequestform.controller.CreatePersonalRequest"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:c="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    displayBlock="true"
+    height="100%"
+    busyIndicatorDelay="0"
 >
-	<Page>
-		<customHeader>
-			<Toolbar>
-				<Button
-					type="Transparent"
-					icon="sap-icon://nav-back"
-					press="navigateToInitialScreen"
-				/>
-				<Button
-					type="Transparent"
-					icon="sap-icon://home"
-					press="onPressHome"
-				/>
-				<Image
-					src="assets/images/ozak_h1.png"
-					width="150px"
-				/>
-				<ToolbarSpacer />
-				<Button
-					class="userMenuButtonClass"
-					icon="sap-icon://person-placeholder"
-					press="onPressUser"
-				/>
-			</Toolbar>
-		</customHeader>
-		<uxap:ObjectPageLayout
-			id="CreatePersonalRequest"
-			showFooter="true"
-		>
-			<uxap:headerTitle>
-				<uxap:ObjectPageHeader
-					objectTitle="Personel Talep Formu"
-					objectSubtitle="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!"
-				/>
-				<uxap:ObjectPageDynamicHeaderTitle>
-					<uxap:heading>
-						<FlexBox
-							wrap="Wrap"
-							fitContainer="true"
-							justifyContent="SpaceBetween"
-						>
-							<VBox class="sapUiSmallMarginTopBottom">
-								<HBox>
-									<Title
-										text="Personel Talep Formu"
-										level="H1"
-									/>
-								</HBox>
-								<HBox>
-									<Text text="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!" />
-								</HBox>
-							</VBox>
-							<VBox />
-						</FlexBox>
-					</uxap:heading>
-					<uxap:actions>
-						<ObjectNumber
-							number="Talep Tarihi:"
-							unit="{
+    <Page>
+        <customHeader>
+            <Toolbar>
+                <Button
+                    type="Transparent"
+                    icon="sap-icon://nav-back"
+                    press="navigateToInitialScreen"
+                />
+                <Button
+                    type="Transparent"
+                    icon="sap-icon://home"
+                    press="onPressHome"
+                />
+                <Image
+                    src="assets/images/ozak_h1.png"
+                    width="150px"
+                />
+                <ToolbarSpacer />
+                <Button
+                    class="userMenuButtonClass"
+                    icon="sap-icon://person-placeholder"
+                    press="onPressUser"
+                />
+            </Toolbar>
+        </customHeader>
+        <uxap:ObjectPageLayout
+            id="CreatePersonalRequest"
+            showFooter="true"
+        >
+            <uxap:headerTitle>
+                <uxap:ObjectPageHeader
+                    objectTitle="Personel Talep Formu"
+                    objectSubtitle="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!"
+                />
+                <uxap:ObjectPageDynamicHeaderTitle>
+                    <uxap:heading>
+                        <FlexBox
+                            wrap="Wrap"
+                            fitContainer="true"
+                            justifyContent="SpaceBetween"
+                        >
+                            <VBox class="sapUiSmallMarginTopBottom">
+                                <HBox>
+                                    <Title
+                                        text="Personel Talep Formu"
+                                        level="H1"
+                                    />
+                                </HBox>
+                                <HBox>
+                                    <Text
+                                        text="Talep Formunu oluşturmak için altta bulunan alanları doldurunuz!"
+                                    />
+                                </HBox>
+                            </VBox>
+                            <VBox />
+                        </FlexBox>
+                    </uxap:heading>
+                    <uxap:actions>
+                        <ObjectNumber
+                            number="Talep Tarihi:"
+                            unit="{
                                 path: 'jsonModel>/todayJS',
                                 type: 'sap.ui.model.type.DateTime',
                                 formatOptions: {
                                     pattern: 'dd/MM/yyyy'
                                 }
                             }"
-						/>
-					</uxap:actions>
-				</uxap:ObjectPageDynamicHeaderTitle>
-			</uxap:headerTitle>
-			<uxap:sections>
-				<uxap:ObjectPageSection
-					showTitle="false"
-					titleUppercase="false"
-				>
-					<uxap:subSections>
-						<uxap:ObjectPageSubSection titleUppercase="false">
-							<uxap:blocks>
-								<f:Form
-									id="FormToolbar"
-									editable="true"
-									ariaLabelledBy="Title1"
-								>
-									<f:layout>
-										<f:ResponsiveGridLayout
-											labelSpanXL="3"
-											labelSpanL="4"
-											labelSpanM="4"
-											labelSpanS="12"
-											adjustLabelSpan="false"
-											emptySpanXL="4"
-											emptySpanL="3"
-											emptySpanM="0"
-											emptySpanS="0"
-											columnsXL="1"
-											columnsL="1"
-											columnsM="1"
-											singleContainerFullSize="false"
-										/>
-									</f:layout>
-									<f:formContainers>
-										<f:FormContainer ariaLabelledBy="Title5">
-											<f:toolbar>
-												<Toolbar>
-													<Title
-														id="Title5"
-														text="Talep Nedeni"
-													/>
-													<ToolbarSpacer />
-													<!-- <Button icon="sap-icon://settings" /> -->
-												</Toolbar>
-											</f:toolbar>
-											<f:formElements>
-												<f:FormElement label="Pozisyon talebi ayrılan veya ayrılacak olan bir çalışan yerine mi?">
-													<f:fields>
-														<RadioButtonGroup
-															columns="5"
-															select=".onCustomerRadioButtonsChange"
-														>
-															<RadioButton
-																text="Evet"
-																selected="{jsonModel>/formInputValues/formYes}"
-															/>
-															<RadioButton
-																text="Hayır"
-																selected="{jsonModel>/formInputValues/formNo}"
-															/>
-														</RadioButtonGroup>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													visible="{= ${jsonModel>/formInputValues/formNoVisibility} }"
-													label="Yeni bir pozisyon yaratmak istiyorum"
-												>
-													<VBox>
-														<FlexBox
-															justifyContent="SpaceBetween"
-															alignItems="Center"
-														>
-															<Label
-																class="padding"
-																text="Organizasyonda varolmayan yeni bir pozisyon talebi yapmak istiyorum."
-																wrapping="true"
-															/>
-															<CheckBox
-																id="persStatus01"
-																selected="{jsonModel>/formInputValues/persStatus01}"
-																valueState="Information"
-																select="_unselectCheckBox($event, 'persStatus02')"
-															/>
-														</FlexBox>
-														<FlexBox
-															justifyContent="SpaceBetween"
-															alignItems="Center"
-														>
-															<Label
-																class="padding"
-																text="Organizasyonda varolan pozisyonlardan biri ile aynı yeni bir pozisyon talebi yapmak istiyorum. "
-																wrapping="true"
-															/>
-															<CheckBox
-																id="persStatus02"
-																selected="{jsonModel>/formInputValues/persStatus02}"
-																valueState="Information"
-																select="_unselectCheckBox($event, 'persStatus01')"
-															/>
-														</FlexBox>
-													</VBox>
-												</f:FormElement>
-											</f:formElements>
-										</f:FormContainer>
-										<f:FormContainer ariaLabelledBy="Title2">
-											<f:toolbar>
-												<Toolbar>
-													<Title
-														id="Title2"
-														text="Talep İçeriği"
-													/>
-													<ToolbarSpacer />
-													<!-- <Button icon="sap-icon://settings" /> -->
-												</Toolbar>
-											</f:toolbar>
-											<f:formElements>
-												<f:FormElement label="Talep Yapılan Şirket">
-													<f:fields>
-														<Input
-															id="formInputValues1"
-															enabled="false"
-															maxLength="50"
-															change="_clearValidationValueState('formInputValues1')"
-															value="{
+                        />
+                    </uxap:actions>
+                </uxap:ObjectPageDynamicHeaderTitle>
+            </uxap:headerTitle>
+            <uxap:sections>
+                <uxap:ObjectPageSection
+                    showTitle="false"
+                    titleUppercase="false"
+                >
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection titleUppercase="false">
+                            <uxap:blocks>
+                                <f:Form
+                                    id="FormToolbar"
+                                    editable="true"
+                                    ariaLabelledBy="Title1"
+                                >
+                                    <f:layout>
+                                        <f:ResponsiveGridLayout
+                                            labelSpanXL="3"
+                                            labelSpanL="4"
+                                            labelSpanM="4"
+                                            labelSpanS="12"
+                                            adjustLabelSpan="false"
+                                            emptySpanXL="4"
+                                            emptySpanL="3"
+                                            emptySpanM="0"
+                                            emptySpanS="0"
+                                            columnsXL="1"
+                                            columnsL="1"
+                                            columnsM="1"
+                                            singleContainerFullSize="false"
+                                        />
+                                    </f:layout>
+                                    <f:formContainers>
+                                        <f:FormContainer
+                                            ariaLabelledBy="Title5"
+                                        >
+                                            <f:toolbar>
+                                                <Toolbar>
+                                                    <Title
+                                                        id="Title5"
+                                                        text="Talep Nedeni"
+                                                    />
+                                                    <ToolbarSpacer />
+                                                    <!-- <Button icon="sap-icon://settings" /> -->
+                                                </Toolbar>
+                                            </f:toolbar>
+                                            <f:formElements>
+                                                <f:FormElement
+                                                    label="Pozisyon talebi ayrılan veya ayrılacak olan bir çalışan yerine mi?"
+                                                >
+                                                    <f:fields>
+                                                        <RadioButtonGroup
+                                                            columns="5"
+                                                            select=".onCustomerRadioButtonsChange"
+                                                        >
+                                                            <RadioButton
+                                                                text="Evet"
+                                                                selected="{jsonModel>/formInputValues/formYes}"
+                                                            />
+                                                            <RadioButton
+                                                                text="Hayır"
+                                                                selected="{jsonModel>/formInputValues/formNo}"
+                                                            />
+                                                        </RadioButtonGroup>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    visible="{= ${jsonModel>/formInputValues/formNoVisibility} }"
+                                                    label="Yeni bir pozisyon yaratmak istiyorum"
+                                                >
+                                                    <VBox>
+                                                        <FlexBox
+                                                            justifyContent="SpaceBetween"
+                                                            alignItems="Center"
+                                                        >
+                                                            <Label
+                                                                class="padding"
+                                                                text="Organizasyonda varolmayan yeni bir pozisyon talebi yapmak istiyorum."
+                                                                wrapping="true"
+                                                            />
+                                                            <CheckBox
+                                                                id="persStatus01"
+                                                                selected="{jsonModel>/formInputValues/persStatus01}"
+                                                                valueState="Information"
+                                                                select="_unselectCheckBox($event, 'persStatus02')"
+                                                            />
+                                                        </FlexBox>
+                                                        <FlexBox
+                                                            justifyContent="SpaceBetween"
+                                                            alignItems="Center"
+                                                        >
+                                                            <Label
+                                                                class="padding"
+                                                                text="Organizasyonda varolan pozisyonlardan biri ile aynı yeni bir pozisyon talebi yapmak istiyorum. "
+                                                                wrapping="true"
+                                                            />
+                                                            <CheckBox
+                                                                id="persStatus02"
+                                                                selected="{jsonModel>/formInputValues/persStatus02}"
+                                                                valueState="Information"
+                                                                select="_unselectCheckBox($event, 'persStatus01')"
+                                                            />
+                                                        </FlexBox>
+                                                    </VBox>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                        <f:FormContainer
+                                            ariaLabelledBy="Title2"
+                                        >
+                                            <f:toolbar>
+                                                <Toolbar>
+                                                    <Title
+                                                        id="Title2"
+                                                        text="Talep İçeriği"
+                                                    />
+                                                    <ToolbarSpacer />
+                                                    <!-- <Button icon="sap-icon://settings" /> -->
+                                                </Toolbar>
+                                            </f:toolbar>
+                                            <f:formElements>
+                                                <f:FormElement
+                                                    label="Talep Yapılan Şirket"
+                                                >
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues1"
+                                                            enabled="false"
+                                                            maxLength="50"
+                                                            change="_clearValidationValueState('formInputValues1')"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/requestedCompany',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="Talep Yapılan Departman">
-													<f:fields>
-														<Input
-															id="formInputValues2"
-															enabled="{= ${jsonModel>/formInputValues/persStatus01}}"
-															required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus01}}"
-															maxLength="50"
-															change="_clearValidationValueState('formInputValues2')"
-															value="{
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Talep Yapılan Departman"
+                                                >
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues2"
+                                                            enabled="{= ${jsonModel>/formInputValues/persStatus01}}"
+                                                            required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus01}}"
+                                                            maxLength="50"
+                                                            change="_clearValidationValueState('formInputValues2')"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/requestedDepartment',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-															showSuggestion="true"
-															valueHelpOnly="true"
-															valueHelpIconSrc="sap-icon://building"
-															showValueHelp="true"
-															valueHelpRequest="_departmanValueHelp"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													label="Talep Yapılan Pozisyon"
-													visible="{= ${jsonModel>/formInputValues/persStatus02} ||  ${jsonModel>/formInputValues/customerFormVisibility}}"
-												>
-													<f:fields>
-														<Input
-															id="formInputValues3"
-															required="true"
-															maxLength="50"
-															change="_clearValidationValueState('formInputValues3')"
-															value="{
+                                                            showSuggestion="true"
+                                                            valueHelpOnly="true"
+                                                            valueHelpIconSrc="sap-icon://building"
+                                                            showValueHelp="true"
+                                                            valueHelpRequest="_departmanValueHelp"
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Talep Yapılan Pozisyon"
+                                                    visible="{= ${jsonModel>/formInputValues/persStatus02} ||  ${jsonModel>/formInputValues/customerFormVisibility}}"
+                                                >
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues3"
+                                                            required="true"
+                                                            maxLength="50"
+                                                            change="_clearValidationValueState('formInputValues3')"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/requestedPosition',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-															showSuggestion="true"
-															valueHelpOnly="true"
-															valueHelpIconSrc="sap-icon://company-view"
-															showValueHelp="true"
-															valueHelpRequest="_positionValueHelp"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													label="Talep Yapılan Pozisyon"
-													visible="{= ${jsonModel>/formInputValues/persStatus01} &amp;&amp; !${jsonModel>/formInputValues/customerFormVisibility}}"
-												>
-													<f:fields>
-														<Input
-															id="formInputValues13"
-															required="true"
-															maxLength="50"
-															change="_clearValidationValueState('formInputValues13')"
-															value="{
+                                                            showSuggestion="true"
+                                                            valueHelpOnly="true"
+                                                            valueHelpIconSrc="sap-icon://company-view"
+                                                            showValueHelp="true"
+                                                            valueHelpRequest="_positionValueHelp"
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Talep Yapılan Pozisyon"
+                                                    visible="{= ${jsonModel>/formInputValues/persStatus01} &amp;&amp; !${jsonModel>/formInputValues/customerFormVisibility}}"
+                                                >
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues13"
+                                                            required="true"
+                                                            maxLength="50"
+                                                            change="_clearValidationValueState('formInputValues13')"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/requestedPositionFreeText',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													label="Ayrılan / Ayrılacak Olan Çalışan Adı Soyadı"
-													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
-												>
-													<f:fields>
-														<Input
-															id="formInputValues10"
-															required="{= !${jsonModel>/formInputValues/formYesVisibility}}"
-															maxLength="50"
-															enabled="false"
-															value="{
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Ayrılan / Ayrılacak Olan Çalışan Adı Soyadı"
+                                                    visible="{= ${jsonModel>/formInputValues/customerFormVisibility} }"
+                                                >
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues10"
+                                                            required="{= !${jsonModel>/formInputValues/formYesVisibility}}"
+                                                            maxLength="50"
+                                                            enabled="false"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/oldEmployee',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													visible="{= ${jsonModel>/formInputValues/formNo} }"
-												>
-												<f:label>
-													<Label text="Talep Edilen Çalışan Sayısı" required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
-												</f:label>
-													<f:fields>
-														<Input
-															id="formInputValues4"
-															type="Number"
-															required="true"
-															change="_clearValidationValueState('formInputValues4')"
-															liveChange="_candidateQuantityInputLiveChange"
-															maxLength="3"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															value="{
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    visible="{= ${jsonModel>/formInputValues/formNo} }"
+                                                >
+                                                    <f:label>
+                                                        <Label
+                                                            text="Talep Edilen Çalışan Sayısı"
+                                                            required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                        />
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues4"
+                                                            type="Number"
+                                                            required="true"
+                                                            change="_clearValidationValueState('formInputValues4')"
+                                                            liveChange="_candidateQuantityInputLiveChange"
+                                                            maxLength="3"
+                                                            enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/requestedCandidateQuantity',
 																type: 'sap.ui.model.type.Integer',
 																constraints: {
 																	minimum: 1
 																}
 															}"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													label="Çalışacağı Lokasyon"
-													visible="{= ${jsonModel>/formInputValues/customerFormVisibility} || ${jsonModel>/formInputValues/persStatus01}}"
-												>
-													<f:fields>
-														<Input
-															id="formInputValues5"
-															value="{
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Çalışacağı Lokasyon"
+                                                    visible="{= ${jsonModel>/formInputValues/customerFormVisibility} || ${jsonModel>/formInputValues/persStatus01}}"
+                                                >
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues5"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/jobLocation',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-															maxLength="50"
-															required="true"
-															enabled="{=${jsonModel>/formInputValues/locationInputEnabled}}"
-															showSuggestion="true"
-															valueHelpOnly="true"
-															valueHelpIconSrc="sap-icon://map"
-															showValueHelp="true"
-															valueHelpRequest="_locationValueHelp"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement
-													visible="{= ${jsonModel>/formInputValues/formNo}}"
-												>
-												<f:label>
-													<Label text="Talep Gerekçesi" required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
-												</f:label>
-													<f:fields>
-														<Input
-															id="formInputValues14"
-															required="true"
-															maxLength="50"
-															change="_clearValidationValueState('formInputValues14')"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															value="{
+                                                            maxLength="50"
+                                                            required="true"
+                                                            enabled="{=${jsonModel>/formInputValues/locationInputEnabled}}"
+                                                            showSuggestion="true"
+                                                            valueHelpOnly="true"
+                                                            valueHelpIconSrc="sap-icon://map"
+                                                            showValueHelp="true"
+                                                            valueHelpRequest="_locationValueHelp"
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    visible="{= ${jsonModel>/formInputValues/formNo}}"
+                                                >
+                                                    <f:label>
+                                                        <Label
+                                                            text="Talep Gerekçesi"
+                                                            required="{= ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                        />
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <Input
+                                                            id="formInputValues14"
+                                                            required="true"
+                                                            maxLength="50"
+                                                            change="_clearValidationValueState('formInputValues14')"
+                                                            enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/requestReason',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="İş Tanımı Açıklama">
-													<f:fields>
-														<TextArea
-															id="formInputValues6"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															rows="5"
-															required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															change="_clearValidationValueState('formInputValues6')"
-															maxLength="255"
-															value="{
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="İş Tanımı Açıklama"
+                                                >
+                                                    <f:fields>
+                                                        <TextArea
+                                                            id="formInputValues6"
+                                                            enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            rows="5"
+                                                            required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            change="_clearValidationValueState('formInputValues6')"
+                                                            maxLength="255"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/jobDefinition',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-															placeholder="En fazla 255 karakter"
-														/>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="Talep Edilen Başlangıç Tarihi">
-													<f:fields>
-														<DatePicker
-															id="initialPageCountingYearInput"
-															class="sapUiTinyMarginBottom"
-															showCurrentDateButton="true"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															width="100%"
-															required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															change="_clearValidationValueState('initialPageCountingYearInput')"
-															value="{
+                                                            placeholder="En fazla 255 karakter"
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Talep Edilen Başlangıç Tarihi"
+                                                >
+                                                    <f:fields>
+                                                        <DatePicker
+                                                            id="initialPageCountingYearInput"
+                                                            class="sapUiTinyMarginBottom"
+                                                            showCurrentDateButton="true"
+                                                            enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            width="100%"
+                                                            required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            change="_clearValidationValueState('initialPageCountingYearInput')"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/formStartDate',
 																type: 'sap.ui.model.type.Date',
 																formatOptions: {
@@ -415,11 +437,11 @@
 																	maximum: ''
 																}
 															}"
-															minDate="{jsonModel>/oneMonthLaterJS}"
-														/>
-															<!-- maxDate="{jsonModel>/todayJS}" -->
+                                                            minDate="{jsonModel>/oneMonthLaterJS}"
+                                                        />
+                                                        <!-- maxDate="{jsonModel>/todayJS}" -->
 
-														<!-- {
+                                                        <!-- {
 														path: 'jsonModel>/formInputValues/formStartDate',
 														type: 'sap.ui.model.type.Date',
 														formatOptions: {
@@ -433,14 +455,17 @@
 														maximum: 'jsonModel>/oneMonthLater'
 														}
 													} -->
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement>
-												<f:label>
-													<Label text="İş Tanımı Eki" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
-												</f:label>
-													<f:fields>
-														<!-- <upload:UploadSet
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label
+                                                            text="İş Tanımı Eki"
+                                                            required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                        />
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <!-- <upload:UploadSet
 															id="idUploadCollection"
 															items="{attachmentModel>/}"
 															beforeUploadStarts="onUploadSetBeforeUploadStarts"
@@ -457,185 +482,357 @@
 																/>
 															</upload:items>
 														</upload:UploadSet> -->
-														<UploadCollection
-															id="idUploadCollection"
-															instantUpload="false"
-															mode="Delete"
-															multiple="true"
-															noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
-															noDataText="Ek yok"
-															terminationEnabled="false"
-															items="{
+                                                        <UploadCollection
+                                                            id="idUploadCollection"
+                                                            instantUpload="false"
+                                                            mode="Delete"
+                                                            multiple="true"
+                                                            noDataDescription="(Sürükle bırak yöntemini kullanmayınız!)"
+                                                            noDataText="Ek yok"
+                                                            terminationEnabled="false"
+                                                            items="{
 																path: 'attachmentModel>/',
 																parameters: {
 																	operationMode: 'Client'
 																}
 															}"
-															beforeUploadStarts="onBeforeUploadStarts"
-															change="onChangeUploadCollection"
-															uploadComplete="onUploadComplete"
-															fileType="png,jpeg,pdf,docx,xlsx,xls,ppt,pptx"
-														>
-															<UploadCollectionItem
-																enableEdit="false"
-																fileName="{attachmentModel>FileName}"
-																mimeType="{attachmentModel>FileType}"
-																url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid='{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
-																visibleEdit="false"
-																deletePress="onDeletePressAttachment"
-															/>
-															
-														</UploadCollection>
-													</f:fields>
-													
-												</f:FormElement>
-											</f:formElements>
-										</f:FormContainer>
-										<f:FormContainer ariaLabelledBy="Title3">
-											<f:toolbar>
-												<Toolbar>
-													<Title
-														id="Title3"
-														text="Personelde Aranan Özellikler"
-													/>
-													<ToolbarSpacer />
-													<!-- <Button icon="sap-icon://settings" /> -->
-												</Toolbar>
-											</f:toolbar>
-											<f:formElements>
-												<f:FormElement>
-												<f:label>
-													<Label text="Tecrübe" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
-												</f:label>
-													<f:fields>
-														<HBox wrap="Wrap">
-															<CheckBox
-																id="experienceCheckBox1"
-																select="_resetExperienceCheckBoxesValueStates"
-																text="0-3 Yıl"
-																width="70px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
-															/>
-															<CheckBox
-																id="experienceCheckBox2"
-																select="_resetExperienceCheckBoxesValueStates"
-																text="3-5 Yıl"
-																width="70px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
-															/>
-															<CheckBox
-																id="experienceCheckBox3"
-																select="_resetExperienceCheckBoxesValueStates"
-																text="5-8 Yıl"
-																width="75px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
-															/>
-															<CheckBox
-																id="experienceCheckBox4"
-																select="_resetExperienceCheckBoxesValueStates"
-																text="8-10 Yıl"
-																width="100px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/3}"
-															/>
-															<CheckBox
-																id="experienceCheckBox5"
-																select="_resetExperienceCheckBoxesValueStates"
-																text="10 Yıl ve üzeri"
-																width="100px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/4"
-															/>
-														</HBox>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement >
-												<f:label>
-													<Label text="Eğitim Düzeyi" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
-												</f:label>
-													<f:fields>
-														<HBox wrap="Wrap">
-															<CheckBox
-																id="educationCheckBox1"
-																select="_resetEducationCheckBoxesValueStates"
-																text="İlkokul"
-																width="70px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
-															/>
-															<CheckBox
-																id="educationCheckBox2"
-																select="_resetEducationCheckBoxesValueStates"
-																text="Ortaokul"
-																width="70px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
-															/>
-															<CheckBox
-																id="educationCheckBox3"
-																select="_resetEducationCheckBoxesValueStates"
-																text="Düz Lise"
-																width="75px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
-															/>
-															<CheckBox
-																id="educationCheckBox4"
-																select="_resetEducationCheckBoxesValueStates"
-																text="Meslek Lisesi"
-																width="100px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
-															/>
-															<CheckBox
-																id="educationCheckBox5"
-																select="_resetEducationCheckBoxesValueStates"
-																text="Önlisans"
-																width="70px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
-															/>
-															<CheckBox
-																id="educationCheckBox6"
-																select="_resetEducationCheckBoxesValueStates"
-																text="Lisans"
-																width="70px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/5}"
-															/>
-															<CheckBox
-																id="educationCheckBox7"
-																select="_resetEducationCheckBoxesValueStates"
-																text="Yüksek Lisans"
-																width="100px"
-																wrapping="true"
-																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-																selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/6}"
-															/>
-														</HBox>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement >
-												<f:label>
-													<Label text="Yaşı" required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"></Label>
-												</f:label>
-													<f:fields>
-														<HBox wrap="Wrap">
-															<CheckBox
+                                                            beforeUploadStarts="onBeforeUploadStarts"
+                                                            change="onChangeUploadCollection"
+                                                            uploadComplete="onUploadComplete"
+                                                            fileType="png,jpeg,pdf,docx,xlsx,xls,ppt,pptx"
+                                                        >
+                                                            <UploadCollectionItem
+                                                                enableEdit="false"
+                                                                fileName="{attachmentModel>FileName}"
+                                                                mimeType="{attachmentModel>FileType}"
+                                                                url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid='{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')/$value"
+                                                                visibleEdit="false"
+                                                                deletePress="onDeletePressAttachment"
+                                                            />
+                                                        </UploadCollection>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                        <f:FormContainer
+                                            ariaLabelledBy="Title3"
+                                        >
+                                            <f:toolbar>
+                                                <Toolbar>
+                                                    <Title
+                                                        id="Title3"
+                                                        text="Personelde Aranan Özellikler"
+                                                    />
+                                                    <ToolbarSpacer />
+                                                    <!-- <Button icon="sap-icon://settings" /> -->
+                                                </Toolbar>
+                                            </f:toolbar>
+                                            <f:formElements>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label
+                                                            text="Tecrübe"
+                                                            required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                        />
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <HBox wrap="Wrap">
+														<RadioButtonGroup columns="4">
+														
+														  <RadioButton
+                                                                id="experienceCheckBox1"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="0-3 Yıl"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
+                                                            />
+                                                            <RadioButton
+                                                                id="experienceCheckBox2"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="3-5 Yıl"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
+                                                            />
+                                                            <RadioButton
+                                                                id="experienceCheckBox3"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="5-8 Yıl"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
+                                                            />
+                                                            <RadioButton
+                                                                id="experienceCheckBox4"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="8-10 Yıl"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/3}"
+                                                            />
+                                                            <RadioButton
+                                                                id="experienceCheckBox5"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="10 Yıl ve üzeri"
+                                                                width="120px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/4}"
+                                                            />
+														</RadioButtonGroup>
+                                                            <!-- <CheckBox
+                                                                id="experienceCheckBox1"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="0-3 Yıl"
+                                                                width="70px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/0}"
+                                                            />
+                                                            <CheckBox
+                                                                id="experienceCheckBox2"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="3-5 Yıl"
+                                                                width="70px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/1}"
+                                                            />
+                                                            <CheckBox
+                                                                id="experienceCheckBox3"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="5-8 Yıl"
+                                                                width="75px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/2}"
+                                                            />
+                                                            <CheckBox
+                                                                id="experienceCheckBox4"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="8-10 Yıl"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/3}"
+                                                            />
+                                                            <CheckBox
+                                                                id="experienceCheckBox5"
+                                                                select="_resetExperienceCheckBoxesValueStates"
+                                                                text="10 Yıl ve üzeri"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateExperienceLevel/checkboxValues/4}"
+                                                            /> -->
+                                                        </HBox>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label
+                                                            text="Eğitim Düzeyi"
+                                                            required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                        />
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <HBox wrap="Wrap">
+
+
+													 <RadioButtonGroup
+                                                                columns="3"
+                                                            >
+                                                              <RadioButton
+                                                                id="educationCheckBox1"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="İlkokul"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
+                                                            />
+                                                            <RadioButton
+                                                                id="educationCheckBox2"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Ortaokul"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
+                                                            />
+                                                            <RadioButton
+                                                                id="educationCheckBox3"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Düz Lise"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
+                                                            />
+                                                            <RadioButton
+                                                                id="educationCheckBox4"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Meslek Lisesi"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
+                                                            />
+                                                            <RadioButton
+                                                                id="educationCheckBox5"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Önlisans"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
+                                                            />
+                                                            <RadioButton
+                                                                id="educationCheckBox6"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Lisans"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/5}"
+                                                            />
+                                                            <RadioButton
+                                                                id="educationCheckBox7"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Yüksek Lisans"
+                                                                width="130px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/6}"
+                                                            />
+                                                            </RadioButtonGroup>
+
+                                                            <!-- <CheckBox
+                                                                id="educationCheckBox1"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="İlkokul"
+                                                                width="70px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/0}"
+                                                            />
+                                                            <CheckBox
+                                                                id="educationCheckBox2"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Ortaokul"
+                                                                width="70px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/1}"
+                                                            />
+                                                            <CheckBox
+                                                                id="educationCheckBox3"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Düz Lise"
+                                                                width="75px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/2}"
+                                                            />
+                                                            <CheckBox
+                                                                id="educationCheckBox4"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Meslek Lisesi"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/3}"
+                                                            />
+                                                            <CheckBox
+                                                                id="educationCheckBox5"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Önlisans"
+                                                                width="70px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/4}"
+                                                            />
+                                                            <CheckBox
+                                                                id="educationCheckBox6"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Lisans"
+                                                                width="70px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/5}"
+                                                            />
+                                                            <CheckBox
+                                                                id="educationCheckBox7"
+                                                                select="_resetEducationCheckBoxesValueStates"
+                                                                text="Yüksek Lisans"
+                                                                width="100px"
+                                                                wrapping="true"
+                                                                enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                selected="{jsonModel>/formInputValues/candidateEducationalLevel/checkboxValues/6}"
+                                                            /> -->
+                                                        </HBox>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement>
+                                                    <f:label>
+                                                        <Label
+                                                            text="Yaşı"
+                                                            required="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                        />
+                                                    </f:label>
+                                                    <f:fields>
+                                                        <HBox wrap="Wrap">
+                                                            <RadioButtonGroup
+                                                                columns="3"
+                                                            >
+                                                                <RadioButton
+                                                                    id="ageCheckBox1"
+                                                                    select="_resetAgeCheckBoxesValueStates"
+                                                                    text="18-24"
+                                                                    width="100px"
+                                                                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                    selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/0}"
+                                                                />
+                                                                <RadioButton
+                                                                    id="ageCheckBox2"
+                                                                    select="_resetAgeCheckBoxesValueStates"
+                                                                    text="25-29"
+                                                                    width="100px"
+                                                                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                    selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/1}"
+                                                                />
+                                                                <RadioButton
+                                                                    id="ageCheckBox3"
+                                                                    select="_resetAgeCheckBoxesValueStates"
+                                                                    text="30-39"
+                                                                    width="100px"
+                                                                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                    selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/2}"
+                                                                />
+                                                                <RadioButton
+                                                                    id="ageCheckBox4"
+                                                                    select="_resetAgeCheckBoxesValueStates"
+                                                                    text="40-44"
+                                                                    width="100px"
+                                                                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                    selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/3}"
+                                                                />
+                                                                <RadioButton
+                                                                    id="ageCheckBox5"
+                                                                    select="_resetAgeCheckBoxesValueStates"
+                                                                    text="45 yaş ve üzeri"
+                                                                    width="140px"
+                                                                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                                    selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/4}"
+                                                                />
+                                                            </RadioButtonGroup>
+
+                                                            <!-- <CheckBox
 																id="ageCheckBox1"
 																select="_resetAgeCheckBoxesValueStates"
 																text="18-24"
@@ -679,64 +876,66 @@
 																wrapping="true"
 																enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
 																selected="{jsonModel>/formInputValues/candidateAge/checkboxValues/4}"
-															/>
-														</HBox>
-													</f:fields>
-												</f:FormElement>
-												<f:FormElement label="Personelde Aranan Yetkinlikler">
-													<f:fields>
-														<TextArea
-															id="formInputValues7"
-															enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-															rows="5"
-															placeholder="En fazla 255 karakter"
-															maxLength="255"
-															value="{
+															/> -->
+                                                        </HBox>
+                                                    </f:fields>
+                                                </f:FormElement>
+                                                <f:FormElement
+                                                    label="Personelde Aranan Yetkinlikler"
+                                                >
+                                                    <f:fields>
+                                                        <TextArea
+                                                            id="formInputValues7"
+                                                            enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                                                            rows="5"
+                                                            placeholder="En fazla 255 karakter"
+                                                            maxLength="255"
+                                                            value="{
 																path: 'jsonModel>/formInputValues/otherCandidateFeatures',
 																type: 'sap.ui.model.type.String',
 																constraints: {
 																	minLength: 1
 																}
 															}"
-														/>
-													</f:fields>
-												</f:FormElement>
-											</f:formElements>
-										</f:FormContainer>
-									</f:formContainers>
-								</f:Form>
-							</uxap:blocks>
-						</uxap:ObjectPageSubSection>
-					</uxap:subSections>
-				</uxap:ObjectPageSection>
-			</uxap:sections>
-		</uxap:ObjectPageLayout>
-		<footer>
-			<OverflowToolbar>
-				<Button
-					type="Reject"
-					icon="sap-icon://eraser"
-					text="Sıfırla"
-					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-					press="_clearFormInputs"
-				/>
-				<ToolbarSpacer />
-				<Button
-					type="Neutral"
-					icon="sap-icon://timesheet"
-					text="Taslağa Kaydet"
-					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-					press="_onDraftSave"
-				/>
-				<Button
-					type="Accept"
-					icon="sap-icon://paper-plane"
-					text="Onaya Gönder"
-					enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
-					press="_onSaveForm"
-				/>
-				<!-- press="uploadDocument" -->
-			</OverflowToolbar>
-		</footer>
-	</Page>
+                                                        />
+                                                    </f:fields>
+                                                </f:FormElement>
+                                            </f:formElements>
+                                        </f:FormContainer>
+                                    </f:formContainers>
+                                </f:Form>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+            </uxap:sections>
+        </uxap:ObjectPageLayout>
+        <footer>
+            <OverflowToolbar>
+                <Button
+                    type="Reject"
+                    icon="sap-icon://eraser"
+                    text="Sıfırla"
+                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                    press="_clearFormInputs"
+                />
+                <ToolbarSpacer />
+                <Button
+                    type="Neutral"
+                    icon="sap-icon://timesheet"
+                    text="Taslağa Kaydet"
+                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                    press="_onDraftSave"
+                />
+                <Button
+                    type="Accept"
+                    icon="sap-icon://paper-plane"
+                    text="Onaya Gönder"
+                    enabled="{= ${jsonModel>/formInputValues/formYesVisibility} || ${jsonModel>/formInputValues/persStatus01} || ${jsonModel>/formInputValues/persStatus02}}"
+                    press="_onSaveForm"
+                />
+                <!-- press="uploadDocument" -->
+            </OverflowToolbar>
+        </footer>
+    </Page>
 </mvc:View>
