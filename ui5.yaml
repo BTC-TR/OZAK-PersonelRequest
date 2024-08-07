@@ -16,10 +16,10 @@ server:
             - /test-resources
           url: https://ui5.sap.com
         backend:
-          - path: /sap
-            url: http://mSAPHRAPDEV.ozak.local:8000
-          - path: /sap
-            url: http://mSAPHRAPDEV.ozak.local:8000
+          - path: /sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/
+            url: http://Msaphrapqa.ozak.local:8000
+          - path: /sap/opu/odata/sap/ZHR_LOGIN_SRV
+            url: http://Msaphrapqa.ozak.local:8000
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

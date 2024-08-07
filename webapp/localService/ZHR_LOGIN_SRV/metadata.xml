@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
     <edmx:DataServices m:DataServiceVersion="2.0">
-        <Schema Namespace="ZHR_LOGIN_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <Schema Namespace="ZHR_LOGIN_SRV" xml:lang="tr" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
             <EntityType Name="Login" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Username"/>
                 </Key>
-                <Property Name="Username" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:creatable="false" sap:updatable="false"/>
-                <Property Name="AdActive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Indicator" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Username" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:label="IV_USERNAME" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="AdActive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Gösterge" sap:creatable="false" sap:updatable="false"/>
             </EntityType>
             <EntityType Name="LoginReturn" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Type"/>
                 </Key>
-                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="TcNo" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Pernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personnel No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Mail" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:label="E-Mail Address" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="İleti tipi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="İleti metni" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TcNo" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="TC Kimlik No" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personel no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Mail" Type="Edm.String" Nullable="false" MaxLength="241" sap:unicode="false" sap:label="E-posta adresi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Password" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Hash Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="IsPwActive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="TRUE" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="IsPersonelActive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="TRUE" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Ename" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Empl./appl.name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Yonetici" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsPwActive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="DOĞRU" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IsPersonelActive" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="DOĞRU" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ename" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Çlşn/bşv.adı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Yonetici" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Karakter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="EvLoginId" Type="Edm.Guid" sap:unicode="false" sap:label="GUID 16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="Personal" sap:content-version="1">
@@ -31,46 +31,65 @@
                     <PropertyRef Name="IvLoginId"/>
                 </Key>
                 <Property Name="IvLoginId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="GUID 16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Stell" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Job" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Company Code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Personnel area" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="EvEname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Empl./appl.name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="EvPernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personnel No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="EvYonetici" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Btrtl" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Pers.alt alanı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Stell" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="İş" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Şirket kodu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Pers.alanı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EvEname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Çlşn/bşv.adı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EvPernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personel no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EvYonetici" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Karakter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="Personel" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="IvLoginId"/>
                 </Key>
                 <Property Name="IvLoginId" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="GUID 16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Stell" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Job" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Company Code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Personnel area" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="EvEname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Empl./appl.name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="EvPernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personnel No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="EvYonetici" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Stell" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="İş" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bukrs" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Şirket kodu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Pers.alanı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EvEname" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Çlşn/bşv.adı" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EvPernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personel no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EvYonetici" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Karakter 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="DeleteSessionReturn" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Type"/>
                 </Key>
-                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="İleti tipi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="İleti metni" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="ChangePwdReturn" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Type"/>
                 </Key>
-                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="İleti tipi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="İleti metni" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="ChangeInitialPwdReturn" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="Type"/>
                 </Key>
-                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Message type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="İleti tipi" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="İleti metni" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
+            <EntityType Name="Menu" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="IPernr"/>
+                </Key>
+                <Property Name="IzinTalep" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AvansTalep" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IPernr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Personel no." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AvansOnay" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IzinOnay" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PersTalep" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PersOnay" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <ComplexType Name="EsData">
+                <Property Name="IzinTalep" Type="Edm.Boolean" Nullable="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IzinOnay" Type="Edm.Boolean" Nullable="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PersTalep" Type="Edm.Boolean" Nullable="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PersOnay" Type="Edm.Boolean" Nullable="false" sap:label="Seçme kutusu" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
             <EntityContainer Name="ZHR_LOGIN_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
                 <EntitySet Name="LoginSet" EntityType="ZHR_LOGIN_SRV.Login" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="LoginReturnSet" EntityType="ZHR_LOGIN_SRV.LoginReturn" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
@@ -79,6 +98,7 @@
                 <EntitySet Name="DeleteSessionReturnSet" EntityType="ZHR_LOGIN_SRV.DeleteSessionReturn" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ChangePwdReturnSet" EntityType="ZHR_LOGIN_SRV.ChangePwdReturn" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <EntitySet Name="ChangeInitialPwdReturnSet" EntityType="ZHR_LOGIN_SRV.ChangeInitialPwdReturn" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="MenuSet" EntityType="ZHR_LOGIN_SRV.Menu" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
                 <FunctionImport Name="ChangeInitialPwd" ReturnType="ZHR_LOGIN_SRV.ChangeInitialPwdReturn" EntitySet="ChangeInitialPwdReturnSet" m:HttpMethod="POST">
                     <Parameter Name="Pernr" Type="Edm.String" Mode="In"/>
                     <Parameter Name="NewPwd" Type="Edm.String" Mode="In"/>
@@ -95,8 +115,8 @@
                     <Parameter Name="Password" Type="Edm.String" Mode="In"/>
                 </FunctionImport>
             </EntityContainer>
-            <atom:link rel="self" href="http://msaphrapdev.ozak.local:8000/sap/opu/odata/sap/ZHR_LOGIN_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
-            <atom:link rel="latest-version" href="http://msaphrapdev.ozak.local:8000/sap/opu/odata/sap/ZHR_LOGIN_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="self" href="http://msaphrapqa.ozak.local:8000/sap/opu/odata/sap/ZHR_LOGIN_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://msaphrapqa.ozak.local:8000/sap/opu/odata/sap/ZHR_LOGIN_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

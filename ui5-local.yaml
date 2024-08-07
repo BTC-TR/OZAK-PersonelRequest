@@ -30,10 +30,10 @@ server:
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         backend:
-          - path: /sap
-            url: http://mSAPHRAPDEV.ozak.local:8000
-          - path: /sap
-            url: http://mSAPHRAPDEV.ozak.local:8000
+          - path: /sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/
+            url: http://Msaphrapqa.ozak.local:8000
+          - path: /sap/opu/odata/sap/ZHR_LOGIN_SRV
+            url: http://Msaphrapqa.ozak.local:8000
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:

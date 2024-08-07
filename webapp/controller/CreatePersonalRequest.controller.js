@@ -501,22 +501,40 @@ sap.ui.define(
           );
         },
         _createTreeDataForOrgTree: function (oData) {
-          let jsonModel = this.getView().getModel("jsonModel"),
-            result = oData.results[0];
+          const jsonModel = this.getView().getModel("jsonModel");
+          const result = oData.results[0];
           this.treeConnectionList = result.OrgTreeHeaderToOrgItem.results;
           this.treeNodeInfo = result.OrgTreeHeaderToPersonItem.results;
-          this._addNodes();
-          // jsonModel.setProperty("/sHelpPositionTreeData", this.treeData);
-        },
-        _addNodes: function () {
-          const map = [];
-          const roots = [];
-          let departmanList = [];
-          let departmentMap = [];
 
-          // İlk olarak, her öğeyi bir haritada saklıyoruz
-          this.treeConnectionList.forEach((item, index) => {
-            map[item.Seqnr] = {
+          let nodeInfoList = result.OrgTreeHeaderToOrgItem.results;
+          let personelsInfoList = result.OrgTreeHeaderToPersonItem.results;
+          if (result.length < 100) {
+            this._addNodes();
+          } else {
+            // this.treeConnectionList = nodeInfoList.slice(0, 2000);
+            this.treeConnectionList = nodeInfoList;
+            this.treeNodeInfo = personelsInfoList;
+            this._addNodes();
+          }
+      },
+      _addNodes: function () {
+        const map = [];
+        const roots = [];
+        let departmanList = [];
+        let departmentMap = [];
+
+        // İlk olarak, her öğeyi bir haritada saklıyoruz
+        this.treeConnectionList.forEach((item, index) => {
+          map[item.Seqnr] = {
+            Seqnr: item.Seqnr,
+            Pup: item.Pup,
+            Objid: item.Objid,
+            Otype: item.Otype,
+            nodes: [],
+            added: false,
+          };
+          if (item.Otype === 'O') { 
+            departmentMap[item.Seqnr] = {
               Seqnr: item.Seqnr,
               Pup: item.Pup,
               Objid: item.Objid,
@@ -524,92 +542,84 @@ sap.ui.define(
               nodes: [],
               added: false,
             };
-            if (item.Otype === 'O') { 
-              departmentMap[item.Seqnr] = {
-                Seqnr: item.Seqnr,
-                Pup: item.Pup,
-                Objid: item.Objid,
-                Otype: item.Otype,
-                nodes: [],
-                added: false,
-              };
-            }
-            
-          });
+          }
+          
+        });
 
-          // Şimdi her öğeyi uygun yere yerleştiriyoruz
-          this.treeConnectionList.forEach((item) => {
-            if (item.Pup !== 0) {
-              // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
-              if (map[item.Pup]) {
-                map[item.Pup].nodes.push(map[item.Seqnr]);
-                map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
-              }
-              if (item.Otype === 'O') {
-                departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
-                departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
-              }
-            } else {
-              // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
-              roots.push(map[item.Seqnr]);
+        // Şimdi her öğeyi uygun yere yerleştiriyoruz
+        this.treeConnectionList.forEach((item) => {
+          if (item.Pup !== 0) {
+            // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
+            if (map[item.Pup]) {
+              map[item.Pup].nodes.push(map[item.Seqnr]);
+              map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
             }
-          });
-          this.treeNodeInfo.forEach((desc) => {
-            for (let key in map) {
-              if (map[key].Objid === desc.Objid) {
-                map[key].text = desc.Stext;
-                
-                switch (desc.Otype) {
-                  case "P":
-                    map[key].ref = "sap-icon://employee";
-                    map[key].mergedText = map[key].text;
-                    break;
-                  case "S":
-                    map[key].ref = "sap-icon://family-care";
-                    map[key].mergedText =
-                      map[key].Objid + " - " + map[key].text;
-                    break;
-                  case "O":
-                    map[key].ref = "sap-icon://overview-chart";
-                    map[key].mergedText = map[key].text;
-                    break;
-                  default:
-                    map[key].ref = "";
-                }
-                
-              }
+            if (item.Otype === 'O') {
+              departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
+              departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
             }
-            for (let key in departmentMap) {
-              if (departmentMap[key].Objid === desc.Objid) {
-                
-                switch (desc.Otype) {
-                  case "O":
-                    departmentMap[key].text = desc.Stext;
-                    departmentMap[key].ref = "sap-icon://overview-chart";
-                    departmentMap[key].mergedText = departmentMap[key].text;
-                    break;
-                  default:
-                    departmentMap[key].ref = "";
-                }
-                
+          } else {
+            // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
+            roots.push(map[item.Seqnr]);
+          }
+        });
+        this.treeNodeInfo.forEach((desc) => {
+          for (let key in map) {
+            if (map[key].Objid === desc.Objid) {
+              map[key].text = desc.Stext;
+              
+              switch (desc.Otype) {
+                case "P":
+                  map[key].ref = "sap-icon://employee";
+                  map[key].mergedText = map[key].text;
+                  break;
+                case "S":
+                  map[key].ref = "sap-icon://family-care";
+                  map[key].mergedText =
+                    map[key].Objid + " - " + map[key].text;
+                  break;
+                case "O":
+                  map[key].ref = "sap-icon://overview-chart";
+                  map[key].mergedText = map[key].text;
+                  break;
+                default:
+                  map[key].ref = "";
               }
+              
             }
-          });
-          let filteredMap = map.filter((item) => {
-            return !item.added;
-          });
-          let filteredDepertmandMap = departmentMap.filter((item) => {
-            return !item.added;
-          });
-          this.getModel("jsonModel").setProperty(
-            "/sHelpPositionTreeData",
-            filteredMap
-          );
-          this.getModel("jsonModel").setProperty(
-            "/sHelpDepartment",
-            filteredDepertmandMap
-          );
-        },
+          }
+          for (let key in departmentMap) {
+            if (departmentMap[key].Objid === desc.Objid) {
+              
+              switch (desc.Otype) {
+                case "O":
+                  departmentMap[key].text = desc.Stext;
+                  departmentMap[key].ref = "sap-icon://overview-chart";
+                  departmentMap[key].mergedText = departmentMap[key].text;
+                  break;
+                default:
+                  departmentMap[key].ref = "";
+              }
+              
+            }
+          }
+        });
+        let filteredMap = map.filter((item) => {
+          return !item.added;
+        });
+        let filteredDepertmandMap = departmentMap.filter((item) => {
+          return !item.added;
+        });
+        this.getModel("jsonModel").setProperty(
+          "/sHelpPositionTreeData",
+          filteredMap
+        );
+        this.getModel("jsonModel").setProperty(
+          "/sHelpDepartment",
+          filteredDepertmandMap
+        );
+      },
+      
         _clearFormInputs: function () {
           let jsonModel = this.getView().getModel("jsonModel");
 
@@ -637,7 +647,7 @@ sap.ui.define(
               //   .setEscapeHandler(this._closeDialog());
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
-                .expandToLevel(999);
+                .expandToLevel(1);
               this.oDialog.open();
               this.oDialog;
               this._fetchSHelpPositionTreeData();

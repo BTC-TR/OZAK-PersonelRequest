@@ -11,7 +11,8 @@
         <subHeader>
             <OverflowToolbar>
                 <SearchField
-                    liveChange="_positionTreeSearch"
+                    visible="{= ${jsonModel>/sHelpPositionTreeData}.length > 500}"
+                    change="_positionTreeSearch"
                     width="100%"
                 />
             </OverflowToolbar>
@@ -22,6 +23,8 @@
                 selectionChange="onSHelpPositionTreeDataTreeSelectionChange"
                 items="{jsonModel>/sHelpPositionTreeData}"
                 mode="SingleSelectLeft"
+                growing="true"
+                growingThreshold="1"
             >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
