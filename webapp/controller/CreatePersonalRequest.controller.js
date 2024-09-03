@@ -548,16 +548,50 @@ sap.ui.define(
         });
 
         // Şimdi her öğeyi uygun yere yerleştiriyoruz
+        // this.treeConnectionList.forEach((item) => {
+        //   if (item.Pup !== 0) {
+        //     // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
+        //     if (map[item.Pup]) {
+        //       map[item.Pup].nodes.push(map[item.Seqnr]);
+        //       map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+        //     }
+        //     if (item.Otype === 'O') {
+        //       departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
+        //       departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+        //     }
+        //   } else {
+        //     // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
+        //     let rootValues = map[item.Seqnr];
+        //     rootValues.added = false;
+        //     roots.push(rootValues);
+        //   }
+        // });
         this.treeConnectionList.forEach((item) => {
           if (item.Pup !== 0) {
             // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
             if (map[item.Pup]) {
               map[item.Pup].nodes.push(map[item.Seqnr]);
               map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+              
+              // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
+              map[item.Pup].nodes.sort((a, b) => {
+                if (a.Otype === b.Otype) return 0;
+                if (a.Otype === "S") return -1;
+                if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
+                return 1;
+              });
             }
             if (item.Otype === 'O') {
               departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
               departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+        
+              // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
+              departmentMap[item.Pup].nodes.sort((a, b) => {
+                if (a.Otype === b.Otype) return 0;
+                if (a.Otype === "S") return -1;
+                if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
+                return 1;
+              });
             }
           } else {
             // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
