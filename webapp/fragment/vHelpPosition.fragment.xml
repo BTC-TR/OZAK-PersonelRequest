@@ -9,9 +9,8 @@
         escapeHandler="._closeDialog"
     >
         <subHeader>
-            <OverflowToolbar>
+            <OverflowToolbar visible="{= ${jsonModel>/sHelpPositionTreeData}.length > 500}">
                 <SearchField
-                    visible="{= ${jsonModel>/sHelpPositionTreeData}.length > 500}"
                     change="_positionTreeSearch"
                     width="100%"
                 />

@@ -647,7 +647,7 @@ sap.ui.define(
               //   .setEscapeHandler(this._closeDialog());
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
-                .expandToLevel(1);
+                .expandToLevel(9);
               this.oDialog.open();
               this.oDialog;
               this._fetchSHelpPositionTreeData();
