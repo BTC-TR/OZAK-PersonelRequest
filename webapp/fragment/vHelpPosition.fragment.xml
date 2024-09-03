@@ -21,9 +21,9 @@
                 id="idSHelpPositionTreeDataTree"
                 selectionChange="onSHelpPositionTreeDataTreeSelectionChange"
                 items="{jsonModel>/sHelpPositionTreeData}"
-                mode="SingleSelectLeft"
+                mode="SingleSelectMaster"
                 growing="true"
-                growingThreshold="1"
+                growingThreshold="10"
             >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"

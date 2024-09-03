@@ -561,7 +561,9 @@ sap.ui.define(
             }
           } else {
             // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
-            roots.push(map[item.Seqnr]);
+            let rootValues = map[item.Seqnr];
+            rootValues.added = false;
+            roots.push(rootValues);
           }
         });
         this.treeNodeInfo.forEach((desc) => {
@@ -648,7 +650,7 @@ sap.ui.define(
               //   .setEscapeHandler(this._closeDialog());
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
-                .expandToLevel(9);
+                .expandToLevel(0);
               this.oDialog.open();
               this.oDialog;
               this._fetchSHelpPositionTreeData();
@@ -1609,14 +1611,19 @@ sap.ui.define(
             let departman = ancestors.find((elmnt) => {
               return elmnt.Seqnr === oSelectedItemDepartmanNo;
             });
-            jsonModel.setProperty(
-              "/formInputValues/requestedDepartment",
-              departman.Objid + "-" + departman.text
-            );
-            jsonModel.setProperty(
-              "/formInputValues/requestedDepartmentKey",
-              departman.Objid
-            );
+            try {
+              jsonModel.setProperty(
+                "/formInputValues/requestedDepartment",
+                departman.Objid + "-" + departman.text
+              );
+              jsonModel.setProperty(
+                "/formInputValues/requestedDepartmentKey",
+                departman.Objid
+              );
+            } catch (error) {
+              MessageToast.show("Seçilen Organizasyonun Departmanı Mevcut Değildir!");
+            }
+            
             oEvent.getSource().getSelectedItem().setSelected(false);
             this._clearValidationValueState("formInputValues3");
             this._closeDialog();

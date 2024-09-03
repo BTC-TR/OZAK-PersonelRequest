@@ -34,11 +34,38 @@ div[role="toolbar"] {
 .padding {
 	padding: 6px;
 }
-*[data-otype="P"] {
+/* *[data-otype="P"] {
     margin-left: 3rem !important;
-}
+} */
 *[data-otype="O"] .sapMLIBSelectS{
     display: none !important;
+}
+*[aria-level="2"] {
+    padding: 4px 16px 4px 14px !important;
+}
+*[aria-level="3"] {
+    padding: 4px 16px 4px 34px !important;
+}
+*[aria-level="4"] {
+    padding: 4px 16px 4px 54px !important;
+}
+*[aria-level="5"] {
+    padding: 4px 16px 4px 74px !important;
+}
+*[aria-level="6"] {
+    padding: 4px 16px 4px 94px !important;
+}
+*[aria-level="7"] {
+    padding: 4px 16px 4px 114px !important;
+}
+*[aria-level="8"] {
+    padding: 4px 16px 4px 134px !important;
+}
+*[aria-level="9"] {
+    padding: 4px 16px 4px 154px !important;
+}
+*[aria-level="10"] {
+    padding: 4px 16px 4px 174px !important;
 }
 *[data-otype="P"] .sapMLIBSelectS{
     display: none !important;
