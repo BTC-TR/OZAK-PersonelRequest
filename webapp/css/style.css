@@ -4,6 +4,9 @@ div[role="toolbar"] {
 .sapFDynamicPageTitleMainActionsHasContent {
     margin-top: 1rem !important;
 }
+.sapMDialogSection {
+    background-color: #fafafa !important;
+}
 .sapMDialogTitle {
     background-color: white !important;
 }
@@ -30,6 +33,9 @@ div[role="toolbar"] {
 }
 .padding {
 	padding: 6px;
+}
+*[data-otype="P"] {
+    margin-left: 3rem !important;
 }
 *[data-otype="O"] .sapMLIBSelectS{
     display: none !important;

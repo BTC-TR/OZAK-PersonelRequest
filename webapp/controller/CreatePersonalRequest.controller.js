@@ -506,16 +506,17 @@ sap.ui.define(
           this.treeConnectionList = result.OrgTreeHeaderToOrgItem.results;
           this.treeNodeInfo = result.OrgTreeHeaderToPersonItem.results;
 
-          let nodeInfoList = result.OrgTreeHeaderToOrgItem.results;
-          let personelsInfoList = result.OrgTreeHeaderToPersonItem.results;
-          if (result.length < 100) {
-            this._addNodes();
-          } else {
-            // this.treeConnectionList = nodeInfoList.slice(0, 2000);
-            this.treeConnectionList = nodeInfoList;
-            this.treeNodeInfo = personelsInfoList;
-            this._addNodes();
-          }
+          // let nodeInfoList = result.OrgTreeHeaderToOrgItem.results;
+          // let personelsInfoList = result.OrgTreeHeaderToPersonItem.results;
+          this._addNodes();
+          // if (result.length < 100) {
+          //   this._addNodes();
+          // } else {
+          //   // this.treeConnectionList = nodeInfoList.slice(0, 2000);
+          //   // this.treeConnectionList = nodeInfoList;
+          //   // this.treeNodeInfo = personelsInfoList;
+          //   this._addNodes();
+          // }
       },
       _addNodes: function () {
         const map = [];
@@ -570,16 +571,16 @@ sap.ui.define(
               
               switch (desc.Otype) {
                 case "P":
-                  map[key].ref = "sap-icon://employee";
+                  map[key].ref = "sap-icon://family-care";
                   map[key].mergedText = map[key].text;
                   break;
                 case "S":
-                  map[key].ref = "sap-icon://family-care";
+                  map[key].ref = "sap-icon://employee";
                   map[key].mergedText =
                     map[key].Objid + " - " + map[key].text;
                   break;
                 case "O":
-                  map[key].ref = "sap-icon://overview-chart";
+                  map[key].ref = "sap-icon://tri-state";
                   map[key].mergedText = map[key].text;
                   break;
                 default:
@@ -594,7 +595,7 @@ sap.ui.define(
               switch (desc.Otype) {
                 case "O":
                   departmentMap[key].text = desc.Stext;
-                  departmentMap[key].ref = "sap-icon://overview-chart";
+                  departmentMap[key].ref = "sap-icon://tri-state";
                   departmentMap[key].mergedText = departmentMap[key].text;
                   break;
                 default:
@@ -900,7 +901,7 @@ sap.ui.define(
               .getSelectedItem()
               .getBindingContext("jsonModel")
               .getObject();
-          if (oIcon === "sap-icon://overview-chart") {
+          if (oIcon === "sap-icon://tri-state") {
             jsonModel.setProperty(
               "/formInputValues/requestedDepartment",
               oSelectedItemData.mergedText
@@ -1590,7 +1591,7 @@ sap.ui.define(
               .getSelectedItem()
               .getBindingContext("jsonModel")
               .getObject();
-          if (oIcon === "sap-icon://family-care") {
+          if (oIcon === "sap-icon://employee") {
             jsonModel.setProperty(
               "/formInputValues/requestedPosition",
               oSelectedItemData.mergedText
