@@ -505,18 +505,7 @@ sap.ui.define(
           const result = oData.results[0];
           this.treeConnectionList = result.OrgTreeHeaderToOrgItem.results;
           this.treeNodeInfo = result.OrgTreeHeaderToPersonItem.results;
-
-          // let nodeInfoList = result.OrgTreeHeaderToOrgItem.results;
-          // let personelsInfoList = result.OrgTreeHeaderToPersonItem.results;
           this._addNodes();
-          // if (result.length < 100) {
-          //   this._addNodes();
-          // } else {
-          //   // this.treeConnectionList = nodeInfoList.slice(0, 2000);
-          //   // this.treeConnectionList = nodeInfoList;
-          //   // this.treeNodeInfo = personelsInfoList;
-          //   this._addNodes();
-          // }
       },
       _addNodes: function () {
         const map = [];
@@ -546,27 +535,7 @@ sap.ui.define(
           }
           
         });
-
-        // Şimdi her öğeyi uygun yere yerleştiriyoruz
-        // this.treeConnectionList.forEach((item) => {
-        //   if (item.Pup !== 0) {
-        //     // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
-        //     if (map[item.Pup]) {
-        //       map[item.Pup].nodes.push(map[item.Seqnr]);
-        //       map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
-        //     }
-        //     if (item.Otype === 'O') {
-        //       departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
-        //       departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
-        //     }
-        //   } else {
-        //     // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
-        //     let rootValues = map[item.Seqnr];
-        //     rootValues.added = false;
-        //     roots.push(rootValues);
-        //   }
-        // });
-        this.treeConnectionList.forEach((item) => {
+        map.forEach((item) => {
           if (item.Pup !== 0) {
             // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
             if (map[item.Pup]) {
@@ -579,19 +548,19 @@ sap.ui.define(
                 if (a.Otype === "S") return -1;
                 if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
                 return 1;
-              });
+              });  
             }
             if (item.Otype === 'O') {
               departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
               departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
         
-              // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
-              departmentMap[item.Pup].nodes.sort((a, b) => {
-                if (a.Otype === b.Otype) return 0;
-                if (a.Otype === "S") return -1;
-                if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
-                return 1;
-              });
+              // // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
+              // departmentMap[item.Pup].nodes.sort((a, b) => {
+              //   if (a.Otype === b.Otype) return 0;
+              //   if (a.Otype === "S") return -1;
+              //   if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
+              //   return 1;
+              // });
             }
           } else {
             // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
@@ -616,7 +585,7 @@ sap.ui.define(
                     map[key].Objid + " - " + map[key].text;
                   break;
                 case "O":
-                  map[key].ref = "sap-icon://tri-state";
+                  map[key].ref = "sap-icon://org-chart";
                   map[key].mergedText = map[key].text;
                   break;
                 default:
@@ -631,7 +600,7 @@ sap.ui.define(
               switch (desc.Otype) {
                 case "O":
                   departmentMap[key].text = desc.Stext;
-                  departmentMap[key].ref = "sap-icon://tri-state";
+                  departmentMap[key].ref = "sap-icon://org-chart";
                   departmentMap[key].mergedText = departmentMap[key].text;
                   break;
                 default:
@@ -684,7 +653,7 @@ sap.ui.define(
               //   .setEscapeHandler(this._closeDialog());
               this.getView()
                 .byId("idSHelpPositionTreeDataTree")
-                .expandToLevel(0);
+                .expandToLevel(7);
               this.oDialog.open();
               this.oDialog;
               this._fetchSHelpPositionTreeData();
@@ -729,6 +698,14 @@ sap.ui.define(
           this.oDialog.close();
           this.oDialog.destroy();
           this.oMPDialog = undefined;
+          this.getModel("jsonModel").setProperty(
+            "/sHelpPositionTreeData",
+            []
+          );
+          this.getModel("jsonModel").setProperty(
+            "/sHelpDepartment",
+            []
+          );
         },
 
         _resetAllFormInputsValueState: function () {
@@ -937,7 +914,7 @@ sap.ui.define(
               .getSelectedItem()
               .getBindingContext("jsonModel")
               .getObject();
-          if (oIcon === "sap-icon://tri-state") {
+          if (oIcon === "sap-icon://org-chart") {
             jsonModel.setProperty(
               "/formInputValues/requestedDepartment",
               oSelectedItemData.mergedText
@@ -1689,8 +1666,8 @@ sap.ui.define(
             inputValue = oEvent.getSource().getValue();
           if (inputValue !== "") {
             oFilter = new Filter(
-              [new Filter("text", FilterOperator.Contains, inputValue)],
-              true
+              [new Filter("text", FilterOperator.Contains, inputValue), new Filter("mergedText", FilterOperator.Contains, inputValue)],
+              false
             );
             oBinding.filter([oFilter]);
           } else {

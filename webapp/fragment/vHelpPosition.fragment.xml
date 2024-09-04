@@ -9,7 +9,7 @@
         escapeHandler="._closeDialog"
     >
         <subHeader>
-            <OverflowToolbar visible="{= ${jsonModel>/sHelpPositionTreeData}.length > 500}">
+            <OverflowToolbar visible="true">
                 <SearchField
                     change="_positionTreeSearch"
                     width="100%"
@@ -22,8 +22,6 @@
                 selectionChange="onSHelpPositionTreeDataTreeSelectionChange"
                 items="{jsonModel>/sHelpPositionTreeData}"
                 mode="SingleSelectMaster"
-                growing="true"
-                growingThreshold="10"
             >
                 <StandardTreeItem
                     icon="{jsonModel>ref}"
