@@ -482,7 +482,7 @@
                                                             beforeUploadStarts="onBeforeUploadStarts"
                                                             change="onChangeUploadCollection"
                                                             uploadComplete="onUploadComplete"
-                                                            fileType="pdf, doc, docx, rtf, txt, odt, xls, xlsx, ods, csv, jpg, jpeg, png, tif, tiff, gif, zip, ppt, pptx, odp"
+                                                            fileType="pdf,doc,docx,rtf,txt,odt,xls,xlsx,ods,csv,jpg,jpeg,png,tif,tiff,gif,zip,ppt,pptx,odp"
                                                         >
                                                             <UploadCollectionItem
                                                                 enableEdit="false"
