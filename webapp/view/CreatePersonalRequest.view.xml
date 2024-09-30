@@ -465,23 +465,6 @@
                                                         />
                                                     </f:label>
                                                     <f:fields>
-                                                        <!-- <upload:UploadSet
-															id="idUploadCollection"
-															items="{attachmentModel>/}"
-															beforeUploadStarts="onUploadSetBeforeUploadStarts"
-															uploadCompleted="onUploadSetUploadCompleted"
-															instantUpload="false"
-															fileTypes="txt,pdf,jpg,png,jpeg"
-														>
-															<upload:items>
-																<upload:UploadSetItem
-																	url="/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/FileSet(Guid=guid'{attachmentModel>Guid}',FileName='{attachmentModel>FileName}')
-																		/$value"
-																	fileName="{attachmentModel>FileName}"
-																	mediaType="{attachmentModel>FileType}"
-																/>
-															</upload:items>
-														</upload:UploadSet> -->
                                                         <UploadCollection
                                                             id="idUploadCollection"
                                                             instantUpload="false"
@@ -499,7 +482,7 @@
                                                             beforeUploadStarts="onBeforeUploadStarts"
                                                             change="onChangeUploadCollection"
                                                             uploadComplete="onUploadComplete"
-                                                            fileType="png,jpeg,pdf,docx,xlsx,xls,ppt,pptx"
+                                                            fileType="pdf, doc, docx, rtf, txt, odt, xls, xlsx, ods, csv, jpg, jpeg, png, tif, tiff, gif, zip, ppt, pptx, odp"
                                                         >
                                                             <UploadCollectionItem
                                                                 enableEdit="false"
