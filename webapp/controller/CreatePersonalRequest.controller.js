@@ -944,7 +944,7 @@ sap.ui.define(
           }
           if (requestedFormInput === 'requestedPosition'){
             oData.IOrgeh = jsonModel.getProperty(
-              "/formInputValues/requestedPosition"
+              "/formInputValues/requestedPositionKey"
             );
           }
           sPath = oModel.createKey("/SHelp_LocationByDepartmentSet", oData);
