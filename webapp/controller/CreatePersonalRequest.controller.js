@@ -924,22 +924,29 @@ sap.ui.define(
               oSelectedItemData.Objid
             );
 
-            this._getLocationCode();
+            this._getLocationCode('requestedDepartmentKey');
             this._clearValidationValueState("formInputValues5");
             this._closeDialog();
         }},
-        _getLocationCode: function () {
+        _getLocationCode: function (requestedFormInput) {
           let jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
             sPath = "",
             oData = {},
             that = this;
-
           oData = {
-            IOrgeh: jsonModel.getProperty(
-              "/formInputValues/requestedDepartmentKey"
-            ),
+            IOrgeh: '',
           };
+          if (requestedFormInput === 'requestedDepartmentKey'){
+            oData.IOrgeh = jsonModel.getProperty(
+              "/formInputValues/requestedDepartmentKey"
+            );
+          }
+          if (requestedFormInput === 'requestedPosition'){
+            oData.IOrgeh = jsonModel.getProperty(
+              "/formInputValues/requestedPosition"
+            );
+          }
           sPath = oModel.createKey("/SHelp_LocationByDepartmentSet", oData);
           oModel.read(sPath, {
             success: (oData, oResponse) => {
@@ -1639,7 +1646,7 @@ sap.ui.define(
             this._clearValidationValueState("formInputValues3");
             this._closeDialog();
             this._getCompanyCode();
-            this._getLocationCode();
+            this._getLocationCode('requestedPosition');
           }
         },
         findNodeAndAncestors: function (nodes, searchPup, ancestors = []) {
