@@ -19,6 +19,6 @@ builder:
           name: ZHR_PERS_REQ
           description: Personel Form Talep Ekranı
           package: ZFIORI
-          transport: OHDK901698
+          transport: OHDK901965
         exclude:
           - /test/
