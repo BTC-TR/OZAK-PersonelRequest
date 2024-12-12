@@ -67,8 +67,8 @@ sap.ui.define(
         },
         navigateToDraftEdit: function (oEvent) {
           let router = this.getRouter(),
-          oContext = oEvent.getSource().getParent().getBindingContext("jsonModel"),
-          oObject = oContext.getObject();
+            oContext = oEvent.getSource().getParent().getBindingContext("jsonModel"),
+            oObject = oContext.getObject();
           delete oObject.__metadata;
           this.getModel("jsonModel").setProperty("/draftData", oObject);
           router.navTo("draftEdit", {
@@ -77,8 +77,8 @@ sap.ui.define(
         },
         navigateToShowDetail: function (oEvent) {
           let router = this.getRouter(),
-          oContext = oEvent.getSource().getParent().getBindingContext("jsonModel"),
-          oObject = oContext.getObject();
+            oContext = oEvent.getSource().getParent().getBindingContext("jsonModel"),
+            oObject = oContext.getObject();
           delete oObject.__metadata;
           this.getModel("jsonModel").setProperty("/draftData", oObject);
           router.navTo("showDetail", {
@@ -108,29 +108,9 @@ sap.ui.define(
           }
         },
         onPressSignOut: function () {
-          this.getView()
-            .getModel("loginModel")
-            .callFunction("/DeleteSession", {
-              method: "POST",
-              urlParameters: {
-                LoginId: localStorage.getItem("Guid")
-                  ? localStorage.getItem("Guid")
-                  : this.getModel("userModel").getProperty("/guid"),
-              },
-              success: function (oData) {
-                if (oData.Type === "E") {
-                  MessageBox.error(oData.Message);
-                } else {
-                  window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
-                  localStorage.removeItem("Guid");
-                }
-              },
-              error: function (oResponse) {
-                console.log(oResponse);
-              },
-            });
+          this.signOut();
         },
-        _clearValidationValueState: function(inputId) {
+        _clearValidationValueState: function (inputId) {
           let oView = this.getView();
           oView.byId(inputId).setValueState("None");
         },
@@ -211,29 +191,7 @@ sap.ui.define(
             });
           }
         },
-        onPressSignOut: function () {
-          this.getView()
-            .getModel("loginModel")
-            .callFunction("/DeleteSession", {
-              method: "POST",
-              urlParameters: {
-                LoginId: localStorage.getItem("Guid")
-                  ? localStorage.getItem("Guid")
-                  : this.getModel("userModel").getProperty("/guid"),
-              },
-              success: function (oData) {
-                if (oData.Type === "E") {
-                  MessageBox.error(oData.Message);
-                } else {
-                  window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
-                  localStorage.removeItem("Guid");
-                }
-              },
-              error: function (oResponse) {
-                console.log(oResponse);
-              },
-            });
-        },
+        
         _getUserInfo: function () {
           var that = this;
           return new Promise((resolve, reject) => {
@@ -279,6 +237,50 @@ sap.ui.define(
               });
           });
         },
+
+
+        signOut: async function () {
+          try {
+            const ipAddress = await this.getIPAddress();
+            const oModel = this.getView().getModel("loginModel");
+            oModel.callFunction("/DeleteSession", {
+              method: "POST",
+              urlParameters: {
+                LoginId: localStorage.getItem("Guid"),
+                IPAddress: ipAddress
+              },
+              success: function (oData) {
+                if (oData.Type === "E") {
+                  MessageBox.error(oData.Message);
+                } else {
+                  window.open("/sap/bc/ui5_ui5/sap/zhr_login", "_self");
+                  localStorage.removeItem("Guid");
+                }
+              },
+              error: function (oResponse) {
+                console.error(oResponse);
+              }
+            });
+          } catch (error) {
+            MessageBox.error("IP adresi alınamadı:", error);
+          }
+        },
+
+        getIPAddress: async function () {
+          try {
+            const response = await fetch("https://api.ipify.org?format=json");
+            if (!response.ok) {
+              throw new Error("HTTP error " + response.status);
+            }
+            const data = await response.json();
+            return data.ip;
+          } catch (error) {
+            console.error("IP adresi alınırken hata oluştu:", error);
+            throw error;
+          }
+        }
+
+
       }
     );
   }
