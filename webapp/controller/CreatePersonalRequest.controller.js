@@ -395,6 +395,10 @@ sap.ui.define(
             ""
           );
           this.getModel("jsonModel").setProperty(
+            "/formInputValues/requestedPositionKey",
+            ""
+          );
+          this.getModel("jsonModel").setProperty(
             "/formInputValues/requestedPositionFreeText",
             ""
           );
@@ -1395,9 +1399,7 @@ sap.ui.define(
             oData = {
               IPernr: IPernr,
               IPlans: IPlans,
-              IPdurum: jsonModel.getProperty(
-                "/formInputValues/selectedRequestType"
-              ),
+              IPdurum: "01",
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
           // if (IPlans === "") {

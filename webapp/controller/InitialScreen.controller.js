@@ -28,7 +28,7 @@ sap.ui.define(
             .attachMatched(this._onRouteMatched, this);
           var oTable = this.byId("idPersonalFormListSetTable");
           this._oTable = oTable;
-          
+
         },
         _onRouteMatched: function (oEvent) {
           this._getUserInfo().then(() => {
@@ -97,7 +97,7 @@ sap.ui.define(
           let oSource = oEvent.getSource(),
             selectedKey = oSource.getSelectedKey(),
             that = this;
-            
+
           switch (selectedKey) {
             case "All":
               that._oTable = this.byId("idPersonalFormListSetTable");
@@ -107,14 +107,14 @@ sap.ui.define(
               that._oTable = this.byId("idPersonalFormListSetTableWaiting");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[1]
               break;
-              case "onay":
+            case "onay":
               that._oTable = this.byId("idPersonalFormListSetTableApproved");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[2]
               break;
             case "red":
               that._oTable = this.byId("idPersonalFormListSetTableDeclined");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[3]
-              break;            
+              break;
             case "system":
               that._oTable = this.byId("idPersonalFormListSetTableTransfered");
               this.oSF = this.getView().getControlsByFieldGroupId("searchField").filter(c => c.isA("sap.m.SearchField"))[4]
@@ -129,7 +129,7 @@ sap.ui.define(
         onPressShowDenyText: function () {
           this._openNoteDialog();
         },
-        _openNoteDialog: function() {
+        _openNoteDialog: function () {
           if (!this.oNoteDialog) {
             this.oNoteDialog = sap.ui.xmlfragment("ozak.com.zhrpersonalrequestform.fragment.ApproverNote", this);
           }
@@ -245,8 +245,8 @@ sap.ui.define(
         },
         onPersonalFormListSetTableSelectionChange: function () {
           let oSource = this.getView().byId(
-              "idPersonalFormListSetTableTransfered"
-            ),
+            "idPersonalFormListSetTableTransfered"
+          ),
             selectedRows = oSource.getSelectedItems(),
             oModel = this.getModel(),
             jsonModel = this.getModel("jsonModel");
@@ -271,21 +271,21 @@ sap.ui.define(
         _denyPopOver: function (oEvent) {
           // let dataPath = oEvent.getSource().getParent().getBindingContext("jsonModel").getProperty("Aciklama")
           let dataPath = oEvent.getSource().getParent().getBindingContext("jsonModel"),
-          oView = this.getView(),
-          oButton = oEvent.getSource(),
-          that = this;
+            oView = this.getView(),
+            oButton = oEvent.getSource(),
+            that = this;
           if (!this._pPopover) {
             this._pPopover = Fragment.load({
               id: oView.getId(),
               name: "ozak.com.zhrpersonalrequestform.fragment.DenyReasonPopover",
               controller: this
-            }).then(function(oPopover) {
+            }).then(function (oPopover) {
               oView.addDependent(oPopover);
-              oPopover.bindElement('jsonModel>'+dataPath.getPath());
+              oPopover.bindElement('jsonModel>' + dataPath.getPath());
               return oPopover;
             });
           }
-          this._pPopover.then(function(oPopover) {
+          this._pPopover.then(function (oPopover) {
             oPopover.openBy(oButton);
           });
         },
@@ -345,7 +345,7 @@ sap.ui.define(
           this.getView().byId(tableName).removeSelections();
           jsonModel.setProperty("/sendToApproveSPaths", []);
         },
-        onEditDraftButton: function(oEvent) {
+        onEditDraftButton: function (oEvent) {
           this.navigateToDraftEdit(oEvent);
         }
       }
