@@ -510,25 +510,16 @@ sap.ui.define(
           this.treeConnectionList = result.OrgTreeHeaderToOrgItem.results;
           this.treeNodeInfo = result.OrgTreeHeaderToPersonItem.results;
           this._addNodes();
-      },
-      _addNodes: function () {
-        const map = [];
-        const roots = [];
-        let departmanList = [];
-        let departmentMap = [];
+        },
+        _addNodes: function () {
+          const map = [];
+          const roots = [];
+          let departmanList = [];
+          let departmentMap = [];
 
-        // İlk olarak, her öğeyi bir haritada saklıyoruz
-        this.treeConnectionList.forEach((item, index) => {
-          map[item.Seqnr] = {
-            Seqnr: item.Seqnr,
-            Pup: item.Pup,
-            Objid: item.Objid,
-            Otype: item.Otype,
-            nodes: [],
-            added: false,
-          };
-          if (item.Otype === 'O') { 
-            departmentMap[item.Seqnr] = {
+          // İlk olarak, her öğeyi bir haritada saklıyoruz
+          this.treeConnectionList.forEach((item, index) => {
+            map[item.Seqnr] = {
               Seqnr: item.Seqnr,
               Pup: item.Pup,
               Objid: item.Objid,
@@ -536,100 +527,109 @@ sap.ui.define(
               nodes: [],
               added: false,
             };
-          }
-          
-        });
-        map.forEach((item) => {
-          if (item.Pup !== 0) {
-            // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
-            if (map[item.Pup]) {
-              map[item.Pup].nodes.push(map[item.Seqnr]);
-              map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
-              
-              // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
-              map[item.Pup].nodes.sort((a, b) => {
-                if (a.Otype === b.Otype) return 0;
-                if (a.Otype === "S") return -1;
-                if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
-                return 1;
-              });  
-            }
             if (item.Otype === 'O') {
-              departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
-              departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
-        
-              // // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
-              // departmentMap[item.Pup].nodes.sort((a, b) => {
-              //   if (a.Otype === b.Otype) return 0;
-              //   if (a.Otype === "S") return -1;
-              //   if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
-              //   return 1;
-              // });
+              departmentMap[item.Seqnr] = {
+                Seqnr: item.Seqnr,
+                Pup: item.Pup,
+                Objid: item.Objid,
+                Otype: item.Otype,
+                nodes: [],
+                added: false,
+              };
             }
-          } else {
-            // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
-            let rootValues = map[item.Seqnr];
-            rootValues.added = false;
-            roots.push(rootValues);
-          }
-        });
-        this.treeNodeInfo.forEach((desc) => {
-          for (let key in map) {
-            if (map[key].Objid === desc.Objid) {
-              map[key].text = desc.Stext;
-              
-              switch (desc.Otype) {
-                case "P":
-                  map[key].ref = "sap-icon://family-care";
-                  map[key].mergedText = map[key].text;
-                  break;
-                case "S":
-                  map[key].ref = "sap-icon://employee";
-                  map[key].mergedText =
-                    map[key].Objid + " - " + map[key].text;
-                  break;
-                case "O":
-                  map[key].ref = "sap-icon://org-chart";
-                  map[key].mergedText = map[key].text;
-                  break;
-                default:
-                  map[key].ref = "";
+
+          });
+          map.forEach((item) => {
+            if (item.Pup !== 0) {
+              // Eğer öğenin bir parent'ı varsa, onu parent'ın nodes arrayine ekliyoruz
+              if (map[item.Pup]) {
+                map[item.Pup].nodes.push(map[item.Seqnr]);
+                map[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+
+                // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
+                map[item.Pup].nodes.sort((a, b) => {
+                  if (a.Otype === b.Otype) return 0;
+                  if (a.Otype === "S") return -1;
+                  if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
+                  return 1;
+                });
               }
-              
-            }
-          }
-          for (let key in departmentMap) {
-            if (departmentMap[key].Objid === desc.Objid) {
-              
-              switch (desc.Otype) {
-                case "O":
-                  departmentMap[key].text = desc.Stext;
-                  departmentMap[key].ref = "sap-icon://org-chart";
-                  departmentMap[key].mergedText = departmentMap[key].text;
-                  break;
-                default:
-                  departmentMap[key].ref = "";
+              if (item.Otype === 'O') {
+                departmentMap[item.Pup].nodes.push(departmentMap[item.Seqnr]);
+                departmentMap[item.Seqnr].added = true; // Bu öğe artık başka bir öğeye eklendi
+
+                // // Sıralama işlemi yapılıyor (öncelik sırası: S, P, O)
+                // departmentMap[item.Pup].nodes.sort((a, b) => {
+                //   if (a.Otype === b.Otype) return 0;
+                //   if (a.Otype === "S") return -1;
+                //   if (a.Otype === "P") return b.Otype === "S" ? 1 : -1;
+                //   return 1;
+                // });
               }
-              
+            } else {
+              // Eğer öğenin bir parent'ı yoksa, bu bir root öğesidir
+              let rootValues = map[item.Seqnr];
+              rootValues.added = false;
+              roots.push(rootValues);
             }
-          }
-        });
-        let filteredMap = map.filter((item) => {
-          return !item.added;
-        });
-        let filteredDepertmandMap = departmentMap.filter((item) => {
-          return !item.added;
-        });
-        this.getModel("jsonModel").setProperty(
-          "/sHelpPositionTreeData",
-          filteredMap
-        );
-        this.getModel("jsonModel").setProperty(
-          "/sHelpDepartment",
-          filteredDepertmandMap
-        );
-      },
-      
+          });
+          this.treeNodeInfo.forEach((desc) => {
+            for (let key in map) {
+              if (map[key].Objid === desc.Objid) {
+                map[key].text = desc.Stext;
+
+                switch (desc.Otype) {
+                  case "P":
+                    map[key].ref = "sap-icon://family-care";
+                    map[key].mergedText = map[key].text;
+                    break;
+                  case "S":
+                    map[key].ref = "sap-icon://employee";
+                    map[key].mergedText =
+                      map[key].Objid + " - " + map[key].text;
+                    break;
+                  case "O":
+                    map[key].ref = "sap-icon://org-chart";
+                    map[key].mergedText = map[key].text;
+                    break;
+                  default:
+                    map[key].ref = "";
+                }
+
+              }
+            }
+            for (let key in departmentMap) {
+              if (departmentMap[key].Objid === desc.Objid) {
+
+                switch (desc.Otype) {
+                  case "O":
+                    departmentMap[key].text = desc.Stext;
+                    departmentMap[key].ref = "sap-icon://org-chart";
+                    departmentMap[key].mergedText = departmentMap[key].text;
+                    break;
+                  default:
+                    departmentMap[key].ref = "";
+                }
+
+              }
+            }
+          });
+          let filteredMap = map.filter((item) => {
+            return !item.added;
+          });
+          let filteredDepertmandMap = departmentMap.filter((item) => {
+            return !item.added;
+          });
+          this.getModel("jsonModel").setProperty(
+            "/sHelpPositionTreeData",
+            filteredMap
+          );
+          this.getModel("jsonModel").setProperty(
+            "/sHelpDepartment",
+            filteredDepertmandMap
+          );
+        },
+
         _clearFormInputs: function () {
           let jsonModel = this.getView().getModel("jsonModel");
 
@@ -929,9 +929,11 @@ sap.ui.define(
             );
 
             this._getLocationCode('requestedDepartmentKey');
+            this._getCompanyCode(oSelectedItemData.Objid);
             this._clearValidationValueState("formInputValues5");
             this._closeDialog();
-        }},
+          }
+        },
         _getLocationCode: function (requestedFormInput) {
           let jsonModel = this.getModel("jsonModel"),
             oModel = this.getModel(),
@@ -941,12 +943,12 @@ sap.ui.define(
           oData = {
             IOrgeh: '',
           };
-          if (requestedFormInput === 'requestedDepartmentKey'){
+          if (requestedFormInput === 'requestedDepartmentKey') {
             oData.IOrgeh = jsonModel.getProperty(
               "/formInputValues/requestedDepartmentKey"
             );
           }
-          if (requestedFormInput === 'requestedPosition'){
+          if (requestedFormInput === 'requestedPosition') {
             oData.IOrgeh = jsonModel.getProperty(
               "/formInputValues/requestedPositionKey"
             );
@@ -993,13 +995,12 @@ sap.ui.define(
           ) {
             Ttarih = `${jsonModel
               .getProperty("/formInputValues/formStartDate")
-              .getDate()}/${
-              jsonModel
+              .getDate()}/${jsonModel
                 .getProperty("/formInputValues/formStartDate")
                 .getMonth() + 1
-            }/${jsonModel
-              .getProperty("/formInputValues/formStartDate")
-              .getFullYear()}`.split("/");
+              }/${jsonModel
+                .getProperty("/formInputValues/formStartDate")
+                .getFullYear()}`.split("/");
           } else {
             Ttarih = jsonModel
               .getProperty("/formInputValues/formStartDate")
@@ -1074,10 +1075,10 @@ sap.ui.define(
               Ttarih[0] === ""
                 ? "00000000"
                 : new Date(
-                    Number(Ttarih[2]),
-                    Number(Ttarih[1]) - 1,
-                    Number(Ttarih[0]) + 1
-                  ),
+                  Number(Ttarih[2]),
+                  Number(Ttarih[1]) - 1,
+                  Number(Ttarih[0]) + 1
+                ),
             Tcrb1: oView.byId("experienceCheckBox1").getSelected() ? "X" : "",
             Tcrb2: oView.byId("experienceCheckBox2").getSelected() ? "X" : "",
             Tcrb3: oView.byId("experienceCheckBox3").getSelected() ? "X" : "",
@@ -1245,7 +1246,7 @@ sap.ui.define(
                 !this.getView()
                   .byId("idUploadCollection")
                   .getItems()
-                  [i].getBindingContext("attachmentModel")
+                [i].getBindingContext("attachmentModel")
               ) {
                 bIsCompleted = false;
               }
@@ -1263,9 +1264,9 @@ sap.ui.define(
         },
         onDeletePressAttachment: function (oEvent) {
           var sFilename = oEvent
-              .getSource()
-              .getBindingContext("attachmentModel")
-              .getProperty("FileName"),
+            .getSource()
+            .getBindingContext("attachmentModel")
+            .getProperty("FileName"),
             sPath = this.getView().getModel().createKey("DeleteAttachmentSet", {
               Guid: this.draftGuidWithDash.guid,
               FileName: sFilename,
@@ -1275,8 +1276,8 @@ sap.ui.define(
 
           MessageBox.show(
             "'" +
-              sFilename +
-              "' adlı dosyayı silmek istediğinize emin misiniz?",
+            sFilename +
+            "' adlı dosyayı silmek istediğinize emin misiniz?",
             {
               title: "Dosya Sil",
               actions: [MessageBox.Action.YES, MessageBox.Action.NO],
@@ -1324,11 +1325,11 @@ sap.ui.define(
           // sGuid = parts.join("-");
 
           var sPath = this.getView()
-              .getModel()
-              .createKey("CreateAttachmentSet", {
-                Guid: sGuid,
-                IType: "I",
-              }),
+            .getModel()
+            .createKey("CreateAttachmentSet", {
+              Guid: sGuid,
+              IType: "I",
+            }),
             sURL =
               "/sap/opu/odata/sap/ZHR_PERSONAL_REQUEST_FORM_SRV/" +
               sPath +
@@ -1388,7 +1389,7 @@ sap.ui.define(
             });
           });
         },
-        _getCompanyCode: function () {
+        _getCompanyCode: function (sDepartman) {
           let oModel = this.getView().getModel(),
             jsonModel = this.getModel("jsonModel"),
             IPernr = this.getModel("userModel").getProperty("/Pernr"),
@@ -1398,8 +1399,8 @@ sap.ui.define(
             that = this,
             oData = {
               IPernr: IPernr,
-              IPlans: IPlans,
-              IPdurum: "01",
+              IPlans: sDepartman ? sDepartman : IPlans,
+              IPdurum: sDepartman ? "04" : "01",
             },
             sPath = oModel.createKey("/SHelp_CompanyCodesSet", oData);
           // if (IPlans === "") {
@@ -1473,7 +1474,7 @@ sap.ui.define(
             return {
               DocumentID: oViewModel.getProperty(
                 oNewDocument.getBindingContext("model").getPath() +
-                  "/DocumentID"
+                "/DocumentID"
               ),
             };
           });
@@ -1546,9 +1547,9 @@ sap.ui.define(
           let Guid = localStorage.getItem("Guid")
             ? localStorage.getItem("Guid").replace(/-/g, "").toUpperCase()
             : this.getModel("userModel")
-                .getProperty("/guid")
-                .replace(/-/g, "")
-                .toUpperCase();
+              .getProperty("/guid")
+              .replace(/-/g, "")
+              .toUpperCase();
           var sPath = oModel.createKey("/CreateAttachmentSet", {
             Guid: Guid,
             IType: "I",
@@ -1643,7 +1644,7 @@ sap.ui.define(
             } catch (error) {
               MessageToast.show("Seçilen Organizasyonun Departmanı Mevcut Değildir!");
             }
-            
+
             oEvent.getSource().getSelectedItem().setSelected(false);
             this._clearValidationValueState("formInputValues3");
             this._closeDialog();
@@ -1653,7 +1654,7 @@ sap.ui.define(
         },
         findNodeAndAncestors: function (nodes, searchPup, ancestors = []) {
           for (const node of nodes) {
-            if ( node.Pup === searchPup) {
+            if (node.Pup === searchPup) {
               return { found: node, ancestors };
             }
             if (node.nodes) {
